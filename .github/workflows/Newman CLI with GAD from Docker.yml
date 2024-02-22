@@ -32,7 +32,7 @@ jobs:
       - name: Upload newman html report
         if: success() || failure()
         # I don't use always() because then the step is also executed when the workflow is canceled
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: newman_html_reports
           path: newman_test_reports
