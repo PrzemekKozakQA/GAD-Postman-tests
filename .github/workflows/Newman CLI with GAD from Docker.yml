@@ -1,0 +1,32 @@
+name: Automated API tests using the Newman CLI and GAD application running in a Docker container
+on:
+  push:
+    paths:
+      - "Postman_tests/**"
+      - "Postman_environments/**"
+      - "Postman_data_driven_tests/**"
+      - ".github/workflows/**"
+jobs:
+  automated-api-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: run Docker image with GAD application
+        run: docker run -p 3000:3000 -d jaktestowac/gad
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+      - name: Install Newman CLI
+        run: npm install -g newman
+      - name: Install Newman HTML reporter
+        run: npm install -g newman-reporter-htmlextra
+      - name: Make the test script files executable
+        run: chmod +x ./.github/workflows/run_all_tests_in_newman.sh
+      - name: Run tests
+        run: ./.github/workflows/run_all_tests_in_newman.sh
+      - name: Upload newman html report
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman_html_reports
+          path: newman
+        
