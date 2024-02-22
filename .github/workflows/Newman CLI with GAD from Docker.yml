@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: newman_html_reports
-          path: newman
+          path: newman_test_reports
       - name: upload artifact for GitHub Pages
         if: success() || failure()
         uses: actions/upload-pages-artifact@v3
