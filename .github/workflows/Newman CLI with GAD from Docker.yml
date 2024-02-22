@@ -6,14 +6,19 @@ on:
       - "Postman_environments/**"
       - "Postman_data_driven_tests/**"
       - ".github/workflows/**"
+  workflow_dispatch:
+  # It allows you to run this workflow manually from the Actions tab
+
 jobs:
   automated-api-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: run Docker image with GAD application
         run: docker run -p 3000:3000 -d jaktestowac/gad
-      - uses: actions/setup-node@v3
+      - name: install Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 'latest'
       - name: Install Newman CLI
@@ -25,8 +30,35 @@ jobs:
       - name: Run tests
         run: ./.github/workflows/run_all_tests_in_newman.sh
       - name: Upload newman html report
+        if: success() || failure()
+        # I don't use always() because then the step is also executed when the workflow is canceled
         uses: actions/upload-artifact@v3
         with:
           name: newman_html_reports
           path: newman
+      - name: upload artifact for GitHub Pages
+        if: success() || failure()
+        uses: actions/upload-pages-artifact@v3
+        with: 
+          path: './newman_test_reports/'
+
+  # Deploy test report to Github Pages
+  deploy:
+    if: success() || failure()
+    # Add a dependency to the build job
+    needs: automated-api-tests
+    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
         
