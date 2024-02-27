@@ -15,7 +15,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: run Docker image with GAD application
+      - name: pull  Docker image with GAD application
+        run: docker pull jaktestowac/gad
+      - name: run Docker conatiner with GAD application
         run: docker run -p 3000:3000 -d jaktestowac/gad
       - name: install Node.js
         uses: actions/setup-node@v4
