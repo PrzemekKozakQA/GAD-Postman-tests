@@ -1,12 +1,19 @@
-# GAD applicaton API tests in Postman
+# GAD application API tests in Postman
 
-# Test object
-[GAD - jaktestować.pl](https://github.com/jaktestowac/gad-gui-api-demo) 
+## Test object
 
-# Test reports
+[GAD - jaktestowac.pl](https://github.com/jaktestowac/gad-gui-api-demo)
 
-## Data Driven tests
-https://przemekkozakqa.github.io/GAD-Postman-tests/data-driven-test-report.html
+## Tests in Postman
 
-## Login tests
-https://przemekkozakqa.github.io/GAD-Postman-tests/Postman_tests/Login_tests.json-report.html
+## Testing in GitHub Actions
+
+## Test reports
+
+### Data Driven tests
+
+<https://przemekkozakqa.github.io/GAD-Postman-tests/data-driven-test-report.html>
+
+### Login tests
+
+<https://przemekkozakqa.github.io/GAD-Postman-tests/Postman_tests/Login_tests.json-report.html>
