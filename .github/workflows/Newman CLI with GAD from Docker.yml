@@ -17,12 +17,19 @@ jobs:
         uses: actions/checkout@v4
       - name: pull  Docker image with GAD application
         run: docker pull jaktestowac/gad
-      - name: run Docker conatiner with GAD application
+      - name: run Docker container with GAD application
         run: docker run -p 3000:3000 -d jaktestowac/gad
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
       - name: install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'latest'
+          node-version: "latest"
       - name: Install Newman CLI
         run: npm install -g newman
       - name: Install Newman HTML reporter
@@ -41,8 +48,8 @@ jobs:
       - name: upload artifact for GitHub Pages
         if: success() || failure()
         uses: actions/upload-pages-artifact@v3
-        with: 
-          path: './newman_test_reports/'
+        with:
+          path: "./newman_test_reports/"
 
   # Deploy test report to Github Pages
   deploy:
@@ -63,4 +70,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        
