@@ -1,221 +1,208 @@
 {
-	"info": {
-		"_postman_id": "3da7de50-55ce-413b-95f9-e6039d5eb86f",
-		"name": "Login negavine using imported data from file",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21196236",
-		"_collection_link": "https://p-k-qa.postman.co/workspace/KawQA-Postman-team~2b413a29-e845-4b92-9998-d3a50de603cd/collection/21196236-3da7de50-55ce-413b-95f9-e6039d5eb86f?action=share&source=collection_link&creator=21196236"
-	},
-	"item": [
-		{
-			"name": "incorrect data from file",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"let responseData;\r",
-							"\r",
-							"const ResponseSchema = {\r",
-							"    \"type\": \"object\",\r",
-							"    \"properties\": {\r",
-							"        \"status\": {\r",
-							"            \"type\": \"integer\", nullable: false\r",
-							"        },\r",
-							"        \"message\": {\r",
-							"            \"type\": \"string\", nullable: false\r",
-							"        }\r",
-							"    },\r",
-							"    \"required\": [\"status\", \"message\"]\r",
-							"};\r",
-							"\r",
-							"pm.test(\"Response status code should be 401\", function () {\r",
-							"    pm.response.to.have.status(401);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response is in JSON format\", function () {\r",
-							"    pm.response.to.be.json;\r",
-							"    responseData = pm.response.json()\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response has valid schema\", function () {\r",
-							"    pm.response.to.has.jsonSchema(ResponseSchema)\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Message is a non-empty string\", function () {\r",
-							"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response message is 'Incorrect email or password'\", function () {\r",
-							"    var responseMessage = pm.response.json().message;\r",
-							"    pm.expect(responseMessage).to.equal(\"Incorrect email or password\");\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": {{email}},\n    \"password\": {{password}}\n}",
-					"options": {
-						"raw": {
-							"headerFamily": "json",
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/login",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "incorrect user",
-					"originalRequest": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"Wrong-user\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
-							"options": {
-								"raw": {
-									"headerFamily": "json",
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/login",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"login"
-							]
-						}
-					},
-					"status": "Unauthorized",
-					"code": 401,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Date",
-							"value": "Thu, 31 Aug 2023 09:56:47 GMT"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "CF-Ray",
-							"value": "7ff467d65feec019-WAW"
-						},
-						{
-							"key": "CF-Cache-Status",
-							"value": "DYNAMIC"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
-						},
-						{
-							"key": "Expires",
-							"value": "-1"
-						},
-						{
-							"key": "Vary",
-							"value": "Accept-Encoding"
-						},
-						{
-							"key": "access-control-allow-credentials",
-							"value": "true"
-						},
-						{
-							"key": "pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "x-powered-by",
-							"value": "Express"
-						},
-						{
-							"key": "x-render-origin-server",
-							"value": "Render"
-						},
-						{
-							"key": "Server",
-							"value": "cloudflare"
-						},
-						{
-							"key": "alt-svc",
-							"value": "h3=\":443\"; ma=86400"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"status\": 401,\n    \"message\": \"Incorrect email or password\"\n}"
-				}
-			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					"console.log(pm.info.requestName)"
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "3da7de50-55ce-413b-95f9-e6039d5eb86f",
+    "name": "Login negative using imported data from file",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21196236"
+  },
+  "item": [
+    {
+      "name": "incorrect data from file",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let responseData;\r",
+              "\r",
+              "const ResponseSchema = {\r",
+              "    \"type\": \"object\",\r",
+              "    \"properties\": {\r",
+              "        \"status\": {\r",
+              "            \"type\": \"integer\", nullable: false\r",
+              "        },\r",
+              "        \"message\": {\r",
+              "            \"type\": \"string\", nullable: false\r",
+              "        }\r",
+              "    },\r",
+              "    \"required\": [\"status\", \"message\"]\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Response status code should be 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is in JSON format\", function () {\r",
+              "    pm.response.to.be.json;\r",
+              "    responseData = pm.response.json()\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has valid schema\", function () {\r",
+              "    pm.response.to.has.jsonSchema(ResponseSchema)\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Message is a non-empty string\", function () {\r",
+              "    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response message is 'Incorrect email or password'\", function () {\r",
+              "    var responseMessage = pm.response.json().message;\r",
+              "    pm.expect(responseMessage).to.equal(\"Incorrect email or password\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": {{email}},\n    \"password\": {{password}}\n}",
+          "options": {
+            "raw": {
+              "headerFamily": "json",
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["login"]
+        }
+      },
+      "response": [
+        {
+          "name": "incorrect user",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"Wrong-user\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["login"]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Thu, 31 Aug 2023 09:56:47 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "CF-Ray",
+              "value": "7ff467d65feec019-WAW"
+            },
+            {
+              "key": "CF-Cache-Status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+            },
+            {
+              "key": "Expires",
+              "value": "-1"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "x-powered-by",
+              "value": "Express"
+            },
+            {
+              "key": "x-render-origin-server",
+              "value": "Render"
+            },
+            {
+              "key": "Server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": 401,\n    \"message\": \"Incorrect email or password\"\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": ["console.log(pm.info.requestName)"]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ]
 }
