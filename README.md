@@ -1,20 +1,21 @@
 # GAD Postman Tests
 
 This repository contains API tests in Postman for the GAD training application, available at [GAD GUI API Demo](https://github.com/jaktestowac/gad-gui-api-demo).  
-Additionally, tests are run in Github Actions using Newman on a Docker container with the GAD test application. After each run, reports are published on GitHub Pages.
+Additionally, tests are run in Github Actions using Newman on a Docker container with the GAD test application.  
+After each run, reports are published on GitHub Pages.
 
 ## Overview
 
 This project includes two types of tests:
 
-- **Standard Postman Tests:** with functionality of user login.
-- **Data-Driven Negative Tests:** with negative login tests
+- **Standard Postman Tests:** testing user login functionality.
+- **Data-Driven Negative Tests:** focusing on invalid login attempts.
 
 <u>Tests are executed automatically via GitHub Actions using Newman. Test reports are generated and published to GitHub Pages.</u>
 
 ## Test Reports
 
-Access the detailed Newman test reports from last run here:
+Access detailed Newman test reports from the latest run here:
 
 - [Data-Driven Test Report](https://przemekkozakqa.github.io/GAD-Postman-tests/data-driven-test-report.html)
 - [Login Tests Report](https://przemekkozakqa.github.io/GAD-Postman-tests/Postman_tests/Login_tests.json-report.html)
@@ -23,9 +24,9 @@ Access the detailed Newman test reports from last run here:
 
 ### Prerequisites
 
-- [Postman](https://www.postman.com/) for viewing and editing test collections.
-- [Newman](https://github.com/postmanlabs/newman) for running tests locally.
-- [GAD GUI API Demo](https://github.com/jaktestowac/gad-gui-api-demo) application running locally and available at "http://127.0.0.1:3000/"
+- [Postman](https://www.postman.com/): for viewing and editing and running test collections.
+- [Newman](https://github.com/postmanlabs/newman): for running tests locally.
+- [GAD GUI API Demo](https://github.com/jaktestowac/gad-gui-api-demo) application running locally and accessible at "http://127.0.0.1:3000/"
 - A GitHub account to clone and contribute to the repository.
 
 ### Installation
