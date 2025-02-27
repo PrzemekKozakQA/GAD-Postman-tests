@@ -1,3 +1,5 @@
+[![GAD API tests in GitHub Actions](https://github.com/PrzemekKozakQA/GAD-Postman-tests/actions/workflows/Newman%20CLI%20with%20GAD%20from%20Docker.yml/badge.svg)](https://github.com/PrzemekKozakQA/GAD-Postman-tests/actions/workflows/Newman%20CLI%20with%20GAD%20from%20Docker.yml)
+
 # GAD Postman Tests
 
 This repository contains API tests in Postman for the GAD training application, available at [GAD GUI API Demo](https://github.com/jaktestowac/gad-gui-api-demo).  
