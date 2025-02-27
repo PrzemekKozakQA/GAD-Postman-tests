@@ -1,0 +1,1358 @@
+{
+	"info": {
+		"_postman_id": "15492e8c-108d-4f50-a993-a205bfa0b8ee",
+		"name": "Users tests  [GitHub Actions]",
+		"description": "A collection of tests for the GAD application from jaktestowac.pl.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21196236"
+	},
+	"item": [
+		{
+			"name": "users - TODO",
+			"item": [
+				{
+					"name": "Get users - positive",
+					"item": [
+						{
+							"name": "Get all users list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData;\r",
+											"\r",
+											"const Responseschema = {\r",
+											"    \"type\": \"array\",\r",
+											"    \"items\": {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"id\": { \"type\": \"integer\", nullable: false },\r",
+											"            \"email\": { \"type\": \"string\", nullable: false },\r",
+											"            \"firstname\": { \"type\": \"string\", nullable: false },\r",
+											"            \"lastname\": { \"type\": \"string\", nullable: false },\r",
+											"            \"password\": { \"type\": \"string\", nullable: false },\r",
+											"            \"avatar\": { \"type\": \"string\", nullable: false }\r",
+											"        },\r",
+											"        \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"]\r",
+											"    }\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is in JSON format\", function () {\r",
+											"    pm.response.to.be.json;\r",
+											"    responseData = pm.response.json()\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has valid schema\", function () {\r",
+											"    pm.response.to.has.jsonSchema(Responseschema)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not an empty array\", function () {\r",
+											"    pm.expect(responseData).to.be.an('array').and.to.have.length.above(0);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get all users list",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 03 Sep 2023 13:27:39 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "CF-Ray",
+											"value": "800e54d5efd53bc0-WAW"
+										},
+										{
+											"key": "CF-Cache-Status",
+											"value": "DYNAMIC"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"6e9-O+pK+G2gX34KvIU0wKYoz+X81L4\""
+										},
+										{
+											"key": "Expires",
+											"value": "-1"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin, Accept-Encoding"
+										},
+										{
+											"key": "access-control-allow-credentials",
+											"value": "true"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "cross-origin-embedder-policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "cross-origin-opener-policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "cross-origin-resource-policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "origin-agent-cluster",
+											"value": "?1"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "referrer-policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-dns-prefetch-control",
+											"value": "off"
+										},
+										{
+											"key": "x-download-options",
+											"value": "noopen"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "x-permitted-cross-domain-policies",
+											"value": "none"
+										},
+										{
+											"key": "x-render-origin-server",
+											"value": "Render"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "0"
+										},
+										{
+											"key": "Server",
+											"value": "cloudflare"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "br"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=86400"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 1,\n        \"email\": \"****\",\n        \"firstname\": \"Moses\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133479.7144732.jpg\"\n    },\n    {\n        \"id\": 2,\n        \"email\": \"****\",\n        \"firstname\": \"Danial\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133060.68834.jpg\"\n    },\n    {\n        \"id\": 3,\n        \"email\": \"****\",\n        \"firstname\": \"Daryl\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133063.620005.jpg\"\n    },\n    {\n        \"id\": 4,\n        \"email\": \"****\",\n        \"firstname\": \"Dortha\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133112.3790507.jpg\"\n    },\n    {\n        \"id\": 5,\n        \"email\": \"****\",\n        \"firstname\": \"Lenore\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133153.523801.jpg\"\n    },\n    {\n        \"id\": 6,\n        \"email\": \"****\",\n        \"firstname\": \"Kerra\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133363.1959925.jpg\"\n    },\n    {\n        \"id\": 7,\n        \"email\": \"****\",\n        \"firstname\": \"Mas\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133217.1529467.jpg\"\n    },\n    {\n        \"id\": 8,\n        \"email\": \"****\",\n        \"firstname\": \"Josh\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591134851.6068161.jpg\"\n    },\n    {\n        \"id\": 9,\n        \"email\": \"****\",\n        \"firstname\": \"Daryl\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591134851.6068265.jpg\"\n    },\n    {\n        \"id\": 10,\n        \"email\": \"****\",\n        \"firstname\": \"John\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591137202.609116_1.jpg\"\n    }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get users - negative",
+					"item": [
+						{
+							"name": "PUT list on users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"id\": 1,\r\n        \"email\": \"****\",\r\n        \"firstname\": \"Moses\",\r\n        \"lastname\": \"****\",\r\n        \"password\": \"****\",\r\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133479.7144732.jpg\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH list on users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"id\": 1,\r\n        \"email\": \"****\",\r\n        \"firstname\": \"Moses\",\r\n        \"lastname\": \"****\",\r\n        \"password\": \"****\",\r\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133479.7144732.jpg\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH object on users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"email\": \"****\",\r\n    \"firstname\": \"Moses\",\r\n    \"lastname\": \"****\",\r\n    \"password\": \"****\",\r\n    \"avatar\": \".\\\\data\\\\users\\\\face_1591133479.7144732.jpg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT object on users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"email\": \"****\",\r\n    \"firstname\": \"Moses\",\r\n    \"lastname\": \"****\",\r\n    \"password\": \"****\",\r\n    \"avatar\": \".\\\\data\\\\users\\\\face_1591133479.7144732.jpg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE  on users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create user - positive",
+					"item": [
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData;\r",
+											"\r",
+											"const Responseschema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"id\": { \"type\": \"integer\", nullable: false },\r",
+											"        \"email\": { \"type\": \"string\", nullable: false },\r",
+											"        \"firstname\": { \"type\": \"string\", nullable: false },\r",
+											"        \"lastname\": { \"type\": \"string\", nullable: false },\r",
+											"        \"password\": { \"type\": \"string\", nullable: false },\r",
+											"        \"avatar\": { \"type\": \"string\", nullable: false }\r",
+											"    },\r",
+											"    \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"]\r",
+											"};\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is in JSON format\", function () {\r",
+											"    pm.response.to.be.json;\r",
+											"    responseData = pm.response.json();\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has valid schema\", function () {\r",
+											"    pm.response.to.has.jsonSchema(Responseschema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains correct user data\", function () {\r",
+											"    pm.expect(responseData.email).eqls(pm.variables.get('email'));\r",
+											"    pm.expect(responseData.firstname).eqls(pm.variables.get('firstname'));\r",
+											"    pm.expect(responseData.lastname).eqls(pm.variables.get('lastname'));\r",
+											"    pm.expect(responseData.avatar).eqls(pm.variables.get('avatar'));\r",
+											"    pm.expect(responseData.password).eqls(pm.variables.get('password'));\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set('userID', pm.response.json().id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('email', pm.variables.replaceIn('{{$randomEmail}}'))\r",
+											"pm.variables.set('firstname', pm.variables.replaceIn('{{$randomFirstName}}'))\r",
+											"pm.variables.set('lastname', pm.variables.replaceIn('{{$randomLastName}}'))\r",
+											"pm.variables.set('avatar', pm.variables.replaceIn('{{$randomAvatarImage}}'))\r",
+											"pm.variables.set('password', pm.variables.replaceIn('{{$randomPassword}}'))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{email}}\",\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\",\n    \"avatar\": \"{{avatar}}\",\n    \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const baseURL = pm.variables.get(\"baseUrl\");\r",
+											"\r",
+											"const login = 'admin' \r",
+											"const password = 'admin' \r",
+											"\r",
+											"    const options =\r",
+											"    {\r",
+											"        url: baseURL + \"/login\",\r",
+											"        method: 'POST',\r",
+											"        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
+											"        body: {\r",
+											"            mode: 'raw',\r",
+											"            raw: JSON.stringify(\r",
+											"                {\r",
+											"                    \"email\": login,\r",
+											"                    \"password\": password\r",
+											"                }\r",
+											"            )\r",
+											"        }\r",
+											"    };\r",
+											"\r",
+											"    pm.sendRequest(options, function (err, res) {\r",
+											"        if (err) {\r",
+											"            console.log(err);\r",
+											"        }\r",
+											"        else {\r",
+											"            var jsonData = res.json();\r",
+											"            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
+											"        }\r",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.unset('userID');"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create user - negative",
+					"item": [
+						{
+							"name": "Invalid email",
+							"item": [
+								{
+									"name": "Create user with incorrect email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"//{{$randomEmail}}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"admin.gmail.com\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "invalid first name",
+							"item": []
+						},
+						{
+							"name": "invalid last name",
+							"item": []
+						},
+						{
+							"name": "invalid avatar",
+							"item": []
+						},
+						{
+							"name": "invalid password",
+							"item": []
+						}
+					]
+				},
+				{
+					"name": "Find user by ID - positive",
+					"item": [
+						{
+							"name": "Get all users list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is not an empty array\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.an('array').and.to.have.length.above(0);\r",
+											"    let userID = (_.first(pm.response.json())).id\r",
+											"    pm.collectionVariables.set('userID', userID)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get users",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 01 Sep 2023 10:33:41 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "CF-Ray",
+											"value": "7ffcdb434cc1006e-WAW"
+										},
+										{
+											"key": "CF-Cache-Status",
+											"value": "DYNAMIC"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"7a3-BTHgzZCxWePo706DQ5mKnDd3vLE\""
+										},
+										{
+											"key": "Expires",
+											"value": "-1"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin, Accept-Encoding"
+										},
+										{
+											"key": "access-control-allow-credentials",
+											"value": "true"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "cross-origin-embedder-policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "cross-origin-opener-policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "cross-origin-resource-policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "origin-agent-cluster",
+											"value": "?1"
+										},
+										{
+											"key": "pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "referrer-policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-dns-prefetch-control",
+											"value": "off"
+										},
+										{
+											"key": "x-download-options",
+											"value": "noopen"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "x-permitted-cross-domain-policies",
+											"value": "none"
+										},
+										{
+											"key": "x-render-origin-server",
+											"value": "Render"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "0"
+										},
+										{
+											"key": "Server",
+											"value": "cloudflare"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "br"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=86400"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 1,\n        \"email\": \"****\",\n        \"firstname\": \"Moses\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133479.7144732.jpg\"\n    },\n    {\n        \"id\": 2,\n        \"email\": \"****\",\n        \"firstname\": \"Danial\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133060.68834.jpg\"\n    },\n    {\n        \"id\": 3,\n        \"email\": \"****\",\n        \"firstname\": \"Daryl\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133063.620005.jpg\"\n    },\n    {\n        \"id\": 4,\n        \"email\": \"****\",\n        \"firstname\": \"Dortha\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133112.3790507.jpg\"\n    },\n    {\n        \"id\": 5,\n        \"email\": \"****\",\n        \"firstname\": \"Lenore\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133153.523801.jpg\"\n    },\n    {\n        \"id\": 6,\n        \"email\": \"****\",\n        \"firstname\": \"Kerra\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133363.1959925.jpg\"\n    },\n    {\n        \"id\": 7,\n        \"email\": \"****\",\n        \"firstname\": \"Mas\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591133217.1529467.jpg\"\n    },\n    {\n        \"id\": 8,\n        \"email\": \"****\",\n        \"firstname\": \"Josh\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591134851.6068161.jpg\"\n    },\n    {\n        \"id\": 9,\n        \"email\": \"****\",\n        \"firstname\": \"Daryl\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591134851.6068265.jpg\"\n    },\n    {\n        \"id\": 10,\n        \"email\": \"****\",\n        \"firstname\": \"John\",\n        \"lastname\": \"****\",\n        \"password\": \"****\",\n        \"avatar\": \".\\\\data\\\\users\\\\face_1591137202.609116_1.jpg\"\n    },\n    {\n        \"email\": \"****\",\n        \"firstname\": \"Ona\",\n        \"lastname\": \"****\",\n        \"avatar\": \"https://cdn.fakercloud.com/avatars/justinrhee_128.jpg\",\n        \"password\": \"****\",\n        \"id\": 11\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Find user by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData;\r",
+											"\r",
+											"const Responseschema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"id\": { \"type\": \"integer\", nullable: false },\r",
+											"        \"email\": { \"type\": \"string\", nullable: false },\r",
+											"        \"firstname\": { \"type\": \"string\", nullable: false },\r",
+											"        \"lastname\": { \"type\": \"string\", nullable: false },\r",
+											"        \"password\": { \"type\": \"string\", nullable: false },\r",
+											"        \"avatar\": { \"type\": \"string\", nullable: false }\r",
+											"    },\r",
+											"    \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is in JSON format\", function () {\r",
+											"    pm.response.to.be.json;\r",
+											"    responseData = pm.response.json()\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has valid schema\", function () {\r",
+											"    pm.response.to.has.jsonSchema(Responseschema)\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.unset('userID')"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								},
+								"description": "Returns a single user"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete user - positive",
+					"item": [
+						{
+							"name": "Delete user with given ID - positive",
+							"item": [
+								{
+									"name": "Create user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set('userToBeDeletedID', pm.response.json().id);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set('userToBeDeletedEmail',  pm.variables.replaceIn('{{$randomEmail}}'))\r",
+													"\r",
+													"pm.collectionVariables.set('userToBeDeletedPassword',  pm.variables.replaceIn('{{$randomPassword}}'))"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"{{userToBeDeletedEmail}}\",\n  \"firstname\": \"{{$randomFirstName}}\",\n  \"lastname\": \"{{$randomLastName}}\",\n  \"avatar\": \"{{$randomAvatarImage}}\",\n  \"password\": \"{{userToBeDeletedPassword}}\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login as user to receive token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let responseData;\r",
+													"\r",
+													"pm.test(\"Response status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    responseData = pm.response.json()\r",
+													"});\r",
+													"\r",
+													"pm.test(\"access_token is a non-empty string\", function () {\r",
+													"    pm.expect(responseData.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+													"\r",
+													"    //setting env variable with token\r",
+													"    pm.collectionVariables.set('userToBeDeletedToken', responseData.access_token);\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"{{userToBeDeletedEmail}}\",\n    \"password\": \"{{userToBeDeletedPassword}}\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete a user",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const baseURL = pm.variables.get(\"baseUrl\");\r",
+													"\r",
+													"const login = 'admin' \r",
+													"const password = 'admin' \r",
+													"\r",
+													"    const options =\r",
+													"    {\r",
+													"        url: baseURL + \"/login\",\r",
+													"        method: 'POST',\r",
+													"        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
+													"        body: {\r",
+													"            mode: 'raw',\r",
+													"            raw: JSON.stringify(\r",
+													"                {\r",
+													"                    \"email\": login,\r",
+													"                    \"password\": password\r",
+													"                }\r",
+													"            )\r",
+													"        }\r",
+													"    };\r",
+													"\r",
+													"    pm.sendRequest(options, function (err, res) {\r",
+													"        if (err) {\r",
+													"            console.log(err);\r",
+													"        }\r",
+													"        else {\r",
+													"            var jsonData = res.json();\r",
+													"            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
+													"        }\r",
+													"    });"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{userToBeDeletedToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{userToBeDeletedID}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all users list",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"The list of all users does not contain the id of the deleted user\", function () {\r",
+													"    let userID = pm.collectionVariables.get('userToBeDeletedID');\r",
+													"    let users = pm.response.json();\r",
+													"    _.each(users, (user) => {\r",
+													"        pm.expect(user.id).not.eql(userID);\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Find user by ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404, user not found\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{userToBeDeletedID}}"
+												}
+											]
+										},
+										"description": "Returns a single user"
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"console.log(pm.info.requestName)"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userToBeDeletedEmail",
+			"value": ""
+		},
+		{
+			"key": "userToBeDeletedPassword",
+			"value": ""
+		},
+		{
+			"key": "userToBeDeletedToken",
+			"value": ""
+		},
+		{
+			"key": "userToBeDeletedID",
+			"value": ""
+		}
+	]
+}
