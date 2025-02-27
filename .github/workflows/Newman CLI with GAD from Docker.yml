@@ -1,6 +1,8 @@
 name: Automated API tests using the Newman CLI and GAD application running in a Docker container
 on:
   push:
+    branches:
+      - main
     paths:
       - "Postman_tests/**"
       - "Postman_environments/**"
