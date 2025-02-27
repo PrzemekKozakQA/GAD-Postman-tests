@@ -1,8 +1,8 @@
 {
   "info": {
-    "_postman_id": "a554493b-4c36-49b4-9acc-b700bb13dbe7",
-    "name": "Login tests",
-    "description": "A collection of tests for the GAD application from jaktestowac.pl. Contains REST API tests.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+    "_postman_id": "a6b8820d-2069-44ba-a0a1-32b6d2205386",
+    "name": "Login tests [GitHub Actions]",
+    "description": "A collection of tests for the GAD application from jaktestowac.pl.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "21196236"
   },
@@ -40,6 +40,8 @@
                   "\r",
                   "pm.test(\"access_token is a non-empty string\", function () {\r",
                   "    pm.expect(responseData.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+                  "\r",
+                  "    //setting env variable with token\r",
                   "    pm.environment.set('token', responseData.access_token);\r",
                   "\r",
                   "    //import 'Moment' library\r",
@@ -48,7 +50,8 @@
                   "    pm.environment.set('token_generation_moment', moment())\r",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
@@ -173,7 +176,7 @@
       ]
     },
     {
-      "name": "Login with wrong method - negative",
+      "name": "Try to Login with wrong method - negative",
       "item": [
         {
           "name": "GET method",
@@ -895,7 +898,7 @@
           ]
         },
         {
-          "name": "Send DELETE on login",
+          "name": "DELETE method",
           "event": [
             {
               "listen": "test",
@@ -1079,7 +1082,7 @@
           ]
         },
         {
-          "name": "Send HEAD on login",
+          "name": "HEAD method",
           "event": [
             {
               "listen": "test",
@@ -1284,7 +1287,7 @@
       ]
     },
     {
-      "name": "Login with broken body - negative",
+      "name": "Try to login with broken body - negative",
       "item": [
         {
           "name": "broken json",
@@ -1500,7 +1503,7 @@
       ]
     },
     {
-      "name": "Login with wrong body- negative",
+      "name": "Try to login with wrong body- negative",
       "item": [
         {
           "name": "no password property",
@@ -2323,7 +2326,7 @@
           ]
         },
         {
-          "name": "Send request without Content-Type header",
+          "name": "request without Content-Type header",
           "event": [
             {
               "listen": "test",
