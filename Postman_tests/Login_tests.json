@@ -2,16 +2,16 @@
   "info": {
     "_postman_id": "a6b8820d-2069-44ba-a0a1-32b6d2205386",
     "name": "/login endpoint tests [GitHub Actions]",
-    "description": "A collection of tests for the GAD application from jaktestowac.pl.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+    "description": "Collection of tests for the GAD application endpoint /login.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "21196236"
   },
   "item": [
     {
-      "name": "Login with proper data - positive",
+      "name": "Login - positive",
       "item": [
         {
-          "name": "login with valid credentials to get the token - positive",
+          "name": "Receives a token using valid credentials",
           "event": [
             {
               "listen": "test",
@@ -25,11 +25,11 @@
                   "\r",
                   "pm.test(\"Response is in JSON format\", function () {\r",
                   "    pm.response.to.be.json;\r",
-                  "    responseData = pm.response.json()\r",
+                  "    responseData = pm.response.json();\r",
                   "});\r",
                   "\r",
                   "pm.test(\"Response has the required field - access_token\", function () {\r",
-                  "    pm.expect(responseData).has.property('access_token')\r",
+                  "    pm.expect(responseData).has.property('access_token');\r",
                   "    //second way to check the presence of a property token:\r",
                   "    //pm.expect(responseData.access_token).to.exist;\r",
                   "});\r",
@@ -47,7 +47,7 @@
                   "    //import 'Moment' library\r",
                   "    const moment = require('moment');\r",
                   "    //setting the exact moment of generating a new token\r",
-                  "    pm.environment.set('token_generation_moment', moment())\r",
+                  "    pm.environment.set('token_generation_moment', moment());\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -173,10 +173,11 @@
             }
           ]
         }
-      ]
+      ],
+      "description": "Given: Body with registered user's email and correct password  \nWhen: Sending a POST request to endpoint /login  \nThen: Receiving a response with a token and 200 code."
     },
     {
-      "name": "Validate that token is correct and user is logged - positive",
+      "name": "Validate token - positive",
       "item": [
         {
           "name": "Login to receive token",
@@ -185,14 +186,10 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});\r",
-                  "\r",
                   "pm.test(\"access_token is a non-empty string\", function () {\r",
-                  "    const responseJson = pm.response.json()\r",
-                  "    pm.expect(responseJson.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
-                  "    pm.collectionVariables.set('userToken', responseJson.access_token)\r",
+                  "    const responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1);\r",
+                  "    pm.collectionVariables.set('userToken', responseJson.access_token);\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -237,11 +234,7 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  "pm.test(\"Response status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
+                "exec": ["pm.collectionVariables.unset('userToken');"],
                 "type": "text/javascript",
                 "packages": {}
               }
@@ -289,13 +282,36 @@
           },
           "response": []
         }
+      ],
+      "description": "Given: Body with valid token  \nWhen: Sending a GET request to endpoint /login  \nThen: Receiving a response with code 200.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              "pm.test(\"Response status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
-      "name": "Try to validate wrong token - negative",
+      "name": "Validate wrong token - negative",
       "item": [
         {
-          "name": "use invalid token - negative",
+          "name": "Wrong token is indicated as invalid",
           "event": [
             {
               "listen": "test",
@@ -353,7 +369,7 @@
           "response": []
         },
         {
-          "name": "request without token - negative",
+          "name": "Request without token - negative",
           "event": [
             {
               "listen": "test",
@@ -404,6 +420,7 @@
           "response": []
         }
       ],
+      "description": "Given: Body with invalid token or no token  \nWhen: Sending a GET request to endpoint /login  \nThen: Receiving a response with a 401 code and appropriate message",
       "event": [
         {
           "listen": "prerequest",
@@ -426,7 +443,7 @@
               "            \"type\": \"object\",\r",
               "            \"properties\": {\r",
               "                \"message\": {\r",
-              "                    \"type\": \"string\"\r",
+              "                    \"type\": \"string\", nullable: false\r",
               "                }\r",
               "            },\r",
               "            \"required\": [\r",
@@ -444,7 +461,7 @@
               "});\r",
               "\r",
               "pm.test(\"Response has valid schema\", function () {\r",
-              "    pm.response.to.has.jsonSchema(responseSchema)\r",
+              "    pm.response.to.has.jsonSchema(responseSchema);\r",
               "});\r",
               ""
             ]
@@ -453,7 +470,7 @@
       ]
     },
     {
-      "name": "Try to Login with wrong method - negative",
+      "name": "Login request with wrong method - negative",
       "item": [
         {
           "name": "PUT method",
@@ -599,6 +616,7 @@
           "response": []
         }
       ],
+      "description": "Given: Body with registered user's email and correct password  \nWhen: Sending a request other than POST and GET to endpoint /login  \nThen: Receiving a response with 404 token.",
       "event": [
         {
           "listen": "prerequest",
@@ -625,10 +643,10 @@
       ]
     },
     {
-      "name": "Try to login with broken body - negative",
+      "name": "Login request with broken body - negative",
       "item": [
         {
-          "name": "broken json",
+          "name": "Broken JSON",
           "event": [
             {
               "listen": "test",
@@ -669,7 +687,7 @@
           "response": []
         },
         {
-          "name": "json in header, html in body",
+          "name": "JSON in header, html in body",
           "event": [
             {
               "listen": "test",
@@ -710,6 +728,7 @@
           "response": []
         }
       ],
+      "description": "Given: Body with broken JSON  \nWhen: Sending a POST request to endpoint /login  \nThen: Receiving a response with 400 code.",
       "event": [
         {
           "listen": "prerequest",
@@ -734,10 +753,10 @@
       ]
     },
     {
-      "name": "Try to login with wrong body- negative",
+      "name": "Login with incorrect body - negative",
       "item": [
         {
-          "name": "no password property",
+          "name": "No password property",
           "event": [
             {
               "listen": "test",
@@ -881,7 +900,7 @@
           ]
         },
         {
-          "name": "no login property",
+          "name": "No login property",
           "event": [
             {
               "listen": "test",
@@ -1025,7 +1044,7 @@
           ]
         },
         {
-          "name": "no body in request",
+          "name": "No body in request",
           "event": [
             {
               "listen": "test",
@@ -1149,7 +1168,7 @@
           ]
         },
         {
-          "name": "empty json in body",
+          "name": "Empty json in body",
           "event": [
             {
               "listen": "test",
@@ -1281,7 +1300,7 @@
           ]
         },
         {
-          "name": "list in body",
+          "name": "List in body",
           "event": [
             {
               "listen": "test",
@@ -1413,7 +1432,7 @@
           ]
         },
         {
-          "name": "login with xml in body",
+          "name": "Xml in body",
           "event": [
             {
               "listen": "test",
@@ -1557,7 +1576,7 @@
           ]
         },
         {
-          "name": "request without Content-Type header",
+          "name": "Request without 'Content-Type' header",
           "event": [
             {
               "listen": "test",
@@ -1704,7 +1723,7 @@
           ]
         }
       ],
-      "description": "> incorrect login, password \n  \n> correct login, incorrect password \n  \n> empty login, correct password \n  \n> correct login, empty password \n  \n> correct login, no password property \n  \n> no login property, password \n  \n> empty body (none) \n  \n> empty json in body \n  \n> LIST in body \n  \n> wrong data type in login \n  \n> wrong data type in password \n  \n> request with xml \n  \n> broken json body \n  \n\nnot allowed method\n\n> Wrong header",
+      "description": "Given: Body with incorrect body  \nWhen: Sending a POST request to endpoint /login  \nThen: Receiving a response with 401 code and message 'Incorrect email or password'",
       "event": [
         {
           "listen": "prerequest",
@@ -1720,7 +1739,7 @@
             "exec": [
               "let responseData;",
               "",
-              "const ResponseSchema = {",
+              "const responseSchema = {",
               "    \"type\": \"object\",",
               "    \"properties\": {",
               "        \"status\": {",
@@ -1739,11 +1758,11 @@
               "",
               "pm.test(\"Response is in JSON format\", function () {",
               "    pm.response.to.be.json;",
-              "    responseData = pm.response.json()",
+              "    responseData = pm.response.json();",
               "});",
               "",
               "pm.test(\"Response has valid schema\", function () {",
-              "    pm.response.to.has.jsonSchema(ResponseSchema)",
+              "    pm.response.to.has.jsonSchema(responseSchema);",
               "});",
               "",
               "pm.test(\"Message is a non-empty string\", function () {",
@@ -1751,7 +1770,7 @@
               "});",
               "",
               "pm.test(\"Response message is 'Incorrect email or password'\", function () {",
-              "    var responseMessage = pm.response.json().message;",
+              "    const responseMessage = pm.response.json().message;",
               "    pm.expect(responseMessage).to.equal(\"Incorrect email or password\");",
               "});"
             ]
@@ -1765,7 +1784,10 @@
       "listen": "prerequest",
       "script": {
         "type": "text/javascript",
-        "exec": ["console.log(pm.info.requestName)"]
+        "exec": [
+          "//displaying the request name in the console for better tracking of test execution\r",
+          "console.log(pm.info.requestName);"
+        ]
       }
     },
     {
@@ -1774,12 +1796,6 @@
         "type": "text/javascript",
         "exec": [""]
       }
-    }
-  ],
-  "variable": [
-    {
-      "key": "userToken",
-      "value": ""
     }
   ]
 }

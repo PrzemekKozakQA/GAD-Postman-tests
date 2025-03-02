@@ -1,13 +1,14 @@
 {
   "info": {
-    "_postman_id": "3da7de50-55ce-413b-95f9-e6039d5eb86f",
-    "name": "Login negative using imported data from file",
+    "_postman_id": "728797d9-4c17-4915-82ae-b0751703aff5",
+    "name": "/login endpoint data driven tests - negative [GitHub Actions]",
+    "description": "Collection of tests for the GAD application endpoint /login.\n\nThe collection contains data-driven negative tests.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "21196236"
   },
   "item": [
     {
-      "name": "incorrect data from file",
+      "name": "Invalid credentials from file",
       "event": [
         {
           "listen": "test",
@@ -15,7 +16,7 @@
             "exec": [
               "let responseData;\r",
               "\r",
-              "const ResponseSchema = {\r",
+              "const responseSchema = {\r",
               "    \"type\": \"object\",\r",
               "    \"properties\": {\r",
               "        \"status\": {\r",
@@ -34,11 +35,11 @@
               "\r",
               "pm.test(\"Response is in JSON format\", function () {\r",
               "    pm.response.to.be.json;\r",
-              "    responseData = pm.response.json()\r",
+              "    responseData = pm.response.json();\r",
               "});\r",
               "\r",
               "pm.test(\"Response has valid schema\", function () {\r",
-              "    pm.response.to.has.jsonSchema(ResponseSchema)\r",
+              "    pm.response.to.has.jsonSchema(responseSchema);\r",
               "});\r",
               "\r",
               "pm.test(\"Message is a non-empty string\", function () {\r",
@@ -46,12 +47,13 @@
               "});\r",
               "\r",
               "pm.test(\"Response message is 'Incorrect email or password'\", function () {\r",
-              "    var responseMessage = pm.response.json().message;\r",
+              "    const responseMessage = pm.response.json().message;\r",
               "    pm.expect(responseMessage).to.equal(\"Incorrect email or password\");\r",
               "});\r",
               ""
             ],
-            "type": "text/javascript"
+            "type": "text/javascript",
+            "packages": {}
           }
         }
       ],
@@ -194,7 +196,10 @@
       "listen": "prerequest",
       "script": {
         "type": "text/javascript",
-        "exec": ["console.log(pm.info.requestName)"]
+        "exec": [
+          "//displaying the request name in the console for better tracking of test execution\r",
+          "console.log(pm.info.requestName);"
+        ]
       }
     },
     {
