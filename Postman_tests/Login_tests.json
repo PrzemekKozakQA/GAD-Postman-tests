@@ -56,18 +56,11 @@
             }
           ],
           "protocolProfileBehavior": {
-            "disabledSystemHeaders": {
-              "accept": true
-            }
+            "disabledSystemHeaders": {}
           },
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
@@ -86,19 +79,10 @@
           },
           "response": [
             {
-              "name": "Login as user to receive token",
+              "name": "Receives a token using valid credentials",
               "originalRequest": {
                 "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
+                "header": [],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
@@ -120,10 +104,6 @@
               "_postman_previewlanguage": "json",
               "header": [
                 {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
                   "key": "Vary",
                   "value": "Origin, Accept-Encoding"
                 },
@@ -144,6 +124,58 @@
                   "value": "-1"
                 },
                 {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
                   "key": "Content-Type",
                   "value": "application/json; charset=utf-8"
                 },
@@ -153,11 +185,11 @@
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"d8-KglA7ZKm+f6Ai4n1V1lUtXj0+Aw\""
+                  "value": "W/\"d8-8s4bbOjGESnHooGpF3q85NRqBws\""
                 },
                 {
                   "key": "Date",
-                  "value": "Thu, 04 Jan 2024 20:47:49 GMT"
+                  "value": "Sun, 02 Mar 2025 19:07:50 GMT"
                 },
                 {
                   "key": "Connection",
@@ -198,18 +230,11 @@
             }
           ],
           "protocolProfileBehavior": {
-            "disabledSystemHeaders": {
-              "accept": true
-            }
+            "disabledSystemHeaders": {}
           },
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
@@ -241,9 +266,7 @@
             }
           ],
           "protocolProfileBehavior": {
-            "disabledSystemHeaders": {
-              "accept": true
-            },
+            "disabledSystemHeaders": {},
             "disableBodyPruning": true
           },
           "request": {
@@ -258,12 +281,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "",
@@ -327,9 +345,7 @@
             }
           ],
           "protocolProfileBehavior": {
-            "disabledSystemHeaders": {
-              "accept": true
-            },
+            "disabledSystemHeaders": {},
             "disableBodyPruning": true
           },
           "request": {
@@ -344,12 +360,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "",
@@ -385,9 +396,7 @@
             }
           ],
           "protocolProfileBehavior": {
-            "disabledSystemHeaders": {
-              "accept": true
-            },
+            "disabledSystemHeaders": {},
             "disableBodyPruning": true
           },
           "request": {
@@ -479,22 +488,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"email\": \"{{registeredUsersEmail}}\",\r\n    \"password\": \"{{correctUserPassword}}\"\r\n}"
@@ -514,22 +515,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "PATCH",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"email\": \"{{registeredUsersEmail}}\",\r\n    \"password\": \"{{correctUserPassword}}\"\r\n}"
@@ -549,22 +542,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "DELETE",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"email\": \"{{registeredUsersEmail}}\",\r\n    \"password\": \"{{correctUserPassword}}\"\r\n}"
@@ -584,7 +569,8 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
@@ -593,16 +579,7 @@
           },
           "request": {
             "method": "HEAD",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"email\": \"{{registeredUsersEmail}}\",\r\n    \"password\": \"{{correctUserPassword}}\"\r\n}"
@@ -652,22 +629,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"password\": {{correctUserPassword}}\n}",
@@ -693,22 +662,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "<!DOCTYPE html>\n<html>\n\n<head>\n\t<title>Page Title</title>\n</head>\n\n<body>\n\n\t<h1>This is a Heading</h1>\n\t<p>This is a paragraph.</p>\n\n</body>\n\n</html>",
@@ -762,22 +723,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\"\n}",
@@ -796,19 +749,10 @@
           },
           "response": [
             {
-              "name": "empty password",
+              "name": "No password property",
               "originalRequest": {
                 "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
+                "header": [],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\"\n}",
@@ -830,68 +774,100 @@
               "_postman_previewlanguage": "json",
               "header": [
                 {
-                  "key": "Date",
-                  "value": "Sun, 03 Sep 2023 15:04:53 GMT"
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
                 },
                 {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "CF-Ray",
-                  "value": "800ee3487a0d3482-WAW"
-                },
-                {
-                  "key": "CF-Cache-Status",
-                  "value": "DYNAMIC"
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
                 },
                 {
                   "key": "Cache-Control",
                   "value": "no-cache"
                 },
                 {
-                  "key": "ETag",
-                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                  "key": "Pragma",
+                  "value": "no-cache"
                 },
                 {
                   "key": "Expires",
                   "value": "-1"
                 },
                 {
-                  "key": "Vary",
-                  "value": "Accept-Encoding"
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
                 },
                 {
-                  "key": "access-control-allow-credentials",
-                  "value": "true"
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
                 },
                 {
-                  "key": "pragma",
-                  "value": "no-cache"
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-powered-by",
-                  "value": "Express"
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
                 },
                 {
-                  "key": "Server",
-                  "value": "cloudflare"
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
                 },
                 {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 02 Mar 2025 19:07:13 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
@@ -906,22 +882,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"password\": \"{{correctUserPassword}}\"\n}",
@@ -940,19 +908,10 @@
           },
           "response": [
             {
-              "name": "no login property",
+              "name": "No login property",
               "originalRequest": {
                 "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
+                "header": [],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n    \"password\": \"{{correctUserPassword}}\"\n}",
@@ -974,68 +933,100 @@
               "_postman_previewlanguage": "json",
               "header": [
                 {
-                  "key": "Date",
-                  "value": "Sun, 03 Sep 2023 15:06:17 GMT"
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
                 },
                 {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "CF-Ray",
-                  "value": "800ee554ebe03482-WAW"
-                },
-                {
-                  "key": "CF-Cache-Status",
-                  "value": "DYNAMIC"
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
                 },
                 {
                   "key": "Cache-Control",
                   "value": "no-cache"
                 },
                 {
-                  "key": "ETag",
-                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                  "key": "Pragma",
+                  "value": "no-cache"
                 },
                 {
                   "key": "Expires",
                   "value": "-1"
                 },
                 {
-                  "key": "Vary",
-                  "value": "Accept-Encoding"
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
                 },
                 {
-                  "key": "access-control-allow-credentials",
-                  "value": "true"
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
                 },
                 {
-                  "key": "pragma",
-                  "value": "no-cache"
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-powered-by",
-                  "value": "Express"
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
                 },
                 {
-                  "key": "Server",
-                  "value": "cloudflare"
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
                 },
                 {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 02 Mar 2025 19:07:01 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
@@ -1050,22 +1041,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "{{baseUrl}}/login",
               "host": ["{{baseUrl}}"],
@@ -1074,19 +1057,10 @@
           },
           "response": [
             {
-              "name": "no body in request",
+              "name": "No body in request",
               "originalRequest": {
                 "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
+                "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/login",
                   "host": ["{{baseUrl}}"],
@@ -1098,68 +1072,100 @@
               "_postman_previewlanguage": "json",
               "header": [
                 {
-                  "key": "Date",
-                  "value": "Sun, 03 Sep 2023 15:08:05 GMT"
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
                 },
                 {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "CF-Ray",
-                  "value": "800ee7f57b583482-WAW"
-                },
-                {
-                  "key": "CF-Cache-Status",
-                  "value": "DYNAMIC"
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
                 },
                 {
                   "key": "Cache-Control",
                   "value": "no-cache"
                 },
                 {
-                  "key": "ETag",
-                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                  "key": "Pragma",
+                  "value": "no-cache"
                 },
                 {
                   "key": "Expires",
                   "value": "-1"
                 },
                 {
-                  "key": "Vary",
-                  "value": "Accept-Encoding"
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
                 },
                 {
-                  "key": "access-control-allow-credentials",
-                  "value": "true"
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
                 },
                 {
-                  "key": "pragma",
-                  "value": "no-cache"
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-powered-by",
-                  "value": "Express"
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
                 },
                 {
-                  "key": "Server",
-                  "value": "cloudflare"
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
                 },
                 {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 02 Mar 2025 19:06:51 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
@@ -1174,22 +1180,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -1202,19 +1200,10 @@
           },
           "response": [
             {
-              "name": "empty json in body",
+              "name": "Empty json in body",
               "originalRequest": {
                 "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
+                "header": [],
                 "body": {
                   "mode": "raw",
                   "raw": "{}"
@@ -1230,68 +1219,100 @@
               "_postman_previewlanguage": "json",
               "header": [
                 {
-                  "key": "Date",
-                  "value": "Sun, 03 Sep 2023 15:08:55 GMT"
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
                 },
                 {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "CF-Ray",
-                  "value": "800ee9301b913482-WAW"
-                },
-                {
-                  "key": "CF-Cache-Status",
-                  "value": "DYNAMIC"
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
                 },
                 {
                   "key": "Cache-Control",
                   "value": "no-cache"
                 },
                 {
-                  "key": "ETag",
-                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                  "key": "Pragma",
+                  "value": "no-cache"
                 },
                 {
                   "key": "Expires",
                   "value": "-1"
                 },
                 {
-                  "key": "Vary",
-                  "value": "Accept-Encoding"
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
                 },
                 {
-                  "key": "access-control-allow-credentials",
-                  "value": "true"
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
                 },
                 {
-                  "key": "pragma",
-                  "value": "no-cache"
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-powered-by",
-                  "value": "Express"
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
                 },
                 {
-                  "key": "Server",
-                  "value": "cloudflare"
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
                 },
                 {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 02 Mar 2025 19:06:20 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
@@ -1306,22 +1327,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "[\r\n    {\r\n        \"login\": \"{{registeredUsersEmail}}\",\r\n        \"password\": \"{{correctUserPassword}}\"\r\n    },\r\n    {\r\n        \"login\": \"newUser\",\r\n        \"password\": \"NewPassword\"\r\n    }\r\n]"
@@ -1334,19 +1347,10 @@
           },
           "response": [
             {
-              "name": "list in body",
+              "name": "List in body",
               "originalRequest": {
                 "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
+                "header": [],
                 "body": {
                   "mode": "raw",
                   "raw": "[\r\n    {\r\n        \"login\": \"{{registeredUsersEmail}}\",\r\n        \"password\": \"{{correctUserPassword}}\"\r\n    },\r\n    {\r\n        \"login\": \"newUser\",\r\n        \"password\": \"NewPassword\"\r\n    }\r\n]"
@@ -1362,68 +1366,100 @@
               "_postman_previewlanguage": "json",
               "header": [
                 {
-                  "key": "Date",
-                  "value": "Sun, 03 Sep 2023 15:11:23 GMT"
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
                 },
                 {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "CF-Ray",
-                  "value": "800eeccb98a13482-WAW"
-                },
-                {
-                  "key": "CF-Cache-Status",
-                  "value": "DYNAMIC"
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
                 },
                 {
                   "key": "Cache-Control",
                   "value": "no-cache"
                 },
                 {
-                  "key": "ETag",
-                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                  "key": "Pragma",
+                  "value": "no-cache"
                 },
                 {
                   "key": "Expires",
                   "value": "-1"
                 },
                 {
-                  "key": "Vary",
-                  "value": "Accept-Encoding"
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
                 },
                 {
-                  "key": "access-control-allow-credentials",
-                  "value": "true"
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
                 },
                 {
-                  "key": "pragma",
-                  "value": "no-cache"
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-powered-by",
-                  "value": "Express"
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
                 },
                 {
-                  "key": "Server",
-                  "value": "cloudflare"
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
                 },
                 {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 02 Mar 2025 19:06:06 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
@@ -1438,22 +1474,14 @@
               "listen": "test",
               "script": {
                 "exec": [""],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/xml"
-              },
-              {
-                "key": "Accept",
-                "value": "application/xml"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "\n<email>{{registeredUsersEmail}}</email>\n<password>{{correctUserPassword}}</password>",
@@ -1472,22 +1500,13 @@
           },
           "response": [
             {
-              "name": "login with xml in body",
+              "name": "Xml in body",
               "originalRequest": {
                 "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/xml"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/xml"
-                  }
-                ],
+                "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "\n<login>{{registeredUsersEmail}}</login>\n<password>{{correctUserPassword}}</password>",
+                  "raw": "\n<email>{{registeredUsersEmail}}</email>\n<password>{{correctUserPassword}}</password>",
                   "options": {
                     "raw": {
                       "headerFamily": "json",
@@ -1506,68 +1525,100 @@
               "_postman_previewlanguage": "json",
               "header": [
                 {
-                  "key": "Date",
-                  "value": "Sun, 03 Sep 2023 15:33:30 GMT"
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
                 },
                 {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "CF-Ray",
-                  "value": "800f0d33ad953482-WAW"
-                },
-                {
-                  "key": "CF-Cache-Status",
-                  "value": "DYNAMIC"
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
                 },
                 {
                   "key": "Cache-Control",
                   "value": "no-cache"
                 },
                 {
-                  "key": "ETag",
-                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                  "key": "Pragma",
+                  "value": "no-cache"
                 },
                 {
                   "key": "Expires",
                   "value": "-1"
                 },
                 {
-                  "key": "Vary",
-                  "value": "Accept-Encoding"
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
                 },
                 {
-                  "key": "access-control-allow-credentials",
-                  "value": "true"
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
                 },
                 {
-                  "key": "pragma",
-                  "value": "no-cache"
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-powered-by",
-                  "value": "Express"
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
                 },
                 {
-                  "key": "Server",
-                  "value": "cloudflare"
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
                 },
                 {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 02 Mar 2025 19:05:57 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
@@ -1612,19 +1663,10 @@
           },
           "response": [
             {
-              "name": "Login as user to receive token",
+              "name": "Request without 'Content-Type' header",
               "originalRequest": {
                 "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
+                "header": [],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
@@ -1641,84 +1683,109 @@
                   "path": ["login"]
                 }
               },
-              "status": "OK",
-              "code": 200,
+              "status": "Unauthorized",
+              "code": 401,
               "_postman_previewlanguage": "json",
               "header": [
                 {
-                  "key": "Date",
-                  "value": "Thu, 31 Aug 2023 08:15:09 GMT"
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
                 },
                 {
-                  "key": "Content-Type",
-                  "value": "application/json",
-                  "name": "Content-Type",
-                  "description": "",
-                  "type": "text"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "CF-Ray",
-                  "value": "7ff3d2f3ed6534b8-WAW"
-                },
-                {
-                  "key": "CF-Cache-Status",
-                  "value": "DYNAMIC"
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
                 },
                 {
                   "key": "Cache-Control",
                   "value": "no-cache"
                 },
                 {
-                  "key": "ETag",
-                  "value": "W/\"bf-TQgzhcSg1Hinj1IpjBsk0r9pjho\""
+                  "key": "Pragma",
+                  "value": "no-cache"
                 },
                 {
                   "key": "Expires",
                   "value": "-1"
                 },
                 {
-                  "key": "Vary",
-                  "value": "Accept-Encoding"
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
                 },
                 {
-                  "key": "access-control-allow-credentials",
-                  "value": "true"
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
                 },
                 {
-                  "key": "pragma",
-                  "value": "no-cache"
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-powered-by",
-                  "value": "Express"
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
                 },
                 {
-                  "key": "Server",
-                  "value": "cloudflare"
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
                 },
                 {
-                  "key": "Content-Encoding",
-                  "value": "br"
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
                 },
                 {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-QSn1acw6fvJi/R6Y2AW0LDQrdC4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 02 Mar 2025 19:05:45 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"access_token\": \"example-of-token\"\n}"
+              "body": "{\n    \"status\": 401,\n    \"message\": \"Incorrect email or password\"\n}"
             }
           ]
         }
