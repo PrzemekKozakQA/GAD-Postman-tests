@@ -1,5 +1,5 @@
 {
-  "id": "d5697908-d78b-45c5-a455-2123c5de4887",
+  "id": "c766c6e1-3bef-4ff6-9fb5-0cf27a5f9318",
   "name": "GitHub Actions Env",
   "values": [
     {
@@ -19,9 +19,27 @@
       "value": "test1",
       "type": "default",
       "enabled": true
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "any",
+      "enabled": true
+    },
+    {
+      "key": "tokenGenerationMoment",
+      "value": "",
+      "type": "any",
+      "enabled": true
+    },
+    {
+      "key": "existingUserID",
+      "value": "1",
+      "type": "default",
+      "enabled": true
     }
   ],
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2023-11-24T22:05:25.511Z",
-  "_postman_exported_using": "Postman/10.20.3"
+  "_postman_exported_at": "2025-03-02T21:45:45.876Z",
+  "_postman_exported_using": "Postman/11.34.5"
 }
