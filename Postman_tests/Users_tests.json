@@ -457,7 +457,7 @@
           "response": []
         },
         {
-          "name": "Email parameter in request results response with code 404",
+          "name": "Email parameter in request returns response with code 404",
           "event": [
             {
               "listen": "test",
@@ -486,7 +486,7 @@
           "response": []
         },
         {
-          "name": "Firstname parameter in request results response with code 404",
+          "name": "Firstname parameter in request return response with code 404",
           "event": [
             {
               "listen": "test",
@@ -764,10 +764,10 @@
       "name": "Create user - negative [TODO]",
       "item": [
         {
-          "name": "Invalid email",
+          "name": "Cannot create user with wrong email",
           "item": [
             {
-              "name": "Cannot create user with invalid email",
+              "name": "invalid email",
               "event": [
                 {
                   "listen": "prerequest",
@@ -812,7 +812,7 @@
               "response": []
             },
             {
-              "name": "Cannot create user with email filled with spaces",
+              "name": "email filled with spaces",
               "event": [
                 {
                   "listen": "prerequest",
@@ -857,7 +857,7 @@
               "response": []
             },
             {
-              "name": "Cannot create user with empty email",
+              "name": "empty email",
               "event": [
                 {
                   "listen": "prerequest",
@@ -904,7 +904,7 @@
               "response": []
             },
             {
-              "name": "Cannot create user with null email",
+              "name": "null in email property",
               "event": [
                 {
                   "listen": "prerequest",
@@ -951,7 +951,7 @@
               "response": []
             },
             {
-              "name": "Cannot create user without email property in body",
+              "name": "body without email property",
               "event": [
                 {
                   "listen": "prerequest",
@@ -998,7 +998,7 @@
               "response": []
             },
             {
-              "name": "Cannot create user with non text  email property in body",
+              "name": "non-text  email value",
               "event": [
                 {
                   "listen": "prerequest",
@@ -1043,14 +1043,108 @@
                 }
               },
               "response": []
+            },
+            {
+              "name": "array of  emails in body",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": ["//{{$randomEmail}}\r", ""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is correct\", function () {",
+                      "    const errorObj = pm.response.json().error;",
+                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                      "    pm.expect(errorObj.details).to.contains(\"email\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": [\n        \"user@gmail.com\",\n        \"user2@gamil.com\"\n    ],\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "object in  email property",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": ["//{{$randomEmail}}\r", ""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is correct\", function () {",
+                      "    const errorObj = pm.response.json().error;",
+                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                      "    pm.expect(errorObj.details).to.contains(\"email\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": {\n        \"userMail\": \"user@gmail.com\"\n    },\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": []
             }
           ]
         },
         {
-          "name": "Invalid first name",
+          "name": "Cannot create user with wrong first name",
           "item": [
             {
-              "name": "Cannot create user with empty first name",
+              "name": "empty first name",
               "event": [
                 {
                   "listen": "prerequest",
@@ -1097,7 +1191,7 @@
               "response": []
             },
             {
-              "name": "Cannot create user without firstname property in body",
+              "name": "body without firstname property",
               "event": [
                 {
                   "listen": "prerequest",
@@ -1144,7 +1238,7 @@
               "response": []
             },
             {
-              "name": "Cannot create user with non text  firstname property in body",
+              "name": "non-text  firstname value",
               "event": [
                 {
                   "listen": "prerequest",
@@ -1174,7 +1268,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": null,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": true,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
                   "options": {
                     "raw": {
                       "headerFamily": "json",
@@ -1191,7 +1285,7 @@
               "response": []
             },
             {
-              "name": "Cannot create user with null  firstname in body",
+              "name": "null in firstname property",
               "event": [
                 {
                   "listen": "prerequest",
@@ -1250,6 +1344,14 @@
         {
           "name": "invalid password",
           "item": []
+        },
+        {
+          "name": "wrong body",
+          "item": []
+        },
+        {
+          "name": "broken JSON in body",
+          "item": []
         }
       ],
       "event": [
@@ -1298,6 +1400,14 @@
           }
         }
       ]
+    },
+    {
+      "name": "Full update of user data by PUT [TODO]",
+      "item": []
+    },
+    {
+      "name": "Partial update of user data by PATCH [TODO]",
+      "item": []
     },
     {
       "name": "Delete user - positive",
@@ -1972,7 +2082,7 @@
           ]
         },
         {
-          "name": "Unauthorized  user can not delete user with given ID - negative",
+          "name": "Unauthorized user can not delete user with given ID - negative",
           "item": [
             {
               "name": "Delete a user without token",
@@ -2282,7 +2392,7 @@
       ]
     },
     {
-      "name": "Get info about user",
+      "name": "Get info about user - positive",
       "item": [
         {
           "name": "Get info about existing user",
@@ -2302,9 +2412,14 @@
             }
           },
           "response": []
-        },
+        }
+      ]
+    },
+    {
+      "name": "Get info about user - negative",
+      "item": [
         {
-          "name": "Get info about no existing user - negative",
+          "name": "No info about user with non-existent ID",
           "request": {
             "method": "HEAD",
             "header": [],
@@ -2323,7 +2438,7 @@
           "response": []
         },
         {
-          "name": "Get info about  user with empty id param - negative",
+          "name": "No info after request with empty ID parameter",
           "request": {
             "method": "HEAD",
             "header": [],
@@ -2342,7 +2457,7 @@
           "response": []
         },
         {
-          "name": "Get info about  user without id param - negative",
+          "name": "No info after request without ID parameter",
           "request": {
             "method": "HEAD",
             "header": [],
@@ -2361,7 +2476,7 @@
           "response": []
         },
         {
-          "name": "Get info about  user without email param - negative",
+          "name": "No info after request with email parameter",
           "request": {
             "method": "HEAD",
             "header": [],
@@ -2380,14 +2495,6 @@
           "response": []
         }
       ]
-    },
-    {
-      "name": "Full user data update by PUT [TODO]",
-      "item": []
-    },
-    {
-      "name": "partial user data update - PATH [TODO]",
-      "item": []
     }
   ],
   "event": [
