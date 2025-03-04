@@ -47,7 +47,7 @@
                   "    //import 'Moment' library\r",
                   "    const moment = require('moment');\r",
                   "    //setting the exact moment of generating a new token\r",
-                  "    pm.environment.set('token_generation_moment', moment());\r",
+                  "    pm.environment.set('tokenGenerationMoment', moment());\r",
                   "});"
                 ],
                 "type": "text/javascript",
