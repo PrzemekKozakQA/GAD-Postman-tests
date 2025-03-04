@@ -8,7 +8,7 @@
   },
   "item": [
     {
-      "name": "Invalid credentials from file",
+      "name": "Login failed with invalid credentials from file",
       "event": [
         {
           "listen": "test",
@@ -59,16 +59,7 @@
       ],
       "request": {
         "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Accept",
-            "value": "application/json"
-          }
-        ],
+        "header": [],
         "body": {
           "mode": "raw",
           "raw": "{\n    \"email\": {{email}},\n    \"password\": {{password}}\n}",
@@ -90,16 +81,7 @@
           "name": "incorrect user",
           "originalRequest": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"email\": \"Wrong-user\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
