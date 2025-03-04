@@ -335,7 +335,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"The error message is correct\", function () {\r",
+                  "pm.test(\"The error message is 'Access token is invalid!'\", function () {\r",
                   "    pm.expect(pm.response.json().error.message).to.equal(\"Access token is invalid!\");\r",
                   "});"
                 ],
@@ -380,7 +380,7 @@
           "response": []
         },
         {
-          "name": "Request without token - negative",
+          "name": "Request without token gives code 404",
           "event": [
             {
               "listen": "test",
@@ -474,7 +474,7 @@
       ]
     },
     {
-      "name": "Login request with wrong method - negative",
+      "name": "Failed login request with wrong method - negative",
       "item": [
         {
           "name": "PUT method",
@@ -615,7 +615,7 @@
       ]
     },
     {
-      "name": "Login request with broken body - negative",
+      "name": "Failed login request with broken body - negative",
       "item": [
         {
           "name": "Broken JSON",
@@ -713,14 +713,16 @@
               "    pm.response.to.have.status(400);",
               "});",
               "",
-              ""
+              "pm.test(\"The error message is correct\", function () {",
+              "    pm.expect(pm.response.json().error).to.equal(\"SyntaxError: Unexpected data in JSON. Please check Your JSON.\");",
+              "});"
             ]
           }
         }
       ]
     },
     {
-      "name": "Login with incorrect body - negative",
+      "name": "Failed login with incorrect body - negative",
       "item": [
         {
           "name": "No password property",
