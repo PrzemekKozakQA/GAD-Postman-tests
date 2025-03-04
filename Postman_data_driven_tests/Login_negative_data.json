@@ -16,12 +16,12 @@
     "password": "\"\""
   },
   {
-    "email": null,
+    "email": "null",
     "password": "\"test1\""
   },
   {
     "email": "\"Moses.Armstrong@Feest.ca\"",
-    "password": null
+    "password": "null"
   },
   {
     "email": 1,
