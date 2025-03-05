@@ -457,7 +457,7 @@
           "response": []
         },
         {
-          "name": "Email parameter in request returns response with code 404",
+          "name": "Email parameter in request gives response with code 404",
           "event": [
             {
               "listen": "test",
@@ -486,7 +486,7 @@
           "response": []
         },
         {
-          "name": "Firstname parameter in request return response with code 404",
+          "name": "Firstname parameter in request gives response with code 404",
           "event": [
             {
               "listen": "test",
@@ -592,11 +592,11 @@
               "listen": "prerequest",
               "script": {
                 "exec": [
-                  "pm.variables.set('email', pm.variables.replaceIn('{{$randomEmail}}'))\r",
-                  "pm.variables.set('firstname', pm.variables.replaceIn('{{$randomFirstName}}'))\r",
-                  "pm.variables.set('lastname', pm.variables.replaceIn('{{$randomLastName}}'))\r",
-                  "pm.variables.set('avatar', pm.variables.replaceIn('{{$randomAvatarImage}}'))\r",
-                  "pm.variables.set('password', pm.variables.replaceIn('{{$randomPassword}}'))"
+                  "pm.variables.set('email', pm.variables.replaceIn('{{$randomEmail}}'));\r",
+                  "pm.variables.set('firstname', pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+                  "pm.variables.set('lastname', pm.variables.replaceIn('{{$randomLastName}}'));\r",
+                  "pm.variables.set('avatar', pm.variables.replaceIn('{{$randomAvatarImage}}'));\r",
+                  "pm.variables.set('password', pm.variables.replaceIn('{{$randomPassword}}'));"
                 ],
                 "type": "text/javascript",
                 "packages": {}
@@ -761,18 +761,1618 @@
       ]
     },
     {
-      "name": "Create user - negative [TODO]",
+      "name": "Create user - negative",
       "item": [
         {
-          "name": "Cannot create user with wrong email",
+          "name": "Can't create user with wrong property in JSON",
           "item": [
             {
               "name": "invalid email",
+              "item": [
+                {
+                  "name": "email without @",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"user.gmail.com\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email filled with only spaces",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"  \",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "empty email",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in email property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": null,\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without email property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text  email value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": true,\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of  emails in body",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": [\n        \"user@gmail.com\",\n        \"user2@gamil.com\"\n    ],\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in  email property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": {\n        \"userMail\": \"user@gmail.com\"\n    },\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "invalid first name",
+              "item": [
+                {
+                  "name": "empty firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": null,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text firstname value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": true,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of strings  in firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": [\n        \"John\",\n        \"David\"\n    ],\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": {\n        \"user\": \"John\"\n    },\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ],
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [""]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"The error message is correct\", function () {\r",
+                      "    const errorObj = pm.response.json().error;\r",
+                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");\r",
+                      "    pm.expect(errorObj.details).to.contains(\"firstname\");\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "invalid last name",
+              "item": [
+                {
+                  "name": "empty lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": null,\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text lastname value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": true,\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of strings  in lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": [\n        \"Doe\",\n        \"Novak\"\n    ],\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": {\n        \"user\": \"Doe\"\n    },\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [""]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"The error message is correct\", function () {\r",
+                      "    const errorObj = pm.response.json().error;\r",
+                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");\r",
+                      "    pm.expect(errorObj.details).to.contains(\"lastname\");\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "invalid avatar",
+              "item": [
+                {
+                  "name": "empty avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": null,\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text avatar value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": false,\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of strings  in avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": [\n        \"{{$randomAvatarImage}}\",\n        \"{{$randomAvatarImage}}\"\n    ],\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": {\n        \"userAvatar\": \"{{$randomAvatarImage}}\"\n    },\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "invalid password",
+              "item": [
+                {
+                  "name": "empty password",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": null\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text password value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": true\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of strings  in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": [\n        \"{{$randomPassword\",\n        \"{{$randomPassword\"\n    ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": {\n        \"isTestEnv\": true\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "const responseSchema = {\r",
+                  "    \"type\": \"object\",\r",
+                  "    \"properties\": {\r",
+                  "        \"error\": {\r",
+                  "            \"type\": \"object\",\r",
+                  "            \"properties\": {\r",
+                  "                \"message\": {\r",
+                  "                    \"type\": \"string\", nullable: false\r",
+                  "                }\r",
+                  "            },\r",
+                  "            \"required\": [\r",
+                  "                \"message\"\r",
+                  "            ]\r",
+                  "        }\r",
+                  "    },\r",
+                  "    \"required\": [\r",
+                  "        \"error\"\r",
+                  "    ]\r",
+                  "}\r",
+                  "\r",
+                  "pm.test(\"Response status code is 422\", function () {\r",
+                  "    pm.expect(pm.response.code).to.equal(422);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has valid schema\", function () {\r",
+                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Can't create user with broken request",
+          "item": [
+            {
+              "name": "broken JSON",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{email}}\",\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\",\n    \"avatar\": \"{{avatar}}\",\n    \"password\": \"{{password}}\"\n",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["login"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "JSON in header, html in body",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                  "content-type": true
+                }
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<!DOCTYPE html>\n<html>\n\n<head>\n\t<title>Page Title</title>\n</head>\n\n<body>\n\n\t<h1>This is a Heading</h1>\n\t<p>This is a paragraph.</p>\n\n</body>\n\n</html>",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "html"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["login"]
+                }
+              },
+              "response": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"The error message is correct\", function () {\r",
+                  "    pm.expect(pm.response.json().error).to.equal(\"SyntaxError: Unexpected data in JSON. Please check Your JSON.\");\r",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Can't create user with wrong body",
+          "item": [
+            {
+              "name": "empty JSON",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -781,7 +2381,7 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"The error message is correct\", function () {\r",
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
                       "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
                       "});"
                     ],
@@ -795,7 +2395,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"email\": \"user.gmail.com\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "raw": "{}",
                   "options": {
                     "raw": {
                       "headerFamily": "json",
@@ -812,12 +2412,12 @@
               "response": []
             },
             {
-              "name": "email filled with spaces",
+              "name": "no body",
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -826,8 +2426,8 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");",
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
@@ -840,7 +2440,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"email\": \"  \",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "raw": "",
                   "options": {
                     "raw": {
                       "headerFamily": "json",
@@ -857,12 +2457,12 @@
               "response": []
             },
             {
-              "name": "empty email",
+              "name": "list in body",
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -871,10 +2471,8 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"email\");",
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
@@ -887,7 +2485,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"email\": \"\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "raw": "[\r\n    {\r\n        \"email\": \"{{$randomEmail}}\",\r\n        \"firstname\": \"{{$randomFirstName}}\",\r\n        \"lastname\": \"{{$randomLastName}}\",\r\n        \"avatar\": \"{{$randomAvatarImage}}\",\r\n        \"password\": \"{{$randomPassword}}\"\r\n    },\r\n    {\r\n        \"email\": \"{{$randomEmail}}\",\r\n        \"firstname\": \"{{$randomFirstName}}\",\r\n        \"lastname\": \"{{$randomLastName}}\",\r\n        \"avatar\": \"{{$randomAvatarImage}}\",\r\n        \"password\": \"{{$randomPassword}}\"\r\n    }\r\n]",
                   "options": {
                     "raw": {
                       "headerFamily": "json",
@@ -904,12 +2502,12 @@
               "response": []
             },
             {
-              "name": "null in email property",
+              "name": "xml in body",
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -918,10 +2516,8 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"email\");",
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
@@ -934,11 +2530,11 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"email\": null,\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "raw": "<email>{{$randomEmail}}</email>\r\n<firstname>{{$randomFirstName}}</firstname>\r\n<lastname>{{$randomLastName}}</lastname>\r\n<avatar>{{$randomAvatarImage}}</avatar>\r\n<password>{{$randomPassword}}\"</password>",
                   "options": {
                     "raw": {
                       "headerFamily": "json",
-                      "language": "json"
+                      "language": "xml"
                     }
                   }
                 },
@@ -951,178 +2547,40 @@
               "response": []
             },
             {
-              "name": "body without email property",
+              "name": "request without 'Content-Type' header",
               "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                },
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"email\");",
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
                     "packages": {}
                   }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
                 }
               ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/users",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["users"]
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                  "content-type": true
                 }
               },
-              "response": []
-            },
-            {
-              "name": "non-text  email value",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"email\");",
-                      "});"
-                    ],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                }
-              ],
               "request": {
                 "method": "POST",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"email\": true,\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/users",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["users"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "array of  emails in body",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"email\");",
-                      "});"
-                    ],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"email\": [\n        \"user@gmail.com\",\n        \"user2@gamil.com\"\n    ],\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/users",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["users"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "object in  email property",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"email\");",
-                      "});"
-                    ],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"email\": {\n        \"userMail\": \"user@gmail.com\"\n    },\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "raw": "{\n    \"email\": \"{{email}}\",\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\",\n    \"avatar\": \"{{avatar}}\",\n    \"password\": \"{{password}}\"\n}",
                   "options": {
                     "raw": {
                       "headerFamily": "json",
@@ -1141,15 +2599,15 @@
           ]
         },
         {
-          "name": "Cannot create user with wrong first name",
+          "name": "Can't create user with additional properties",
           "item": [
             {
-              "name": "empty first name",
+              "name": "additional \"nickname\" property",
               "event": [
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -1158,10 +2616,8 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"firstname\");",
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
@@ -1174,148 +2630,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/users",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["users"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "body without firstname property",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"firstname\");",
-                      "});"
-                    ],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/users",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["users"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "non-text  firstname value",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"email\");",
-                      "});"
-                    ],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": true,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/users",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["users"]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "null in firstname property",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "exec": ["//{{$randomEmail}}\r", ""],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"The error message is correct\", function () {",
-                      "    const errorObj = pm.response.json().error;",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
-                      "    pm.expect(errorObj.details).to.contains(\"email\");",
-                      "});"
-                    ],
-                    "type": "text/javascript",
-                    "packages": {}
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": null,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\",\n    \"nick\": \"SuperTester!\"\n}",
                   "options": {
                     "raw": {
                       "headerFamily": "json",
@@ -1332,26 +2647,6 @@
               "response": []
             }
           ]
-        },
-        {
-          "name": "invalid last name",
-          "item": []
-        },
-        {
-          "name": "invalid avatar",
-          "item": []
-        },
-        {
-          "name": "invalid password",
-          "item": []
-        },
-        {
-          "name": "wrong body",
-          "item": []
-        },
-        {
-          "name": "broken JSON in body",
-          "item": []
         }
       ],
       "event": [
@@ -1368,45 +2663,2137 @@
           "script": {
             "type": "text/javascript",
             "packages": {},
-            "exec": [
-              "const responseSchema = {\r",
-              "    \"type\": \"object\",\r",
-              "    \"properties\": {\r",
-              "        \"error\": {\r",
-              "            \"type\": \"object\",\r",
-              "            \"properties\": {\r",
-              "                \"message\": {\r",
-              "                    \"type\": \"string\", nullable: false\r",
-              "                }\r",
-              "            },\r",
-              "            \"required\": [\r",
-              "                \"message\"\r",
-              "            ]\r",
-              "        }\r",
-              "    },\r",
-              "    \"required\": [\r",
-              "        \"error\"\r",
-              "    ]\r",
-              "}\r",
-              "\r",
-              "pm.test(\"Response status code is 422\", function () {\r",
-              "    pm.expect(pm.response.code).to.equal(422);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Response has valid schema\", function () {\r",
-              "    pm.response.to.has.jsonSchema(responseSchema);\r",
-              "});"
-            ]
+            "exec": [""]
           }
         }
       ]
     },
     {
-      "name": "Full update of user data by PUT [TODO]",
+      "name": "Full update of user data by PUT - positive[TODO]",
+      "item": [
+        {
+          "name": "Create user with random data Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let responseData;\r",
+                  "\r",
+                  "const responseSchema = {\r",
+                  "    \"type\": \"object\",\r",
+                  "    \"properties\": {\r",
+                  "        \"id\": { \"type\": \"integer\", nullable: false },\r",
+                  "        \"email\": { \"type\": \"string\", nullable: false },\r",
+                  "        \"firstname\": { \"type\": \"string\", nullable: false },\r",
+                  "        \"lastname\": { \"type\": \"string\", nullable: false },\r",
+                  "        \"password\": { \"type\": \"string\", nullable: false },\r",
+                  "        \"avatar\": { \"type\": \"string\", nullable: false }\r",
+                  "    },\r",
+                  "    \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"]\r",
+                  "};\r",
+                  "\r",
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "    responseData = pm.response.json();\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has valid schema\", function () {\r",
+                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains correct user data\", function () {\r",
+                  "    pm.expect(responseData.email).eqls(pm.variables.get('email'));\r",
+                  "    pm.expect(responseData.firstname).eqls(pm.variables.get('firstname'));\r",
+                  "    pm.expect(responseData.lastname).eqls(pm.variables.get('lastname'));\r",
+                  "    pm.expect(responseData.avatar).eqls(pm.variables.get('avatar'));\r",
+                  "    pm.expect(responseData.password).eqls(pm.variables.get('password'));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.variables.set('email', pm.variables.replaceIn('{{$randomEmail}}'));\r",
+                  "pm.variables.set('firstname', pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+                  "pm.variables.set('lastname', pm.variables.replaceIn('{{$randomLastName}}'));\r",
+                  "pm.variables.set('avatar', pm.variables.replaceIn('{{$randomAvatarImage}}'));\r",
+                  "pm.variables.set('password', pm.variables.replaceIn('{{$randomPassword}}'));"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"{{email}}\",\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\",\n    \"avatar\": \"{{avatar}}\",\n    \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          },
+          "response": [
+            {
+              "name": "Create user with random data",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{email}}\",\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\",\n    \"avatar\": \"{{avatar}}\",\n    \"password\": \"{{password}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin, X-HTTP-Method-Override, Accept-Encoding"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "-1"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "Location"
+                },
+                {
+                  "key": "Location",
+                  "value": "http://127.0.0.1:3000/api/users/22"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "248"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"f8-7ks3LUSorP4yd1EGvFOjejRS9pM\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 02 Mar 2025 19:19:11 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"email\": \"Yasmeen_Gutmann@yahoo.com\",\n    \"firstname\": \"Margaretta\",\n    \"lastname\": \"Bode\",\n    \"avatar\": \"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/680.jpg\",\n    \"password\": \"G5zEpmDUcng4AvX\",\n    \"id\": 22\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Full update of user data by PUT - negative [TODO]",
+      "item": [
+        {
+          "name": "Can't full update user data with wrong property in JSON",
+          "item": [
+            {
+              "name": "invalid email",
+              "item": [
+                {
+                  "name": "email without @",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"user.gmail.com\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email filled with only spaces",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"  \",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "empty email",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in email property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": null,\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without email property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text  email value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": true,\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of  emails in body",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": [\n        \"user@gmail.com\",\n        \"user2@gamil.com\"\n    ],\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in  email property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is correct\", function () {",
+                          "    const errorObj = pm.response.json().error;",
+                          "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");",
+                          "    pm.expect(errorObj.details).to.contains(\"email\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": {\n        \"userMail\": \"user@gmail.com\"\n    },\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "invalid first name",
+              "item": [
+                {
+                  "name": "empty firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": null,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text firstname value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": true,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of strings  in firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": [\n        \"John\",\n        \"David\"\n    ],\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in firstname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": {\n        \"user\": \"John\"\n    },\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [""]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"The error message is correct\", function () {\r",
+                      "    const errorObj = pm.response.json().error;\r",
+                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");\r",
+                      "    pm.expect(errorObj.details).to.contains(\"firstname\");\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "invalid last name",
+              "item": [
+                {
+                  "name": "empty lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": null,\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text lastname value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": true,\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of strings  in lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": [\n        \"Doe\",\n        \"Novak\"\n    ],\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in lastname property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": {\n        \"user\": \"Doe\"\n    },\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [""]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [
+                      "pm.test(\"The error message is correct\", function () {\r",
+                      "    const errorObj = pm.response.json().error;\r",
+                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");\r",
+                      "    pm.expect(errorObj.details).to.contains(\"lastname\");\r",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "invalid avatar",
+              "item": [
+                {
+                  "name": "empty avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": null,\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text avatar value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": false,\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of strings  in avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": [\n        \"{{$randomAvatarImage}}\",\n        \"{{$randomAvatarImage}}\"\n    ],\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in avatar property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": {\n        \"userAvatar\": \"{{$randomAvatarImage}}\"\n    },\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "invalid password",
+              "item": [
+                {
+                  "name": "empty password",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "null in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": null\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "body without password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "non-text password value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": true\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "array of strings  in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": [\n        \"{{$randomPassword\",\n        \"{{$randomPassword\"\n    ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "object in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": {\n        \"isTestEnv\": true\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "const responseSchema = {\r",
+                  "    \"type\": \"object\",\r",
+                  "    \"properties\": {\r",
+                  "        \"error\": {\r",
+                  "            \"type\": \"object\",\r",
+                  "            \"properties\": {\r",
+                  "                \"message\": {\r",
+                  "                    \"type\": \"string\", nullable: false\r",
+                  "                }\r",
+                  "            },\r",
+                  "            \"required\": [\r",
+                  "                \"message\"\r",
+                  "            ]\r",
+                  "        }\r",
+                  "    },\r",
+                  "    \"required\": [\r",
+                  "        \"error\"\r",
+                  "    ]\r",
+                  "}\r",
+                  "\r",
+                  "pm.test(\"Response status code is 422\", function () {\r",
+                  "    pm.expect(pm.response.code).to.equal(422);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has valid schema\", function () {\r",
+                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Can't full update user data with broken request",
+          "item": [
+            {
+              "name": "broken JSON",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{email}}\",\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\",\n    \"avatar\": \"{{avatar}}\",\n    \"password\": \"{{password}}\"\n",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["login"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "JSON in header, html in body",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                  "content-type": true
+                }
+              },
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<!DOCTYPE html>\n<html>\n\n<head>\n\t<title>Page Title</title>\n</head>\n\n<body>\n\n\t<h1>This is a Heading</h1>\n\t<p>This is a paragraph.</p>\n\n</body>\n\n</html>",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "html"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["login"]
+                }
+              },
+              "response": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"The error message is correct\", function () {\r",
+                  "    pm.expect(pm.response.json().error).to.equal(\"SyntaxError: Unexpected data in JSON. Please check Your JSON.\");\r",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Can't full update user data with wrong body",
+          "item": [
+            {
+              "name": "empty JSON",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "no body",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "list in body",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\r\n    {\r\n        \"email\": \"{{$randomEmail}}\",\r\n        \"firstname\": \"{{$randomFirstName}}\",\r\n        \"lastname\": \"{{$randomLastName}}\",\r\n        \"avatar\": \"{{$randomAvatarImage}}\",\r\n        \"password\": \"{{$randomPassword}}\"\r\n    },\r\n    {\r\n        \"email\": \"{{$randomEmail}}\",\r\n        \"firstname\": \"{{$randomFirstName}}\",\r\n        \"lastname\": \"{{$randomLastName}}\",\r\n        \"avatar\": \"{{$randomAvatarImage}}\",\r\n        \"password\": \"{{$randomPassword}}\"\r\n    }\r\n]",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "xml in body",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<email>{{$randomEmail}}</email>\r\n<firstname>{{$randomFirstName}}</firstname>\r\n<lastname>{{$randomLastName}}</lastname>\r\n<avatar>{{$randomAvatarImage}}</avatar>\r\n<password>{{$randomPassword}}\"</password>",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "request without 'Content-Type' header",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                  "content-type": true
+                }
+              },
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{email}}\",\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\",\n    \"avatar\": \"{{avatar}}\",\n    \"password\": \"{{password}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Can't fully update user data with additional properties",
+          "item": [
+            {
+              "name": "additional \"nickname\" property",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\",\n    \"nick\": \"SuperTester!\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Can't full update user data with wrong ID",
+          "item": []
+        },
+        {
+          "name": "without barer token",
+          "item": []
+        }
+      ]
+    },
+    {
+      "name": "Partial update of user data by PATCH - positive[TODO]",
       "item": []
     },
     {
-      "name": "Partial update of user data by PATCH [TODO]",
+      "name": "Partial update of user data by PATCH - negative[TODO]",
       "item": []
     },
     {
