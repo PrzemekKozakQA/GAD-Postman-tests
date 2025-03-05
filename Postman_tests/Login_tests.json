@@ -380,7 +380,7 @@
           "response": []
         },
         {
-          "name": "Request without token gives code 404",
+          "name": "Request without token gives response code 404",
           "event": [
             {
               "listen": "test",
