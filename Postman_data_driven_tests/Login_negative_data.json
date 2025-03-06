@@ -70,5 +70,9 @@
   {
     "email": "\"\"",
     "password": "\"\""
+  },
+  {
+    "email": "\"Moses.Armstrong@Feest.ca\"",
+    "password": "\"wrong_password' OR 1=1\""
   }
 ]
