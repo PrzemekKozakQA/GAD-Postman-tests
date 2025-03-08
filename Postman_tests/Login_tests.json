@@ -11,13 +11,13 @@
       "name": "Login - positive",
       "item": [
         {
-          "name": "Receives a token using valid credentials",
+          "name": "Receives user token using valid credentials",
           "event": [
             {
               "listen": "test",
               "script": {
                 "exec": [
-                  "let responseData;\r",
+                  "let responseJson;\r",
                   "\r",
                   "pm.test(\"Response status code is 200\", function () {\r",
                   "    pm.response.to.have.status(200);\r",
@@ -25,24 +25,24 @@
                   "\r",
                   "pm.test(\"Response is in JSON format\", function () {\r",
                   "    pm.response.to.be.json;\r",
-                  "    responseData = pm.response.json();\r",
+                  "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
                   "pm.test(\"Response has the required field - access_token\", function () {\r",
-                  "    pm.expect(responseData).has.property('access_token');\r",
+                  "    pm.expect(responseJson).has.property('access_token');\r",
                   "    //second way to check the presence of a property token:\r",
-                  "    //pm.expect(responseData.access_token).to.exist;\r",
+                  "    //pm.expect(responseJson.access_token).to.exist;\r",
                   "});\r",
                   "\r",
                   "pm.test(\"Data type of field - access_token is a string\", function () {\r",
-                  "    pm.expect(responseData.access_token).to.be.a('string');\r",
+                  "    pm.expect(responseJson.access_token).to.be.a('string');\r",
                   "});\r",
                   "\r",
                   "pm.test(\"access_token is a non-empty string\", function () {\r",
-                  "    pm.expect(responseData.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+                  "    pm.expect(responseJson.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
                   "\r",
                   "    //setting env variable with token\r",
-                  "    pm.environment.set('token', responseData.access_token);\r",
+                  "    pm.environment.set('token', responseJson.access_token);\r",
                   "\r",
                   "    //import 'Moment' library\r",
                   "    const moment = require('moment');\r",
@@ -79,7 +79,7 @@
           },
           "response": [
             {
-              "name": "Receives a token using valid credentials",
+              "name": "Receives user token using valid credentials",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -206,60 +206,75 @@
           ]
         }
       ],
-      "description": "Given: Body with registered user's email and correct password  \nWhen: Sending a POST request to endpoint /login  \nThen: Receiving a response with a token and 200 code."
+      "description": "Given: JSON body with registered user's email and correct password  \nWhen: Sending a POST request to endpoint /login  \nThen: Receiving a response with a token and 200 code."
     },
     {
       "name": "Validate token - positive",
       "item": [
-        {
-          "name": "Login to receive token",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"access_token is a non-empty string\", function () {\r",
-                  "    const responseJson = pm.response.json();\r",
-                  "    pm.expect(responseJson.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1);\r",
-                  "    pm.collectionVariables.set('userToken', responseJson.access_token);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disabledSystemHeaders": {}
-          },
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
-              "options": {
-                "raw": {
-                  "headerFamily": "json",
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["login"]
-            }
-          },
-          "response": []
-        },
         {
           "name": "The logged in user has a valid token",
           "event": [
             {
               "listen": "test",
               "script": {
-                "exec": ["pm.collectionVariables.unset('userToken');"],
+                "exec": [""],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "//importing a library for date and time management\r",
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "//get data from environment\r",
+                  "const baseURL = pm.variables.get(\"baseUrl\");\r",
+                  "const token = pm.variables.get(\"token\");\r",
+                  "const login = pm.environment.get(\"registeredUsersEmail\");\r",
+                  "const password = pm.environment.get(\"correctUserPassword\");\r",
+                  "const tokenGenerationMoment = pm.environment.get(\"tokenGenerationMoment\");\r",
+                  "\r",
+                  "const isTokenExpired = (!tokenGenerationMoment) || (moment(tokenGenerationMoment).isBefore(moment().subtract(15, 'minute')));\r",
+                  "\r",
+                  "if (!token || isTokenExpired) {\r",
+                  "    console.info(\"Access token is empty or expired. Getting new token...\")\r",
+                  "\r",
+                  "    const options =\r",
+                  "    {\r",
+                  "        url: baseURL + \"/login\",\r",
+                  "        method: 'POST',\r",
+                  "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
+                  "        body: {\r",
+                  "            mode: 'raw',\r",
+                  "            raw: JSON.stringify(\r",
+                  "                {\r",
+                  "                    \"email\": login,\r",
+                  "                    \"password\": password\r",
+                  "                }\r",
+                  "            )\r",
+                  "        }\r",
+                  "    };\r",
+                  "\r",
+                  "    pm.sendRequest(options, function (err, res) {\r",
+                  "        if (err) {\r",
+                  "            console.error(\"An unexpected error occurred!!!\");\r",
+                  "            console.error(err);\r",
+                  "        }\r",
+                  "        else if (res.code !== 200) {\r",
+                  "            console.error(\"Failed to generate token!!!\");\r",
+                  "            console.log(res.json().message);\r",
+                  "        }\r",
+                  "        else {\r",
+                  "            const jsonData = res.json();\r",
+                  "            pm.environment.set(\"token\", jsonData.access_token);\r",
+                  "            pm.environment.set(\"tokenGenerationMoment\", moment());\r",
+                  "            console.log(\"Token successfully generated and saved in environment variables.\");\r",
+                  "        }\r",
+                  "    });\r",
+                  "};"
+                ],
                 "type": "text/javascript",
                 "packages": {}
               }
@@ -301,7 +316,7 @@
           "response": []
         }
       ],
-      "description": "Given: Body with valid token  \nWhen: Sending a GET request to endpoint /login  \nThen: Receiving a response with code 200.",
+      "description": "Given: Valid bearer token in \"Authorization\" header  \nWhen: Sending a GET request to endpoint /login  \nThen: Receiving a response with code 200",
       "event": [
         {
           "listen": "prerequest",
@@ -424,7 +439,7 @@
           "response": []
         }
       ],
-      "description": "Given: Body with invalid token or no token  \nWhen: Sending a GET request to endpoint /login  \nThen: Receiving a response with a 401 code and appropriate message",
+      "description": "Given: Invalid bearer token in \"Authorization\" header  \nWhen: Sending a GET request to endpoint /login  \nThen: Receiving a response with a 401 code and appropriate message",
       "event": [
         {
           "listen": "prerequest",
@@ -445,19 +460,14 @@
               "    \"properties\": {\r",
               "        \"error\": {\r",
               "            \"type\": \"object\",\r",
-              "            \"properties\": {\r",
-              "                \"message\": {\r",
-              "                    \"type\": \"string\", nullable: false\r",
-              "                }\r",
+              "            \"properties\":\r",
+              "            {\r",
+              "                \"message\": { \"type\": \"string\", nullable: false }\r",
               "            },\r",
-              "            \"required\": [\r",
-              "                \"message\"\r",
-              "            ]\r",
+              "            \"required\": [\"message\"]\r",
               "        }\r",
               "    },\r",
-              "    \"required\": [\r",
-              "        \"error\"\r",
-              "    ]\r",
+              "    \"required\": [\"error\"]\r",
               "}\r",
               "\r",
               "pm.test(\"Response status code is 401\", function () {\r",
@@ -1812,36 +1822,28 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "let responseData;",
+              "let responseJson;",
               "",
               "const responseSchema = {",
               "    \"type\": \"object\",",
               "    \"properties\": {",
-              "        \"status\": {",
-              "            \"type\": \"integer\", nullable: false",
-              "        },",
-              "        \"message\": {",
-              "            \"type\": \"string\", nullable: false",
-              "        }",
+              "        \"status\": { \"type\": \"integer\", nullable: false },",
+              "        \"message\": { \"type\": \"string\", nullable: false }",
               "    },",
               "    \"required\": [\"status\", \"message\"]",
               "};",
               "",
-              "pm.test(\"Response status code should be 401\", function () {",
+              "pm.test(\"Response status code is 401\", function () {",
               "    pm.response.to.have.status(401);",
               "});",
               "",
               "pm.test(\"Response is in JSON format\", function () {",
               "    pm.response.to.be.json;",
-              "    responseData = pm.response.json();",
+              "    responseJson = pm.response.json();",
               "});",
               "",
               "pm.test(\"Response has valid schema\", function () {",
               "    pm.response.to.has.jsonSchema(responseSchema);",
-              "});",
-              "",
-              "pm.test(\"Message is a non-empty string\", function () {",
-              "    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
               "});",
               "",
               "pm.test(\"Response message is 'Incorrect email or password'\", function () {",

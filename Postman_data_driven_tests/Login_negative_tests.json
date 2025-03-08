@@ -8,50 +8,51 @@
   },
   "item": [
     {
-      "name": "Login failed with invalid credentials from file",
+      "name": "Login failed with invalid credentials",
       "event": [
         {
           "listen": "test",
           "script": {
             "exec": [
-              "let responseData;\r",
+              "let responseJson;\r",
               "\r",
               "const responseSchema = {\r",
               "    \"type\": \"object\",\r",
               "    \"properties\": {\r",
-              "        \"status\": {\r",
-              "            \"type\": \"integer\", nullable: false\r",
-              "        },\r",
-              "        \"message\": {\r",
-              "            \"type\": \"string\", nullable: false\r",
-              "        }\r",
+              "        \"status\": { \"type\": \"integer\", nullable: false },\r",
+              "        \"message\": { \"type\": \"string\", nullable: false }\r",
               "    },\r",
-              "    \"required\": [\"status\", \"message\"]\r",
+              "    \"required\": [\"status\", \"message\"],\r",
+              "    \"additionalProperties\": false\r",
               "};\r",
               "\r",
-              "pm.test(\"Response status code should be 401\", function () {\r",
+              "pm.test(\"Response status code is 401\", function () {\r",
               "    pm.response.to.have.status(401);\r",
               "});\r",
               "\r",
               "pm.test(\"Response is in JSON format\", function () {\r",
               "    pm.response.to.be.json;\r",
-              "    responseData = pm.response.json();\r",
+              "    responseJson = pm.response.json();\r",
               "});\r",
               "\r",
               "pm.test(\"Response has valid schema\", function () {\r",
               "    pm.response.to.has.jsonSchema(responseSchema);\r",
               "});\r",
               "\r",
-              "pm.test(\"Message is a non-empty string\", function () {\r",
-              "    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
-              "});\r",
-              "\r",
               "pm.test(\"Response message is 'Incorrect email or password'\", function () {\r",
-              "    const responseMessage = pm.response.json().message;\r",
+              "    const responseMessage = responseJson.message;\r",
               "    pm.expect(responseMessage).to.equal(\"Incorrect email or password\");\r",
               "});\r",
               ""
             ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [""],
             "type": "text/javascript",
             "packages": {}
           }
