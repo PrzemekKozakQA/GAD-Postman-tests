@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "15492e8c-108d-4f50-a993-a205bfa0b8ee",
     "name": "/users endpoint tests  [GitHub Actions]",
-    "description": "Collection of tests for the GAD application endpoint /users.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+    "description": "Collection of tests for endpoint /users of the GAD application.\n\nDescription of the test is available in the \"Overview\" tab of the individual test folders.\n\n  \nDocumentation of the GAD application available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "21196236"
   },
@@ -17,7 +17,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "let responseData;\r",
+                  "let responseJson;\r",
                   "\r",
                   "const responseSchema = {\r",
                   "    \"type\": \"array\",\r",
@@ -31,7 +31,9 @@
                   "            \"password\": { \"type\": \"string\", nullable: false },\r",
                   "            \"avatar\": { \"type\": \"string\", nullable: false }\r",
                   "        },\r",
-                  "        \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"]\r",
+                  "        \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"],\r",
+                  "        \"additionalProperties\": false\r",
+                  "\r",
                   "    }\r",
                   "}\r",
                   "\r",
@@ -41,7 +43,7 @@
                   "\r",
                   "pm.test(\"Response body in JSON format\", function () {\r",
                   "    pm.response.to.be.json;\r",
-                  "    responseData = pm.response.json();\r",
+                  "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
                   "pm.test(\"Response has valid schema\", function () {\r",
@@ -49,8 +51,9 @@
                   "});\r",
                   "\r",
                   "pm.test(\"Response is not an empty array\", function () {\r",
-                  "    pm.expect(responseData).to.be.an('array').and.to.have.length.above(0);\r",
-                  "});"
+                  "    pm.expect(responseJson).to.be.an('array').and.to.have.length.above(0);\r",
+                  "});\r",
+                  ""
                 ],
                 "type": "text/javascript",
                 "packages": {}
@@ -205,7 +208,7 @@
           ]
         }
       ],
-      "description": "When: Sending a GET request to endpoint /users  \nThen: Receiving response with code 200 and a list of all users"
+      "description": "Scenario: Get a list of all users  \nWhen: I send a GET request to the /users endpoint  \nThen: the response status should be 200  \nAnd: the response should contain a list of all users"
     },
     {
       "name": "Get user by ID - positive",
@@ -217,7 +220,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "let responseData;\r",
+                  "let responseJson;\r",
                   "\r",
                   "const responseSchema = {\r",
                   "    \"type\": \"object\",\r",
@@ -229,7 +232,8 @@
                   "        \"password\": { \"type\": \"string\", nullable: false },\r",
                   "        \"avatar\": { \"type\": \"string\", nullable: false }\r",
                   "    },\r",
-                  "    \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"]\r",
+                  "    \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"],\r",
+                  "    \"additionalProperties\": false\r",
                   "}\r",
                   "\r",
                   "pm.test(\"Status code is 200\", function () {\r",
@@ -238,7 +242,7 @@
                   "\r",
                   "pm.test(\"Response is in JSON format\", function () {\r",
                   "    pm.response.to.be.json;\r",
-                  "    responseData = pm.response.json()\r",
+                  "    responseJson = pm.response.json()\r",
                   "});\r",
                   "\r",
                   "pm.test(\"Response has valid schema\", function () {\r",
@@ -393,7 +397,7 @@
           ]
         }
       ],
-      "description": "Given: Existing user ID in path param  \nWhen: Sending GET to /users endpoint  \nThen: Receiving a response with code 200 and JSON with user data"
+      "description": "Scenario: Get user data by ID  \nGiven: an existing user ID in the path parameter of the request  \nWhen: I send a GET request to the /users/{id} endpoint  \nThen: the response status should be 200  \nAnd: the response should contain a JSON object with the user's data"
     },
     {
       "name": "Get user by ID - negative",
@@ -517,7 +521,7 @@
           "response": []
         }
       ],
-      "description": "Given: Invalid ID in path parameter  \nWhen: Sending GET to /users endpoint  \nThen: Receiving a response with code 404 and no user data",
+      "description": "Scenario: Failure to get any user data after using an invalid ID  \nGiven: an invalid user ID in the path parameter of the request  \nWhen: I send a GET request to the /users/{id} endpoint  \nThen: the response status should be 404  \nAnd: the response should not contain any user data",
       "event": [
         {
           "listen": "prerequest",
@@ -555,7 +559,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "let responseData;\r",
+                  "let responseJson;\r",
                   "\r",
                   "const responseSchema = {\r",
                   "    \"type\": \"object\",\r",
@@ -576,7 +580,7 @@
                   "\r",
                   "pm.test(\"Response is in JSON format\", function () {\r",
                   "    pm.response.to.be.json;\r",
-                  "    responseData = pm.response.json();\r",
+                  "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
                   "pm.test(\"Response has valid schema\", function () {\r",
@@ -584,11 +588,11 @@
                   "});\r",
                   "\r",
                   "pm.test(\"Response contains correct user data\", function () {\r",
-                  "    pm.expect(responseData.email).eqls(pm.variables.get('email'));\r",
-                  "    pm.expect(responseData.firstname).eqls(pm.variables.get('firstname'));\r",
-                  "    pm.expect(responseData.lastname).eqls(pm.variables.get('lastname'));\r",
-                  "    pm.expect(responseData.avatar).eqls(pm.variables.get('avatar'));\r",
-                  "    pm.expect(responseData.password).eqls(pm.variables.get('password'));\r",
+                  "    pm.expect(responseJson.email).eqls(pm.variables.get('email'));\r",
+                  "    pm.expect(responseJson.firstname).eqls(pm.variables.get('firstname'));\r",
+                  "    pm.expect(responseJson.lastname).eqls(pm.variables.get('lastname'));\r",
+                  "    pm.expect(responseJson.avatar).eqls(pm.variables.get('avatar'));\r",
+                  "    pm.expect(responseJson.password).eqls(pm.variables.get('password'));\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -599,6 +603,7 @@
               "listen": "prerequest",
               "script": {
                 "exec": [
+                  "//generating random user data\r",
                   "pm.variables.set('email', pm.variables.replaceIn('{{$randomEmail}}'));\r",
                   "pm.variables.set('firstname', pm.variables.replaceIn('{{$randomFirstName}}'));\r",
                   "pm.variables.set('lastname', pm.variables.replaceIn('{{$randomLastName}}'));\r",
@@ -766,11 +771,229 @@
           ]
         }
       ],
-      "description": "Given: Request body contains JSON with valid new user data  \nWhen: Sending POST to /users endpoint  \nThen: Receiving a response with code 201 and JSON body with user data\n\nAnd: user is created"
+      "description": "Scenario: Create a new user  \nGiven: the request body contains JSON with valid new user data  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be 201  \nAnd: the response body should contain the newly created user data  \nAnd: the user should be created in the system"
     },
     {
       "name": "Create user - negative",
       "item": [
+        {
+          "name": "Can't create user with already registered email",
+          "item": [
+            {
+              "name": "email already in use",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const responseSchema = {\r",
+                      "    \"type\": \"object\",\r",
+                      "    \"properties\": {\r",
+                      "        \"error\": {\r",
+                      "            \"type\": \"object\",\r",
+                      "            \"properties\": {\r",
+                      "                \"message\": { \"type\": \"string\", nullable: false }\r",
+                      "            },\r",
+                      "            \"required\": [\"message\"]\r",
+                      "        }\r",
+                      "    },\r",
+                      "    \"required\": [\"error\"]\r",
+                      "}\r",
+                      "\r",
+                      "pm.test(\"Response status code is 409\", function () {\r",
+                      "    pm.expect(pm.response.code).to.equal(409);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response has valid schema\", function () {\r",
+                      "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"The error message is 'Email not unique'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Email not unique\");\r",
+                      "});\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users"]
+                }
+              },
+              "response": [
+                {
+                  "name": "email already in use",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users"]
+                    }
+                  },
+                  "status": "Conflict",
+                  "code": 409,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Vary",
+                      "value": "Origin, Accept-Encoding"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Credentials",
+                      "value": "true"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache"
+                    },
+                    {
+                      "key": "Pragma",
+                      "value": "no-cache"
+                    },
+                    {
+                      "key": "Expires",
+                      "value": "-1"
+                    },
+                    {
+                      "key": "Content-Security-Policy",
+                      "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                    },
+                    {
+                      "key": "Cross-Origin-Embedder-Policy",
+                      "value": "require-corp"
+                    },
+                    {
+                      "key": "Cross-Origin-Opener-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "Cross-Origin-Resource-Policy",
+                      "value": "same-origin"
+                    },
+                    {
+                      "key": "X-DNS-Prefetch-Control",
+                      "value": "off"
+                    },
+                    {
+                      "key": "X-Frame-Options",
+                      "value": "SAMEORIGIN"
+                    },
+                    {
+                      "key": "Strict-Transport-Security",
+                      "value": "max-age=15552000; includeSubDomains"
+                    },
+                    {
+                      "key": "X-Download-Options",
+                      "value": "noopen"
+                    },
+                    {
+                      "key": "X-Content-Type-Options",
+                      "value": "nosniff"
+                    },
+                    {
+                      "key": "Origin-Agent-Cluster",
+                      "value": "?1"
+                    },
+                    {
+                      "key": "X-Permitted-Cross-Domain-Policies",
+                      "value": "none"
+                    },
+                    {
+                      "key": "Referrer-Policy",
+                      "value": "no-referrer"
+                    },
+                    {
+                      "key": "X-XSS-Protection",
+                      "value": "0"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "54"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"36-bp3+pjLS/NRu6AhTWl1U9yZxSfs\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 08 Mar 2025 18:01:38 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"error\": {\n        \"message\": \"Email not unique\"\n    }\n}"
+                }
+              ]
+            }
+          ],
+          "description": "Scenario: Failed user creation with existing email  \nGiven: the request body contains JSON with the email of an existing user  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be 409",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            }
+          ]
+        },
         {
           "name": "Can't create user with wrong property in JSON",
           "item": [
@@ -1018,7 +1241,8 @@
                       "\r",
                       "pm.test(\"The error message is 'Invalid email'\", function () {\r",
                       "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
-                      "});"
+                      "});\r",
+                      ""
                     ]
                   }
                 }
@@ -1209,7 +1433,8 @@
                       "    const responseArray = pm.response.json().error.details;\r",
                       "    const expectedArray = [\"firstname\", \"lastname\", \"email\", \"avatar\"];\r",
                       "    pm.expect(_.isEqual(responseArray.sort(), expectedArray.sort())).to.be.true;\r",
-                      "});"
+                      "});\r",
+                      ""
                     ]
                   }
                 }
@@ -2567,7 +2792,7 @@
               ]
             }
           ],
-          "description": "Given: Request body does not contain one of the properties  \nWhen: Sending POST to /users endpoint  \nThen: User creation failed with 422 code and the corresponding error message",
+          "description": "Scenario: Failed user creation with invalid data in request body  \nGiven: the JSON request body contains one property with invalid data  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be 422  \nAnd: the response should contain the corresponding error message",
           "event": [
             {
               "listen": "prerequest",
@@ -2636,7 +2861,7 @@
               "response": []
             }
           ],
-          "description": "Given: Request body with additional unknown property  \nWhen: Sending POST to /users endpoint  \nThen: User creation failed with 422 code",
+          "description": "Scenario: Failed user creation with additional unknown property  \nGiven: the request body contains an additional unknown property  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be 422",
           "event": [
             {
               "listen": "prerequest",
@@ -2741,7 +2966,7 @@
               "response": []
             }
           ],
-          "description": "Given: Request body is broken  \nWhen: Sending POST to /users endpoint  \nThen: User creation failed with 400 code and the corresponding error message",
+          "description": "Scenario: Failed user creation with broken request body  \nGiven: the request body is broken  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be 400  \nAnd: the response should contain the corresponding error message",
           "event": [
             {
               "listen": "prerequest",
@@ -3103,10 +3328,10 @@
               ]
             }
           ],
-          "description": "Given: Request body in incorrect format  \nWhen: Sending POST to /users endpoint  \nThen: User creation failed with 4XX code"
+          "description": "Scenario: Failed user creation with incorrect request body format  \nGiven: the request body is in an incorrect format  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be a 4XX code"
         }
       ],
-      "description": "Given: Request body contains JSON with invalid new user data  \nWhen: Sending POST to /users endpoint  \nThen: User creation failed with 4XX code",
+      "description": "Scenario: Failed user creation with invalid data  \nGiven: the request body contains JSON with invalid new user data  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be a 4XX code",
       "event": [
         {
           "listen": "prerequest",
@@ -3127,7 +3352,7 @@
       ]
     },
     {
-      "name": "Full update of user data by PUT - E2E",
+      "name": "Full update of user data - E2E",
       "item": [
         {
           "name": "Create user with random data",
@@ -3141,14 +3366,14 @@
                   "});\r",
                   "\r",
                   "pm.test(\"Response contains correct user data\", function () {\r",
-                  "    const responseData = pm.response.json();\r",
-                  "    pm.expect(responseData.email).eqls(pm.variables.get('emailBeforeChange'));\r",
-                  "    pm.expect(responseData.firstname).eqls(pm.variables.get('firstnameBeforeChange'));\r",
-                  "    pm.expect(responseData.lastname).eqls(pm.variables.get('lastnameBeforeChange'));\r",
-                  "    pm.expect(responseData.avatar).eqls(pm.variables.get('avatarBeforeChange'));\r",
-                  "    pm.expect(responseData.password).eqls(pm.variables.get('passwordBeforeChange'));\r",
+                  "    const responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.email).eqls(pm.variables.get('emailBeforeChange'));\r",
+                  "    pm.expect(responseJson.firstname).eqls(pm.variables.get('firstnameBeforeChange'));\r",
+                  "    pm.expect(responseJson.lastname).eqls(pm.variables.get('lastnameBeforeChange'));\r",
+                  "    pm.expect(responseJson.avatar).eqls(pm.variables.get('avatarBeforeChange'));\r",
+                  "    pm.expect(responseJson.password).eqls(pm.variables.get('passwordBeforeChange'));\r",
                   "\r",
-                  "    pm.collectionVariables.set('newUserID', responseData.id);\r",
+                  "    pm.collectionVariables.set('newUserID', responseJson.id);\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -3254,12 +3479,15 @@
                   "});\r",
                   "\r",
                   "pm.test(\"Response contains new user data\", function () {\r",
-                  "    const responseData = pm.response.json();\r",
-                  "    pm.expect(responseData.email).eqls(pm.variables.get('emailAfterChange'));\r",
-                  "    pm.expect(responseData.firstname).eqls(pm.variables.get('firstnameAfterChange'));\r",
-                  "    pm.expect(responseData.lastname).eqls(pm.variables.get('lastnameAfterChange'));\r",
-                  "    pm.expect(responseData.avatar).eqls(pm.variables.get('avatarAfterChange'));\r",
-                  "    pm.expect(responseData.password).eqls(pm.variables.get('passwordAfterChange'));\r",
+                  "    const responseJson = pm.response.json();\r",
+                  "    pm.expect(responseJson.email).eqls(pm.variables.get('emailAfterChange'));\r",
+                  "    pm.expect(responseJson.firstname).eqls(pm.variables.get('firstnameAfterChange'));\r",
+                  "    pm.expect(responseJson.lastname).eqls(pm.variables.get('lastnameAfterChange'));\r",
+                  "    pm.expect(responseJson.avatar).eqls(pm.variables.get('avatarAfterChange'));\r",
+                  "    pm.expect(responseJson.password).eqls(pm.variables.get('passwordAfterChange'));\r",
+                  "\r",
+                  "    pm.collectionVariables.set('emailAfterChange', responseJson.email);\r",
+                  "    pm.collectionVariables.set('passwordAfterChange', responseJson.password);\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -3329,7 +3557,10 @@
                   "    pm.response.to.have.status(401);\r",
                   "});\r",
                   "\r",
-                  "pm.collectionVariables.clear();"
+                  "pm.test(\"The message is 'Incorrect email or password'\", function () {\r",
+                  "    pm.expect(pm.response.json().message).to.equal(\"Incorrect email or password\");\r",
+                  "});\r",
+                  ""
                 ],
                 "type": "text/javascript",
                 "packages": {}
@@ -3359,12 +3590,60 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Successful login with new user data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Response status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "pm.test(\"access_token is a non-empty string\", function () {\r",
+                  "    const token = pm.response.json().access_token;\r",
+                  "    pm.expect(token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.collectionVariables.clear();"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"{{emailAfterChange}}\",\n    \"password\": \"{{passwordAfterChange}}\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["login"]
+            }
+          },
+          "response": []
         }
       ],
-      "description": "Given: Existing user ID in path param and new user data in JSON body of request  \nWhen: Sending PUT to /users endpoint  \nThen: Receiving a response with code 200 and JSON with new user data\n\nAnd: all user data has been updated\n\nWhen: Sending POST to /login endpoint with user data before change\n\nThen: Receiving a response with code 401 and no token"
+      "description": "Scenario: Successfully update all user data and verify login with new credentials\n\nStep 1: Create a user\n\nGiven: the request body contains valid user data  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be 201  \nAnd: the response should contain the newly created user data\n\nStep 2: Log in and obtain a token\n\nGiven: the request body contains the created user's valid credentials  \nWhen: I send a POST request to the /login endpoint  \nThen: the response status should be 200  \nAnd: the response should contain a token\n\nStep 3: Update user data using PUT method\n\nGiven: the user ID is in the path parameter and new valid user data is in the JSON body  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 200  \nAnd: the response should contain the updated user data\n\nStep 4: Verify that login with old credentials fails\n\nWhen: I send a POST request to the /login endpoint with the old user credentials  \nThen: the response status should be 401  \nAnd: the response should contain an message indicating invalid credentials\n\nStep 5: Successfully log in with the updated user data\n\nWhen: I send a POST request to the /login endpoint with the new user credentials  \nThen: the response status should be 200  \nAnd: the response should contain a new token"
     },
     {
-      "name": "Full update of user data by PUT - negative [TODO]",
+      "name": "Full update of user data - negative [TODO]",
       "item": [
         {
           "name": "Can't full update user data with wrong property in JSON",
@@ -3416,7 +3695,58 @@
                       "variable": [
                         {
                           "key": "id",
-                          "value": "{{existingUserID}}"
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "email already registered",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                          "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{registeredUsersEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
                         }
                       ]
                     }
@@ -3467,7 +3797,7 @@
                       "variable": [
                         {
                           "key": "id",
-                          "value": "{{existingUserID}}"
+                          "value": "{{newUserID}}"
                         }
                       ]
                     }
@@ -3520,7 +3850,7 @@
                       "variable": [
                         {
                           "key": "id",
-                          "value": "{{existingUserID}}"
+                          "value": "{{newUserID}}"
                         }
                       ]
                     }
@@ -5003,12 +5333,13 @@
               ]
             }
           ],
+          "description": "Scenario: Failure to update full user data with invalid property in request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and invalid data for one property in the JSON body of the request  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be a 4XX code  \nAnd: the response should contain an appropriate error message indicating the invalid property",
           "auth": {
             "type": "bearer",
             "bearer": [
               {
                 "key": "token",
-                "value": "{{token}}",
+                "value": "{{testUserToken}}",
                 "type": "string"
               }
             ]
@@ -5025,12 +5356,12 @@
                   "\r",
                   "//get data from environment\r",
                   "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                  "var token = pm.variables.get(\"token\");\r",
+                  "const token = pm.variables.get(\"token\");\r",
                   "const login = pm.environment.get(\"registeredUsersEmail\");\r",
                   "const password = pm.environment.get(\"correctUserPassword\");\r",
-                  "var tokenGenerationMoment = pm.environment.get(\"tokenGenerationMoment\");\r",
+                  "const tokenGenerationMoment = pm.environment.get(\"tokenGenerationMoment\");\r",
                   "\r",
-                  "var isTokenExpired = (!tokenGenerationMoment) || (moment(tokenGenerationMoment).isBefore(moment().subtract(15, 'minute')));\r",
+                  "const isTokenExpired = (!tokenGenerationMoment) || (moment(tokenGenerationMoment).isBefore(moment().subtract(15, 'minute')));\r",
                   "\r",
                   "if (!token || isTokenExpired || !tokenGenerationMoment) {\r",
                   "    console.info(\"Access token is empty or expired. Getting new token...\")\r",
@@ -5061,7 +5392,7 @@
                   "            console.log(res.json().message);\r",
                   "        }\r",
                   "        else {\r",
-                  "            var jsonData = res.json();\r",
+                  "            const jsonData = res.json();\r",
                   "            pm.environment.set(\"token\", jsonData.access_token);\r",
                   "            pm.environment.set(\"tokenGenerationMoment\", moment());\r",
                   "            console.log(\"Token successfully generated and saved in environment variables.\");\r",
@@ -5191,12 +5522,13 @@
               "response": []
             }
           ],
+          "description": "Scenario: Failure to update full user data with broken request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a broken request body  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be 400  \nAnd: the response should contain an appropriate error message indicating a malformed request body",
           "auth": {
             "type": "bearer",
             "bearer": [
               {
                 "key": "token",
-                "value": "{{token}}",
+                "value": "{{testUserToken}}",
                 "type": "string"
               }
             ]
@@ -5222,7 +5554,9 @@
                   "\r",
                   "pm.test(\"The error message is correct\", function () {\r",
                   "    pm.expect(pm.response.json().error).to.equal(\"SyntaxError: Unexpected data in JSON. Please check Your JSON.\");\r",
-                  "});"
+                  "});\r",
+                  "\r",
+                  ""
                 ]
               }
             }
@@ -5256,16 +5590,6 @@
                 }
               ],
               "request": {
-                "auth": {
-                  "type": "bearer",
-                  "bearer": [
-                    {
-                      "key": "token",
-                      "value": "{{token}}",
-                      "type": "string"
-                    }
-                  ]
-                },
                 "method": "PUT",
                 "header": [],
                 "body": {
@@ -5330,9 +5654,15 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/users",
+                  "raw": "{{baseUrl}}/users/:id",
                   "host": ["{{baseUrl}}"],
-                  "path": ["users"]
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{existingUserID}}"
+                    }
+                  ]
                 }
               },
               "response": []
@@ -5375,9 +5705,15 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/users",
+                  "raw": "{{baseUrl}}/users/:id",
                   "host": ["{{baseUrl}}"],
-                  "path": ["users"]
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{existingUserID}}"
+                    }
+                  ]
                 }
               },
               "response": []
@@ -5420,9 +5756,15 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/users",
+                  "raw": "{{baseUrl}}/users/:id",
                   "host": ["{{baseUrl}}"],
-                  "path": ["users"]
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{existingUserID}}"
+                    }
+                  ]
                 }
               },
               "response": []
@@ -5470,12 +5812,125 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/users",
+                  "raw": "{{baseUrl}}/users/:id",
                   "host": ["{{baseUrl}}"],
-                  "path": ["users"]
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{existingUserID}}"
+                    }
+                  ]
                 }
               },
               "response": []
+            }
+          ],
+          "description": "Scenario: Failure to update full user data with incorrect body format  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a request body in an incorrect format  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be 400  \nAnd: the response should contain an appropriate error message indicating incorrect body format",
+          "auth": {
+            "type": "bearer",
+            "bearer": [
+              {
+                "key": "token",
+                "value": "{{testUserToken}}",
+                "type": "string"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "//importing a library for date and time management\r",
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "//get data from environment\r",
+                  "const baseURL = pm.variables.get(\"baseUrl\");\r",
+                  "const token = pm.variables.get(\"token\");\r",
+                  "const login = pm.environment.get(\"registeredUsersEmail\");\r",
+                  "const password = pm.environment.get(\"correctUserPassword\");\r",
+                  "const tokenGenerationMoment = pm.environment.get(\"tokenGenerationMoment\");\r",
+                  "\r",
+                  "const isTokenExpired = (!tokenGenerationMoment) || (moment(tokenGenerationMoment).isBefore(moment().subtract(15, 'minute')));\r",
+                  "\r",
+                  "if (!token || isTokenExpired || !tokenGenerationMoment) {\r",
+                  "    console.info(\"Access token is empty or expired. Getting new token...\")\r",
+                  "\r",
+                  "    const options =\r",
+                  "    {\r",
+                  "        url: baseURL + \"/login\",\r",
+                  "        method: 'POST',\r",
+                  "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
+                  "        body: {\r",
+                  "            mode: 'raw',\r",
+                  "            raw: JSON.stringify(\r",
+                  "                {\r",
+                  "                    \"email\": login,\r",
+                  "                    \"password\": password\r",
+                  "                }\r",
+                  "            )\r",
+                  "        }\r",
+                  "    };\r",
+                  "\r",
+                  "    pm.sendRequest(options, function (err, res) {\r",
+                  "        if (err) {\r",
+                  "            console.error(\"An unexpected error occurred!!!\");\r",
+                  "            console.error(err);\r",
+                  "        }\r",
+                  "        else if (res.code !== 200) {\r",
+                  "            console.error(\"Failed to generate token!!!\");\r",
+                  "            console.log(res.json().message);\r",
+                  "        }\r",
+                  "        else {\r",
+                  "            const jsonData = res.json();\r",
+                  "            pm.environment.set(\"token\", jsonData.access_token);\r",
+                  "            pm.environment.set(\"tokenGenerationMoment\", moment());\r",
+                  "            console.log(\"Token successfully generated and saved in environment variables.\");\r",
+                  "        }\r",
+                  "    });\r",
+                  "\r",
+                  "};"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "const responseSchema = {\r",
+                  "    \"type\": \"object\",\r",
+                  "    \"properties\": {\r",
+                  "        \"error\": {\r",
+                  "            \"type\": \"object\",\r",
+                  "            \"properties\": {\r",
+                  "                \"message\": {\r",
+                  "                    \"type\": \"string\", nullable: false\r",
+                  "                }\r",
+                  "            },\r",
+                  "            \"required\": [\r",
+                  "                \"message\"\r",
+                  "            ]\r",
+                  "        }\r",
+                  "    },\r",
+                  "    \"required\": [\r",
+                  "        \"error\"\r",
+                  "    ]\r",
+                  "}\r",
+                  "\r",
+                  "pm.test(\"Response status code is 422\", function () {\r",
+                  "    pm.expect(pm.response.code).to.equal(422);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has valid schema\", function () {\r",
+                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -5520,22 +5975,397 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/users",
+                  "raw": "{{baseUrl}}/users/:id",
                   "host": ["{{baseUrl}}"],
-                  "path": ["users"]
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{newUserID}}"
+                    }
+                  ]
                 }
               },
               "response": []
+            }
+          ],
+          "description": "Scenario: Failure to update full user data with additional properties in request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a request body with additional properties  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be 422  \nAnd: the response should contain an appropriate error message indicating the additional properties",
+          "auth": {
+            "type": "bearer",
+            "bearer": [
+              {
+                "key": "token",
+                "value": "{{testUserToken}}",
+                "type": "string"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
             }
           ]
         },
         {
           "name": "Can't full update user data with wrong ID",
-          "item": []
+          "item": [
+            {
+              "name": "not existing user ID",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "9999"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "ID not belong to logged user",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "Scenario: Failure to update full user data with incorrect ID in path parameter  \nGiven: an incorrect user ID in the path parameter, valid token is in the \"Authorization\" header and a valid request body  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 404  \nAnd: the response should contain an appropriate error message indicating the invalid user ID",
+          "auth": {
+            "type": "bearer",
+            "bearer": [
+              {
+                "key": "token",
+                "value": "{{testUserToken}}",
+                "type": "string"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            }
+          ]
         },
         {
-          "name": "without barer token",
-          "item": []
+          "name": "Without barer token",
+          "item": [
+            {
+              "name": "no token",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{newUserID}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "invalid token",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"The error message is 'Invalid email'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Invalid email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "wrong_token",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{newUserID}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "Scenario: Failure to update full user data with invalid token  \nGiven: an invalid or expired token in the \"Authorization\" header, an existing user ID in the path parameter  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 404  \nAnd: the response should contain an appropriate error message indicating the invalid token"
+        }
+      ],
+      "description": "Scenario: Failure to update full user data with invalid new data  \nGiven: an existing user ID in the path parameter and invalid user data in the JSON body of the request  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be a 4XX code  \nAnd: the response should contain an appropriate error message",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              "const baseURL = pm.variables.get(\"baseUrl\");\r",
+              "const testUserToken = pm.collectionVariables.get('testUserToken');\r",
+              "\r",
+              "if (!testUserToken) {\r",
+              "    console.info('creating new user for full user data update tests')\r",
+              "    // data preparation\r",
+              "    const testUserData = {\r",
+              "        \"email\": pm.variables.replaceIn('{{$randomEmail}}'),\r",
+              "        \"firstname\": pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+              "        \"lastname\": pm.variables.replaceIn('{{$randomLastName}}'),\r",
+              "        \"avatar\": pm.variables.replaceIn('{{$randomAvatarImage}}'),\r",
+              "        \"password\": pm.variables.replaceIn('{{$randomPassword}}')\r",
+              "    }\r",
+              "\r",
+              "    const createUserOptions = {\r",
+              "        url: baseURL + \"/users\",\r",
+              "        method: 'POST',\r",
+              "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
+              "        body: { mode: 'raw', raw: JSON.stringify(testUserData) }\r",
+              "    };\r",
+              "\r",
+              "    const receiveUserTokenOptions = {\r",
+              "        url: baseURL + \"/login\",\r",
+              "        method: 'POST',\r",
+              "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
+              "        body: {\r",
+              "            mode: 'raw', raw: JSON.stringify(\r",
+              "                {\r",
+              "                    \"email\": testUserData.email,\r",
+              "                    \"password\": testUserData.password\r",
+              "                }\r",
+              "            )\r",
+              "        }\r",
+              "    };\r",
+              "\r",
+              "    //creating a new user\r",
+              "    pm.sendRequest(createUserOptions, function (err, res) {\r",
+              "        if (err) {\r",
+              "            console.error(\"An unexpected error occurred during user creation!\");\r",
+              "            console.error(err);\r",
+              "        }\r",
+              "        else if (res.code !== 201) {\r",
+              "            console.error(\"User creation failed!!!\");\r",
+              "            console.error(res.json());\r",
+              "        }\r",
+              "        else {\r",
+              "            //getting a new token for a user\r",
+              "            pm.sendRequest(receiveUserTokenOptions, function (tokenErr, tokenRes) {\r",
+              "                if (tokenErr) {\r",
+              "                    console.error(\"An unexpected error occurred during token generation!\");\r",
+              "                    console.error(err);\r",
+              "                }\r",
+              "                else if (tokenRes.code !== 200) {\r",
+              "                    console.error(\"Failed to generate token!!!\");\r",
+              "                    console.log(res.json().message);\r",
+              "                }\r",
+              "                else {\r",
+              "                    const jsonData = tokenRes.json();\r",
+              "                    pm.collectionVariables.set(\"testUserToken\", jsonData.access_token);\r",
+              "                    pm.collectionVariables.set(\"newUserID\", res.json().id);\r",
+              "                    console.log(\"Token successfully generated and saved in collection variables.\");\r",
+              "                }\r",
+              "            });\r",
+              "        }\r",
+              "    });\r",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              "if (pm.response.code === 200){\r",
+              "    console.info('Test user data changed, removing token from collection variables!')\r",
+              "    pm.collectionVariables.unset('testUserToken');\r",
+              "}"
+            ]
+          }
         }
       ]
     },
@@ -5608,18 +6438,18 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "let responseData;\r",
+                  "let responseJson;\r",
                   "\r",
                   "pm.test(\"Response status code is 200\", function () {\r",
                   "    pm.response.to.have.status(200);\r",
-                  "    responseData = pm.response.json()\r",
+                  "    responseJson = pm.response.json()\r",
                   "});\r",
                   "\r",
                   "pm.test(\"access_token is a non-empty string\", function () {\r",
-                  "    pm.expect(responseData.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+                  "    pm.expect(responseJson.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
                   "\r",
                   "    //setting env variable with token\r",
-                  "    pm.collectionVariables.set('userToBeDeletedToken', responseData.access_token);\r",
+                  "    pm.collectionVariables.set('userToBeDeletedToken', responseJson.access_token);\r",
                   "\r",
                   "});"
                 ],
@@ -5660,38 +6490,7 @@
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                  "\r",
-                  "const login = 'admin' \r",
-                  "const password = 'admin' \r",
-                  "\r",
-                  "    const options =\r",
-                  "    {\r",
-                  "        url: baseURL + \"/login\",\r",
-                  "        method: 'POST',\r",
-                  "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                  "        body: {\r",
-                  "            mode: 'raw',\r",
-                  "            raw: JSON.stringify(\r",
-                  "                {\r",
-                  "                    \"email\": login,\r",
-                  "                    \"password\": password\r",
-                  "                }\r",
-                  "            )\r",
-                  "        }\r",
-                  "    };\r",
-                  "\r",
-                  "    pm.sendRequest(options, function (err, res) {\r",
-                  "        if (err) {\r",
-                  "            console.log(err);\r",
-                  "        }\r",
-                  "        else {\r",
-                  "            var jsonData = res.json();\r",
-                  "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                  "        }\r",
-                  "    });"
-                ],
+                "exec": [""],
                 "type": "text/javascript",
                 "packages": {}
               }
@@ -5844,7 +6643,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "Scenario: Successfully delete a user and verify the deletion\n\nStep 1: Create a user\n\nGiven: the request body contains valid user data  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be 201  \nAnd: the response should contain the newly created user data\n\nStep 2: Log in and obtain a token\n\nGiven: the request body contains the created user's valid credentials  \nWhen: I send a POST request to the /login endpoint  \nThen: the response status should be 200  \nAnd: the response should contain a token\n\nStep 3: Delete the user\n\nGiven: the user ID is in the path parameter and the valid token is in the \"Authorization\" header  \nWhen: I send a DELETE request to the /users/{id} endpoint  \nThen: the response status should be 200\n\nStep 4: Verify user is no longer visible in the user list\n\nWhen: I send a GET request to the /users endpoint  \nThen: the response status should be 200  \nAnd: the response should not contain the deleted user's data\n\nStep 5: Verify deleted user cannot be retrieved by ID\n\nWhen: I send a GET request to the /users/{id} endpoint  \nThen: the response status should be 404\n\nStep 6: Verify new token cannot be generated for deleted user\n\nWhen: I send a POST request to the /login endpoint with the deleted user's credentials  \nThen: the response status should be 401  \nAnd: the response should contain an error message indicating the credentials are no longer valid"
     },
     {
       "name": "Delete user - negative",
@@ -5858,38 +6658,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": [
-                      "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                      "\r",
-                      "const login = 'admin' \r",
-                      "const password = 'admin' \r",
-                      "\r",
-                      "    const options =\r",
-                      "    {\r",
-                      "        url: baseURL + \"/login\",\r",
-                      "        method: 'POST',\r",
-                      "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                      "        body: {\r",
-                      "            mode: 'raw',\r",
-                      "            raw: JSON.stringify(\r",
-                      "                {\r",
-                      "                    \"email\": login,\r",
-                      "                    \"password\": password\r",
-                      "                }\r",
-                      "            )\r",
-                      "        }\r",
-                      "    };\r",
-                      "\r",
-                      "    pm.sendRequest(options, function (err, res) {\r",
-                      "        if (err) {\r",
-                      "            console.log(err);\r",
-                      "        }\r",
-                      "        else {\r",
-                      "            var jsonData = res.json();\r",
-                      "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                      "        }\r",
-                      "    });"
-                    ],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -5930,38 +6699,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": [
-                      "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                      "\r",
-                      "const login = 'admin' \r",
-                      "const password = 'admin' \r",
-                      "\r",
-                      "    const options =\r",
-                      "    {\r",
-                      "        url: baseURL + \"/login\",\r",
-                      "        method: 'POST',\r",
-                      "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                      "        body: {\r",
-                      "            mode: 'raw',\r",
-                      "            raw: JSON.stringify(\r",
-                      "                {\r",
-                      "                    \"email\": login,\r",
-                      "                    \"password\": password\r",
-                      "                }\r",
-                      "            )\r",
-                      "        }\r",
-                      "    };\r",
-                      "\r",
-                      "    pm.sendRequest(options, function (err, res) {\r",
-                      "        if (err) {\r",
-                      "            console.log(err);\r",
-                      "        }\r",
-                      "        else {\r",
-                      "            var jsonData = res.json();\r",
-                      "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                      "        }\r",
-                      "    });"
-                    ],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -6002,38 +6740,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": [
-                      "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                      "\r",
-                      "const login = 'admin' \r",
-                      "const password = 'admin' \r",
-                      "\r",
-                      "    const options =\r",
-                      "    {\r",
-                      "        url: baseURL + \"/login\",\r",
-                      "        method: 'POST',\r",
-                      "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                      "        body: {\r",
-                      "            mode: 'raw',\r",
-                      "            raw: JSON.stringify(\r",
-                      "                {\r",
-                      "                    \"email\": login,\r",
-                      "                    \"password\": password\r",
-                      "                }\r",
-                      "            )\r",
-                      "        }\r",
-                      "    };\r",
-                      "\r",
-                      "    pm.sendRequest(options, function (err, res) {\r",
-                      "        if (err) {\r",
-                      "            console.log(err);\r",
-                      "        }\r",
-                      "        else {\r",
-                      "            var jsonData = res.json();\r",
-                      "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                      "        }\r",
-                      "    });"
-                    ],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -6074,38 +6781,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": [
-                      "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                      "\r",
-                      "const login = 'admin' \r",
-                      "const password = 'admin' \r",
-                      "\r",
-                      "    const options =\r",
-                      "    {\r",
-                      "        url: baseURL + \"/login\",\r",
-                      "        method: 'POST',\r",
-                      "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                      "        body: {\r",
-                      "            mode: 'raw',\r",
-                      "            raw: JSON.stringify(\r",
-                      "                {\r",
-                      "                    \"email\": login,\r",
-                      "                    \"password\": password\r",
-                      "                }\r",
-                      "            )\r",
-                      "        }\r",
-                      "    };\r",
-                      "\r",
-                      "    pm.sendRequest(options, function (err, res) {\r",
-                      "        if (err) {\r",
-                      "            console.log(err);\r",
-                      "        }\r",
-                      "        else {\r",
-                      "            var jsonData = res.json();\r",
-                      "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                      "        }\r",
-                      "    });"
-                    ],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -6135,6 +6811,7 @@
               "response": []
             }
           ],
+          "description": "Scenario: Failed user deletion due to non-existent user ID  \nGiven: a non-existent user ID in the path parameter and valid token is in the \"Authorization\" header  \nWhen: I send a DELETE request to the /users/{non-existent-id} endpoint  \nThen: the response status should be 4xx  \nAnd: the response should contain an error message indicating the user is not found",
           "auth": {
             "type": "bearer",
             "bearer": [
@@ -6157,17 +6834,17 @@
                   "\r",
                   "//get data from environment\r",
                   "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                  "var token = pm.variables.get(\"token\");\r",
+                  "const token = pm.variables.get(\"token\");\r",
                   "const login = pm.environment.get(\"registeredUsersEmail\");\r",
                   "const password = pm.environment.get(\"correctUserPassword\");\r",
-                  "var tokenGenerationMoment = pm.environment.get(\"tokenGenerationMoment\");\r",
+                  "const tokenGenerationMoment = pm.environment.get(\"tokenGenerationMoment\");\r",
                   "\r",
-                  "var isTokenExpired = (!tokenGenerationMoment) || (moment(tokenGenerationMoment).isBefore(moment().subtract(15, 'minute')));\r",
+                  "const isTokenExpired = (!tokenGenerationMoment) || (moment(tokenGenerationMoment).isBefore(moment().subtract(15, 'minute')));\r",
                   "\r",
                   "if (!token || isTokenExpired || !tokenGenerationMoment) {\r",
                   "    console.info(\"Access token is empty or expired. Getting new token...\")\r",
                   "\r",
-                  "    const options =\r",
+                  "    const options = \r",
                   "    {\r",
                   "        url: baseURL + \"/login\",\r",
                   "        method: 'POST',\r",
@@ -6193,13 +6870,12 @@
                   "            console.log(res.json().message);\r",
                   "        }\r",
                   "        else {\r",
-                  "            var jsonData = res.json();\r",
+                  "            const jsonData = res.json();\r",
                   "            pm.environment.set(\"token\", jsonData.access_token);\r",
                   "            pm.environment.set(\"tokenGenerationMoment\", moment());\r",
                   "            console.log(\"Token successfully generated and saved in environment variables.\");\r",
                   "        }\r",
                   "    });\r",
-                  "\r",
                   "};"
                 ]
               }
@@ -6223,38 +6899,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": [
-                      "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                      "\r",
-                      "const login = 'admin' \r",
-                      "const password = 'admin' \r",
-                      "\r",
-                      "    const options =\r",
-                      "    {\r",
-                      "        url: baseURL + \"/login\",\r",
-                      "        method: 'POST',\r",
-                      "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                      "        body: {\r",
-                      "            mode: 'raw',\r",
-                      "            raw: JSON.stringify(\r",
-                      "                {\r",
-                      "                    \"email\": login,\r",
-                      "                    \"password\": password\r",
-                      "                }\r",
-                      "            )\r",
-                      "        }\r",
-                      "    };\r",
-                      "\r",
-                      "    pm.sendRequest(options, function (err, res) {\r",
-                      "        if (err) {\r",
-                      "            console.log(err);\r",
-                      "        }\r",
-                      "        else {\r",
-                      "            var jsonData = res.json();\r",
-                      "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                      "        }\r",
-                      "    });"
-                    ],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -6295,38 +6940,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": [
-                      "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                      "\r",
-                      "const login = 'admin' \r",
-                      "const password = 'admin' \r",
-                      "\r",
-                      "    const options =\r",
-                      "    {\r",
-                      "        url: baseURL + \"/login\",\r",
-                      "        method: 'POST',\r",
-                      "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                      "        body: {\r",
-                      "            mode: 'raw',\r",
-                      "            raw: JSON.stringify(\r",
-                      "                {\r",
-                      "                    \"email\": login,\r",
-                      "                    \"password\": password\r",
-                      "                }\r",
-                      "            )\r",
-                      "        }\r",
-                      "    };\r",
-                      "\r",
-                      "    pm.sendRequest(options, function (err, res) {\r",
-                      "        if (err) {\r",
-                      "            console.log(err);\r",
-                      "        }\r",
-                      "        else {\r",
-                      "            var jsonData = res.json();\r",
-                      "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                      "        }\r",
-                      "    });"
-                    ],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -6367,38 +6981,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": [
-                      "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                      "\r",
-                      "const login = 'admin' \r",
-                      "const password = 'admin' \r",
-                      "\r",
-                      "    const options =\r",
-                      "    {\r",
-                      "        url: baseURL + \"/login\",\r",
-                      "        method: 'POST',\r",
-                      "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                      "        body: {\r",
-                      "            mode: 'raw',\r",
-                      "            raw: JSON.stringify(\r",
-                      "                {\r",
-                      "                    \"email\": login,\r",
-                      "                    \"password\": password\r",
-                      "                }\r",
-                      "            )\r",
-                      "        }\r",
-                      "    };\r",
-                      "\r",
-                      "    pm.sendRequest(options, function (err, res) {\r",
-                      "        if (err) {\r",
-                      "            console.log(err);\r",
-                      "        }\r",
-                      "        else {\r",
-                      "            var jsonData = res.json();\r",
-                      "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                      "        }\r",
-                      "    });"
-                    ],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -6439,38 +7022,7 @@
                 {
                   "listen": "prerequest",
                   "script": {
-                    "exec": [
-                      "const baseURL = pm.variables.get(\"baseUrl\");\r",
-                      "\r",
-                      "const login = 'admin' \r",
-                      "const password = 'admin' \r",
-                      "\r",
-                      "    const options =\r",
-                      "    {\r",
-                      "        url: baseURL + \"/login\",\r",
-                      "        method: 'POST',\r",
-                      "        header: { 'content-type': 'application/json', 'accept': 'application/json' },\r",
-                      "        body: {\r",
-                      "            mode: 'raw',\r",
-                      "            raw: JSON.stringify(\r",
-                      "                {\r",
-                      "                    \"email\": login,\r",
-                      "                    \"password\": password\r",
-                      "                }\r",
-                      "            )\r",
-                      "        }\r",
-                      "    };\r",
-                      "\r",
-                      "    pm.sendRequest(options, function (err, res) {\r",
-                      "        if (err) {\r",
-                      "            console.log(err);\r",
-                      "        }\r",
-                      "        else {\r",
-                      "            var jsonData = res.json();\r",
-                      "            pm.variables.set(\"adminToken\", jsonData.access_token);\r",
-                      "        }\r",
-                      "    });"
-                    ],
+                    "exec": [""],
                     "type": "text/javascript",
                     "packages": {}
                   }
@@ -6500,6 +7052,7 @@
               "response": []
             }
           ],
+          "description": "Scenario: Failed user deletion due to invalid token  \nGiven: an invalid token in the \"Authorization\" header  \nAnd: an existing user ID in the path parameter  \nWhen: I send a DELETE request to the /users/{id} endpoint  \nThen: the response status should be 4xx  \nAnd: the response should contain an error message indicating the invalid token",
           "auth": {
             "type": "noauth"
           },
@@ -6522,7 +7075,8 @@
             }
           ]
         }
-      ]
+      ],
+      "description": "Scenario: Failed user deletion due to invalid token or non-existent user ID\n\nTest for non-existent user ID\n\nGiven: a non-existent user ID in the path parameter  \nWhen: I send a DELETE request to the /users/{non-existent-id} endpoint  \nThen: the response status should be 4xx  \nAnd: the response should contain an error message indicating the user is not found\n\nTest for invalid token\n\nGiven: an invalid token in the \"Authorization\" header  \nAnd: an existing user ID in the path parameter  \nWhen: I send a DELETE request to the /users/{id} endpoint  \nThen: the response status should be 4xx  \nAnd: the response should contain an error message indicating the invalid token"
     },
     {
       "name": "Get info about user - positive",
@@ -6545,6 +7099,28 @@
             }
           },
           "response": []
+        }
+      ],
+      "description": "Scenario: Verify if a user exists\n\nGiven: an existing user ID in the path parameter  \nWhen: I send a HEAD request to the /users/{id} endpoint  \nThen: the response status should be 200",
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [""]
+          }
         }
       ]
     },
@@ -6627,18 +7203,27 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "Scenario: Sending an incorrect ID does not give information that the user exists\n\nGiven: a wrong user ID in the path parameter  \nWhen: I send a HEAD request to the /users/{id} endpoint  \nThen: the response status should be 404"
     }
   ],
   "event": [
     {
       "listen": "prerequest",
       "script": {
+        "type": "text/javascript",
         "exec": [
           "//displaying the request name in the console for better tracking of test execution\r",
           "console.log(pm.info.requestName);"
-        ],
-        "type": "text/javascript"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [""]
       }
     }
   ]

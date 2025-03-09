@@ -2,52 +2,45 @@
   "info": {
     "_postman_id": "728797d9-4c17-4915-82ae-b0751703aff5",
     "name": "/login endpoint data driven tests - negative [GitHub Actions]",
-    "description": "Collection of tests for the GAD application endpoint /login.\n\nThe collection contains data-driven negative tests.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+    "description": "Collection of tests for endpoint /login of the GAD application.\n\nThe collection contains data-driven negative tests.\n\nThe data for testing is in the file Login_negative_data.json\n\nDocumentation of the GAD application available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "21196236"
   },
   "item": [
     {
-      "name": "Invalid credentials from file",
+      "name": "Login failed with invalid credentials",
       "event": [
         {
           "listen": "test",
           "script": {
             "exec": [
-              "let responseData;\r",
+              "let responseJson;\r",
               "\r",
               "const responseSchema = {\r",
               "    \"type\": \"object\",\r",
               "    \"properties\": {\r",
-              "        \"status\": {\r",
-              "            \"type\": \"integer\", nullable: false\r",
-              "        },\r",
-              "        \"message\": {\r",
-              "            \"type\": \"string\", nullable: false\r",
-              "        }\r",
+              "        \"status\": { \"type\": \"integer\", nullable: false },\r",
+              "        \"message\": { \"type\": \"string\", nullable: false }\r",
               "    },\r",
-              "    \"required\": [\"status\", \"message\"]\r",
+              "    \"required\": [\"status\", \"message\"],\r",
+              "    \"additionalProperties\": false\r",
               "};\r",
               "\r",
-              "pm.test(\"Response status code should be 401\", function () {\r",
+              "pm.test(\"Response status code is 401\", function () {\r",
               "    pm.response.to.have.status(401);\r",
               "});\r",
               "\r",
               "pm.test(\"Response is in JSON format\", function () {\r",
               "    pm.response.to.be.json;\r",
-              "    responseData = pm.response.json();\r",
+              "    responseJson = pm.response.json();\r",
               "});\r",
               "\r",
               "pm.test(\"Response has valid schema\", function () {\r",
               "    pm.response.to.has.jsonSchema(responseSchema);\r",
               "});\r",
               "\r",
-              "pm.test(\"Message is a non-empty string\", function () {\r",
-              "    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
-              "});\r",
-              "\r",
               "pm.test(\"Response message is 'Incorrect email or password'\", function () {\r",
-              "    const responseMessage = pm.response.json().message;\r",
+              "    const responseMessage = responseJson.message;\r",
               "    pm.expect(responseMessage).to.equal(\"Incorrect email or password\");\r",
               "});\r",
               ""
@@ -55,20 +48,19 @@
             "type": "text/javascript",
             "packages": {}
           }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript",
+            "packages": {}
+          }
         }
       ],
       "request": {
         "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Accept",
-            "value": "application/json"
-          }
-        ],
+        "header": [],
         "body": {
           "mode": "raw",
           "raw": "{\n    \"email\": {{email}},\n    \"password\": {{password}}\n}",
@@ -87,19 +79,10 @@
       },
       "response": [
         {
-          "name": "incorrect user",
+          "name": "Login failed with invalid credentials from file",
           "originalRequest": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"email\": \"Wrong-user\",\n    \"password\": \"{{correctUserPassword}}\"\n}",
