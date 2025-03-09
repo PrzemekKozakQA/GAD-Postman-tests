@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "a6b8820d-2069-44ba-a0a1-32b6d2205386",
     "name": "/login endpoint tests [GitHub Actions]",
-    "description": "Collection of tests for the GAD application endpoint /login.  \nGAD documentation available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+    "description": "Collection of tests for endpoint /login of the GAD application.\n\nDescription of the test is available in the \"Overview\" tab of the individual test folders.\n\nDocumentation of the GAD application available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "21196236"
   },
@@ -206,7 +206,7 @@
           ]
         }
       ],
-      "description": "Given: JSON body with registered user's email and correct password  \nWhen: Sending a POST request to endpoint /login  \nThen: Receiving a response with a token and 200 code."
+      "description": "Scenario: Successful user login  \nGiven: the request body contains a registered user's email and correct password  \nWhen: I send a POST request to the /login endpoint  \nThen: the response status should be 200  \nAnd: the response should contain an authentication token"
     },
     {
       "name": "Validate token - positive",
@@ -316,7 +316,7 @@
           "response": []
         }
       ],
-      "description": "Given: Valid bearer token in \"Authorization\" header  \nWhen: Sending a GET request to endpoint /login  \nThen: Receiving a response with code 200",
+      "description": "Scenario: Successful recognition of an active token as valid  \nGiven: a valid bearer token in the \"Authorization\" header  \nWhen: I send a GET request to the /login endpoint  \nThen: the response status should be 200",
       "event": [
         {
           "listen": "prerequest",
@@ -439,7 +439,7 @@
           "response": []
         }
       ],
-      "description": "Given: Invalid bearer token in \"Authorization\" header  \nWhen: Sending a GET request to endpoint /login  \nThen: Receiving a response with a 401 code and appropriate message",
+      "description": "Scenario: Recognition of a wrong token as invalid  \nGiven: an invalid bearer token in the \"Authorization\" header  \nWhen: I send a GET request to the /login endpoint  \nThen: the response status should be 401  \nAnd: the response should contain an appropriate error message",
       "event": [
         {
           "listen": "prerequest",
@@ -598,7 +598,7 @@
           "response": []
         }
       ],
-      "description": "Given: Body with registered user's email and correct password  \nWhen: Sending a request other than POST and GET to endpoint /login  \nThen: Receiving a response with 404 token.",
+      "description": "Scenario: Request with an unsupported method to /login fails  \nGiven: a request body with a registered user's email and correct password  \nWhen: I send a request other than POST or GET to the /login endpoint  \nThen: the response status should be 404",
       "event": [
         {
           "listen": "prerequest",
@@ -705,7 +705,7 @@
           "response": []
         }
       ],
-      "description": "Given: Body with broken JSON  \nWhen: Sending a POST request to endpoint /login  \nThen: Receiving a response with 400 code.",
+      "description": "Scenario: Request fails due to broken JSON  \nGiven: a request body with broken JSON  \nWhen: I send a POST request to the /login endpoint  \nThen: the response status should be 400",
       "event": [
         {
           "listen": "prerequest",
@@ -1808,7 +1808,7 @@
           ]
         }
       ],
-      "description": "Given: Body with incorrect body  \nWhen: Sending a POST request to endpoint /login  \nThen: Receiving a response with 401 code and message 'Incorrect email or password'",
+      "description": "Scenario: Login fails due to malformed request body  \nGiven: a request body with an incorrect structure  \nWhen: I send a POST request to the /login endpoint  \nThen: the response status should be 401  \nAnd: the response should contain 'Incorrect email or password' message",
       "event": [
         {
           "listen": "prerequest",
