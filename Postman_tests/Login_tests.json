@@ -8,7 +8,7 @@
   },
   "item": [
     {
-      "name": "Login - positive",
+      "name": "Login | Positive tests",
       "item": [
         {
           "name": "Receives user token using valid credentials",
@@ -209,7 +209,7 @@
       "description": "Scenario: Successful user login  \nGiven: the request body contains a registered user's email and correct password  \nWhen: I send a POST request to the /login endpoint  \nThen: the response status should be 200  \nAnd: the response should contain an authentication token"
     },
     {
-      "name": "Validate token - positive",
+      "name": "Validate token | Positive tests",
       "item": [
         {
           "name": "The logged in user has a valid token",
@@ -341,10 +341,10 @@
       ]
     },
     {
-      "name": "Validate wrong token - negative",
+      "name": "Validate wrong token | Negative tests",
       "item": [
         {
-          "name": "Wrong token is indicated as invalid",
+          "name": "Invalid token returns 401",
           "event": [
             {
               "listen": "test",
@@ -395,7 +395,7 @@
           "response": []
         },
         {
-          "name": "Request without token gives response code 404",
+          "name": "Missing token returns 404 error",
           "event": [
             {
               "listen": "test",
@@ -484,10 +484,10 @@
       ]
     },
     {
-      "name": "Failed login request with wrong method - negative",
+      "name": "Failed login request with wrong method | Negative tests",
       "item": [
         {
-          "name": "PUT method",
+          "name": "PUT request returns 404 error",
           "event": [
             {
               "listen": "test",
@@ -514,7 +514,7 @@
           "response": []
         },
         {
-          "name": "PATCH method",
+          "name": "PATCH request returns 404 error",
           "event": [
             {
               "listen": "test",
@@ -541,7 +541,7 @@
           "response": []
         },
         {
-          "name": "DELETE method",
+          "name": "DELETE request returns 404 error",
           "event": [
             {
               "listen": "test",
@@ -568,7 +568,7 @@
           "response": []
         },
         {
-          "name": "HEAD method",
+          "name": "HEAD request returns 404 error",
           "event": [
             {
               "listen": "test",
@@ -625,10 +625,10 @@
       ]
     },
     {
-      "name": "Failed login request with broken body - negative",
+      "name": "Malformed request body | Negative tests",
       "item": [
         {
-          "name": "Broken JSON",
+          "name": "Invalid JSON format in body",
           "event": [
             {
               "listen": "test",
@@ -661,7 +661,7 @@
           "response": []
         },
         {
-          "name": "JSON in header, html in body",
+          "name": "Mismatched Content-Type and body format",
           "event": [
             {
               "listen": "test",
@@ -732,10 +732,10 @@
       ]
     },
     {
-      "name": "Failed login with incorrect body - negative",
+      "name": "Failed login with incorrect body | Negative tests",
       "item": [
         {
-          "name": "No password property",
+          "name": "Missing password property in request",
           "event": [
             {
               "listen": "test",
@@ -894,7 +894,7 @@
           ]
         },
         {
-          "name": "No login property",
+          "name": "Missing login property in request",
           "event": [
             {
               "listen": "test",
@@ -1053,7 +1053,7 @@
           ]
         },
         {
-          "name": "No body in request",
+          "name": "Empty request body",
           "event": [
             {
               "listen": "test",
@@ -1192,7 +1192,7 @@
           ]
         },
         {
-          "name": "Empty json in body",
+          "name": "Empty JSON object in body",
           "event": [
             {
               "listen": "test",
@@ -1339,7 +1339,7 @@
           ]
         },
         {
-          "name": "List in body",
+          "name": "Array instead of JSON object in body",
           "event": [
             {
               "listen": "test",
@@ -1365,7 +1365,7 @@
           },
           "response": [
             {
-              "name": "List in body",
+              "name": "Array in body",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -1486,7 +1486,7 @@
           ]
         },
         {
-          "name": "Xml in body",
+          "name": "XML format instead of JSON in body",
           "event": [
             {
               "listen": "test",
@@ -1645,7 +1645,7 @@
           ]
         },
         {
-          "name": "Request without 'Content-Type' header",
+          "name": "Missing 'Content-Type' header in request",
           "event": [
             {
               "listen": "test",
