@@ -212,7 +212,7 @@
       "name": "Validate token | Positive tests",
       "item": [
         {
-          "name": "The logged in user has a valid token",
+          "name": "Logged in user has a valid token",
           "event": [
             {
               "listen": "test",
@@ -1863,7 +1863,7 @@
         "type": "text/javascript",
         "exec": [
           "//displaying the request name in the console for better tracking of test execution\r",
-          "console.log(pm.info.requestName);"
+          "console.log(\"Running request: \\\"\" + pm.info.requestName + \"\\\"\");"
         ]
       }
     },
