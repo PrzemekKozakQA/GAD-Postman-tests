@@ -17,6 +17,8 @@
               "listen": "test",
               "script": {
                 "exec": [
+                  "//import 'Moment' library\r",
+                  "const moment = require('moment');\r",
                   "let responseJson;\r",
                   "\r",
                   "pm.test(\"Response status code is 200\", function () {\r",
@@ -44,8 +46,6 @@
                   "    //setting env variable with token\r",
                   "    pm.environment.set('token', responseJson.access_token);\r",
                   "\r",
-                  "    //import 'Moment' library\r",
-                  "    const moment = require('moment');\r",
                   "    //setting the exact moment of generating a new token\r",
                   "    pm.environment.set('tokenGenerationMoment', moment());\r",
                   "});"
@@ -217,7 +217,11 @@
             {
               "listen": "test",
               "script": {
-                "exec": [""],
+                "exec": [
+                  "pm.test(\"Response status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
                 "type": "text/javascript",
                 "packages": {}
               }
@@ -264,7 +268,7 @@
                   "        }\r",
                   "        else if (res.code !== 200) {\r",
                   "            console.error(\"Failed to generate token!!!\");\r",
-                  "            console.log(res.json().message);\r",
+                  "            console.log(res.json());\r",
                   "        }\r",
                   "        else {\r",
                   "            const responseJson = res.json();\r",
@@ -313,7 +317,133 @@
               "path": ["login"]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Logged in user has a valid token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "-1"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Embedder-Policy",
+                  "value": "require-corp"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "2"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 16 Mar 2025 22:08:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{}"
+            }
+          ]
         }
       ],
       "description": "Scenario: Successful recognition of an active token as valid  \nGiven: a valid bearer token in the \"Authorization\" header  \nWhen: I send a GET request to the /login endpoint  \nThen: the response status should be 200",
@@ -331,11 +461,7 @@
           "script": {
             "type": "text/javascript",
             "packages": {},
-            "exec": [
-              "pm.test(\"Response status code is 200\", function () {\r",
-              "    pm.response.to.have.status(200);\r",
-              "});"
-            ]
+            "exec": [""]
           }
         }
       ]
@@ -1863,7 +1989,7 @@
         "type": "text/javascript",
         "exec": [
           "//displaying the request name in the console for better tracking of test execution\r",
-          "console.log(\"Running request: \\\"\" + pm.info.requestName + \"\\\"\");"
+          "console.log(`Running request: \\\"${pm.info.requestName}\\\"`);"
         ]
       }
     },

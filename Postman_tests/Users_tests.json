@@ -33,7 +33,6 @@
                   "        },\r",
                   "        \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"],\r",
                   "        \"additionalProperties\": false\r",
-                  "\r",
                   "    }\r",
                   "};\r",
                   "\r",
@@ -41,19 +40,26 @@
                   "    pm.response.to.have.status(200);\r",
                   "});\r",
                   "\r",
+                  "pm.test(\"Response has valid schema\", function () {\r",
+                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "});\r",
+                  "\r",
                   "pm.test(\"Response body in JSON format\", function () {\r",
                   "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response has valid schema\", function () {\r",
-                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
-                  "});\r",
-                  "\r",
                   "pm.test(\"Response is not an empty array\", function () {\r",
                   "    pm.expect(responseJson).to.be.an('array').and.to.have.length.above(0);\r",
                   "});\r",
-                  ""
+                  "\r",
+                  "pm.test(\"Email, name and password property values ​​for all users are hidden\", function () {\r",
+                  "    responseJson.forEach(user => {\r",
+                  "        pm.expect(user.email).to.equal('****');\r",
+                  "        pm.expect(user.lastname).to.equal('****');\r",
+                  "        pm.expect(user.password).to.equal('****');\r",
+                  "    });\r",
+                  "});"
                 ],
                 "type": "text/javascript",
                 "packages": {}
@@ -240,16 +246,21 @@
                   "    pm.response.to.have.status(200);\r",
                   "});\r",
                   "\r",
+                  "pm.test(\"Response has valid schema\", function () {\r",
+                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "});\r",
+                  "\r",
                   "pm.test(\"Response is in JSON format\", function () {\r",
                   "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response has valid schema\", function () {\r",
-                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "pm.test(\"Value of the email, last name and password properties are hidden\", function () {\r",
+                  "    pm.expect(responseJson.email).to.equal('****');\r",
+                  "    pm.expect(responseJson.lastname).to.equal('****');\r",
+                  "    pm.expect(responseJson.password).to.equal('****');\r",
                   "});\r",
-                  "\r",
-                  "pm.collectionVariables.unset('userID');"
+                  ""
                 ],
                 "type": "text/javascript",
                 "packages": {}
@@ -2734,7 +2745,6 @@
                   "    pm.expect(pm.response.code).to.equal(422);\r",
                   "});\r",
                   "\r",
-                  "\r",
                   "pm.test(\"The error message is 'One of mandatory field is missing'\", function () {\r",
                   "    const errorObj = pm.response.json().error;\r",
                   "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");\r",
@@ -3370,7 +3380,6 @@
                   "    const token = pm.response.json().access_token;\r",
                   "    pm.expect(token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
                   "    pm.collectionVariables.set('newUserToken', token);\r",
-                  "\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -3409,8 +3418,30 @@
               "listen": "test",
               "script": {
                 "exec": [
+                  "const responseSchema = {\r",
+                  "    \"type\": \"object\",\r",
+                  "    \"properties\": {\r",
+                  "        \"id\": { \"type\": \"integer\", nullable: false },\r",
+                  "        \"email\": { \"type\": \"string\", nullable: false },\r",
+                  "        \"firstname\": { \"type\": \"string\", nullable: false },\r",
+                  "        \"lastname\": { \"type\": \"string\", nullable: false },\r",
+                  "        \"password\": { \"type\": \"string\", nullable: false },\r",
+                  "        \"avatar\": { \"type\": \"string\", nullable: false }\r",
+                  "    },\r",
+                  "    \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"]\r",
+                  "};\r",
+                  "\r",
                   "pm.test(\"Status code is 200\", function () {\r",
                   "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has valid schema\", function () {\r",
+                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
                   "pm.test(\"Response contains new user data\", function () {\r",
@@ -3578,7 +3609,6 @@
                   "pm.test(\"Response status code is 200\", function () {\r",
                   "    pm.response.to.have.status(200);\r",
                   "});\r",
-                  "\r",
                   "\r",
                   "pm.test(\"access_token is a non-empty string\", function () {\r",
                   "    const token = pm.response.json().access_token;\r",
@@ -4850,7 +4880,7 @@
                   "name": "Password is not a string",
                   "item": [
                     {
-                      "name": "null in password property",
+                      "name": "Null in password property",
                       "event": [
                         {
                           "listen": "prerequest",
@@ -4897,7 +4927,7 @@
                       "response": []
                     },
                     {
-                      "name": "non-text password value",
+                      "name": "Non-text password value",
                       "event": [
                         {
                           "listen": "prerequest",
@@ -4944,7 +4974,7 @@
                       "response": []
                     },
                     {
-                      "name": "array of strings  in password property",
+                      "name": "Array of strings  in password property",
                       "event": [
                         {
                           "listen": "prerequest",
@@ -4991,7 +5021,7 @@
                       "response": []
                     },
                     {
-                      "name": "object in password property",
+                      "name": "Object in password property",
                       "event": [
                         {
                           "listen": "prerequest",
@@ -5757,8 +5787,30 @@
                   "listen": "test",
                   "script": {
                     "exec": [
+                      "const responseSchema = {\r",
+                      "    \"type\": \"object\",\r",
+                      "    \"properties\": {\r",
+                      "        \"error\": {\r",
+                      "            \"type\": \"object\",\r",
+                      "            \"properties\": {\r",
+                      "                \"message\": { \"type\": \"string\" }\r",
+                      "            },\r",
+                      "            \"required\": [\"message\"]\r",
+                      "        }\r",
+                      "    },\r",
+                      "    \"required\": [\"error\"]\r",
+                      "};\r",
+                      "\r",
                       "pm.test(\"Status code is 422\", function () {\r",
                       "    pm.response.to.have.status(422);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response has valid schema\", function () {\r",
+                      "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"The error message is correct\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.includes(\"One of field is invalid (empty, invalid or too long) or there are some additional fields\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
@@ -5938,7 +5990,7 @@
           ]
         },
         {
-          "name": "Array in request body",
+          "name": "Can't full update user data with array in body",
           "item": [
             {
               "name": "Array instead of JSON object in body",
@@ -6013,7 +6065,8 @@
               },
               "response": []
             }
-          ]
+          ],
+          "description": "**Scenario: Failed user data update with an array in the request body**\n\n**Given:** an existing user ID in the path parameter, valid token is in the \"Authorization\" header and an array instead of a valid JSON object in the request body  \n**When:** I send a PUT request to the `/users` endpoint  \n**Then:** the response status should be a 4XX code  \n**And:** the response should contain an appropriate error message indicating that the request body must be a JSON object, not an array\n\nEndFragment"
         },
         {
           "name": "Can't full update user data with wrong body",
@@ -6420,7 +6473,7 @@
               "response": []
             }
           ],
-          "description": "Scenario: Failure to update full user data with incorrect ID in path parameter  \nGiven: an incorrect user ID in the path parameter, valid token is in the \"Authorization\" header and a valid request body  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 404  \nAnd: the response should contain an appropriate error message indicating the invalid user ID",
+          "description": "Scenario: Failure to update full user data with incorrect ID in path parameter  \nGiven: an incorrect user ID in the path parameter, valid token is in the \"Authorization\" header and a valid request body  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 401  \nAnd: the response should contain an appropriate error message indicating the invalid user ID",
           "event": [
             {
               "listen": "prerequest",
@@ -6436,12 +6489,12 @@
                 "type": "text/javascript",
                 "packages": {},
                 "exec": [
-                  "pm.test(\"Status code is 404\", function () {\r",
-                  "    pm.response.to.have.status(404);\r",
+                  "pm.test(\"Status code is 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response does not contain any data\", function () {\r",
-                  "    pm.expect(pm.response.text().length).to.be.below(3);\r",
+                  "pm.test(\"The error message is 'Access token for given user is invalid!'\", function () {\r",
+                  "    pm.expect(pm.response.json().error.message).to.equal(\"Access token for given user is invalid!\");\r",
                   "});"
                 ]
               }
@@ -6559,7 +6612,7 @@
               "response": []
             }
           ],
-          "description": "Scenario: Failure to update full user data with invalid token  \nGiven: an invalid or expired token in the \"Authorization\" header, an existing user ID in the path parameter  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 404  \nAnd: the response should contain an appropriate error message indicating the invalid token",
+          "description": "Scenario: Failure to update full user data with invalid token  \nGiven: an invalid or expired token in the \"Authorization\" header, an existing user ID in the path parameter  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 401  \nAnd: the response should contain an appropriate error message indicating the invalid token",
           "event": [
             {
               "listen": "prerequest",
@@ -6575,12 +6628,12 @@
                 "type": "text/javascript",
                 "packages": {},
                 "exec": [
-                  "pm.test(\"Status code is 404\", function () {\r",
-                  "    pm.response.to.have.status(404);\r",
+                  "pm.test(\"Status code is 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response does not contain any data\", function () {\r",
-                  "    pm.expect(pm.response.text().length).to.be.below(3);\r",
+                  "pm.test(\"The error message is 'Access token not provided!'\", function () {\r",
+                  "    pm.expect(pm.response.json().error.message).to.equal(\"Access token not provided!\");\r",
                   "});"
                 ]
               }
@@ -7043,6 +7096,7 @@
           "response": []
         }
       ],
+      "description": "**Scenario: End-to-End Partial Update of User Data**\n\n**Step 1: Create a new user**\n\n**Given:** I generate random user data  \n**When:** I send a `POST` request to the `/users` endpoint with the generated user data  \n**Then:** I receive a response with status **201** and a JSON body containing the created user data  \n**And:** the user is successfully stored in the system\n\n**Step 2: Authenticate the user and obtain a token**\n\n**When:** I send a `POST` request to the `/login` endpoint with the created user credentials  \n**Then:** I receive a response with status **200** and a valid authentication token\n\n**Step 3: Partially update the user data**\n\n**Given:** I have a valid authentication token  \n**When:** I send a `PATCH` request to the `/users` endpoint with updated **email, first name, and avatar**  \n**Then:** I receive a response with status **200** and a JSON body reflecting the updated user data\n\n**Step 4: Verify that user data has been updated**\n\n**When:** I send a `GET` request to the `/users/{id}` endpoint  \n**Then:** I receive a response with status **200**  \n**And:** the user data contains the updated **first name** and **avatar**\n\n**Step 5: Verify that the old credentials no longer work**\n\n**When:** I attempt to log in using the **old user credentials** (before update)  \n**Then:** I receive a response with status **401** and an error message indicating invalid credentials\n\n**Step 6: Verify that the updated credentials allow login**\n\n**When:** I send a `POST` request to the `/login` endpoint with the **newly updated user credentials**  \n**Then:** I receive a response with status **200**  \n**And:** a valid authentication token is returned",
       "event": [
         {
           "listen": "prerequest",
@@ -7063,7 +7117,7 @@
       ]
     },
     {
-      "name": "Partial update of user data by PATCH | Positive tests [TODO]",
+      "name": "Partial update of user data by PATCH | Positive tests",
       "item": [
         {
           "name": "Update user email",
@@ -7074,8 +7128,8 @@
                 "exec": [
                   "let responseJson;\r",
                   "\r",
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
+                  "pm.test(\"Response is in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
@@ -7153,8 +7207,8 @@
                 "exec": [
                   "let responseJson;\r",
                   "\r",
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
+                  "pm.test(\"Response is in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
@@ -7233,8 +7287,8 @@
                 "exec": [
                   "let responseJson;\r",
                   "\r",
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
+                  "pm.test(\"Response is in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
@@ -7313,8 +7367,8 @@
                 "exec": [
                   "let responseJson;\r",
                   "\r",
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
+                  "pm.test(\"Response is in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
@@ -7393,8 +7447,8 @@
                 "exec": [
                   "let responseJson;\r",
                   "\r",
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
+                  "pm.test(\"Response is in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
@@ -7472,10 +7526,6 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});\r",
-                  "\r",
                   "pm.test(\"Response contains new user data\", function () {\r",
                   "    const responseJson = pm.response.json();\r",
                   "    pm.expect(responseJson.email).eqls(pm.collectionVariables.get('emailAfterChange'));\r",
@@ -7544,7 +7594,7 @@
           "response": []
         }
       ],
-      "description": "Before every request created new user",
+      "description": "### **Scenario: Successfully Perform a Partial Update of User Data**\n\n**Given:** an existing user ID in the system and a valid authentication token,  \n**When:** I send a `PATCH` request to the `/users/{id}` endpoint with an update to one property,  \n**Then:** the response status should be **200**,  \n**And:** the response should contain the updated property with the new value,  \n**And:** all other user data should remain unchanged.\n\nNote: Before each test, a new test user is created.",
       "event": [
         {
           "listen": "prerequest",
@@ -7635,7 +7685,28 @@
           "script": {
             "type": "text/javascript",
             "packages": {},
-            "exec": [""]
+            "exec": [
+              "const responseSchema = {\r",
+              "    \"type\": \"object\",\r",
+              "    \"properties\": {\r",
+              "        \"id\": { \"type\": \"integer\", nullable: false },\r",
+              "        \"email\": { \"type\": \"string\", nullable: false },\r",
+              "        \"firstname\": { \"type\": \"string\", nullable: false },\r",
+              "        \"lastname\": { \"type\": \"string\", nullable: false },\r",
+              "        \"password\": { \"type\": \"string\", nullable: false },\r",
+              "        \"avatar\": { \"type\": \"string\", nullable: false }\r",
+              "    },\r",
+              "    \"required\": [\"id\", \"email\", \"firstname\", \"lastname\", \"password\", \"avatar\"]\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has valid schema\", function () {\r",
+              "    pm.response.to.has.jsonSchema(responseSchema);\r",
+              "});"
+            ]
           }
         }
       ]
@@ -7644,7 +7715,7 @@
       "name": "Partial update of user data by PATCH | Negative tests [TODO]",
       "item": [
         {
-          "name": "Can't full update user data with already registered email Copy",
+          "name": "Can't update user data with already registered email",
           "item": [
             {
               "name": "Email already in use",
@@ -7847,7 +7918,7 @@
               ]
             }
           ],
-          "description": "Scenario: Failed to update full user data with existing email  \nGiven: the request body contains JSON with the email of an existing user  \nWhen: I send a POST request to the /users endpoint  \nThen: the response status should be 409",
+          "description": "Scenario: Failed to update user email with already existing email  \nGiven: the request body contains JSON with the email of an existing user  \nWhen: I send a PATCH request to the /users endpoint  \nThen: the response status should be 409",
           "event": [
             {
               "listen": "prerequest",
@@ -7868,7 +7939,7 @@
           ]
         },
         {
-          "name": "Can't full update user data with wrong property in JSON Copy",
+          "name": "Can't update user data with wrong property in JSON",
           "item": [
             {
               "name": "Email is invalid",
@@ -8154,6 +8225,53 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "Email contains an array",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": [\n        \"user@gmail.com\",\n        \"user2@gamil.com\"\n    ],\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ],
               "event": [
@@ -8180,885 +8298,195 @@
               ]
             },
             {
-              "name": "One of mandatory property is invalid",
+              "name": "First name is invalid",
               "item": [
                 {
-                  "name": "Email is not a string",
-                  "item": [
-                    {
-                      "name": "Email contains an array",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": [\n        \"user@gmail.com\",\n        \"user2@gamil.com\"\n    ],\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ]
-                },
-                {
-                  "name": "First name is not a string",
-                  "item": [
-                    {
-                      "name": "First name is null",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": null,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "First name has non-text value",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": true,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "First name contains an array",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": [\n        \"John\",\n        \"David\"\n    ],\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "First name contains an object",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": {\n        \"user\": \"John\"\n    },\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ],
+                  "name": "First name is null",
                   "event": [
                     {
                       "listen": "prerequest",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     },
                     {
                       "listen": "test",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     }
-                  ]
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": null,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 },
                 {
-                  "name": "Last name is not a string",
-                  "item": [
-                    {
-                      "name": "Last name is null",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": null,\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Last name has non-text value",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": true,\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Last name contains an array",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": [\n        \"Doe\",\n        \"Novak\"\n    ],\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Last name contains an object",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": {\n        \"user\": \"Doe\"\n    },\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ],
+                  "name": "First name has non-text value",
                   "event": [
                     {
                       "listen": "prerequest",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     },
                     {
                       "listen": "test",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     }
-                  ]
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": true,\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 },
                 {
-                  "name": "Avatar is not a string",
-                  "item": [
-                    {
-                      "name": "Avatar is null",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": null,\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Avatar has non-text value",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": false,\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Avatar contains an array",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": [\n        \"{{$randomAvatarImage}}\",\n        \"{{$randomAvatarImage}}\"\n    ],\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Avatar contains an object",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": {\n        \"userAvatar\": \"{{$randomAvatarImage}}\"\n    },\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ],
+                  "name": "First name contains an array",
                   "event": [
                     {
                       "listen": "prerequest",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     },
                     {
                       "listen": "test",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     }
-                  ]
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": [\n        \"John\",\n        \"David\"\n    ],\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 },
                 {
-                  "name": "Password is not a string",
-                  "item": [
+                  "name": "First name contains an object",
+                  "event": [
                     {
-                      "name": "null in password property",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": null\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
                     },
                     {
-                      "name": "non-text password value",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": true\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "array of strings  in password property",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": [\n        \"{{$randomPassword\",\n        \"{{$randomPassword\"\n    ]\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "object in password property",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": {\n        \"isTestEnv\": true\n    }\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
                     }
-                  ]
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": {\n        \"user\": \"John\"\n    },\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ],
               "event": [
@@ -9075,613 +8503,201 @@
                   "script": {
                     "type": "text/javascript",
                     "packages": {},
-                    "exec": [
-                      "const _ = require('lodash');\r",
-                      "\r",
-                      "pm.test(\"The error message is correct\", function () {\r",
-                      "    const errorObj = pm.response.json().error;\r",
-                      "    pm.expect(errorObj.message).to.equal(\"Field value is not a string: undefined\");\r",
-                      "    pm.expect(errorObj.details).to.contains(\"firstname\");\r",
-                      "});\r",
-                      "\r",
-                      "pm.test(\"The details of the error are a array of mandatory properties\", function () {\r",
-                      "    const responseArray = pm.response.json().error.details;\r",
-                      "    const expectedArray = [\"firstname\", \"lastname\", \"email\", \"avatar\", \"password\"];\r",
-                      "    pm.expect(_.isEqual(responseArray.sort(), expectedArray.sort())).to.be.true;\r",
-                      "});\r",
-                      ""
-                    ]
+                    "exec": [""]
                   }
                 }
               ]
             },
             {
-              "name": "One of mandatory property is missing",
+              "name": "Last name is invalid",
               "item": [
                 {
-                  "name": "Email not found",
-                  "item": [
-                    {
-                      "name": "Email is empty",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Email property in request is missing",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ],
+                  "name": "Last name is null",
                   "event": [
                     {
                       "listen": "prerequest",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     },
                     {
                       "listen": "test",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     }
-                  ]
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": null,\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 },
                 {
-                  "name": "First name not found",
-                  "item": [
-                    {
-                      "name": "First name is empty",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "First name property in request is missing",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ],
+                  "name": "Last name has non-text value",
                   "event": [
                     {
                       "listen": "prerequest",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     },
                     {
                       "listen": "test",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     }
-                  ]
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": true,\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 },
                 {
-                  "name": "Last name not found",
-                  "item": [
-                    {
-                      "name": "Last name is empty",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Last name property in request is missing",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ],
+                  "name": "Last name contains an array",
                   "event": [
                     {
                       "listen": "prerequest",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     },
                     {
                       "listen": "test",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     }
-                  ]
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": [\n        \"Doe\",\n        \"Novak\"\n    ],\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 },
                 {
-                  "name": "Avatar not found",
-                  "item": [
-                    {
-                      "name": "Avatar is empty",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Avatar property in request is missing",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ],
+                  "name": "Last name contains an object",
                   "event": [
                     {
                       "listen": "prerequest",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
                     },
                     {
                       "listen": "test",
                       "script": {
+                        "exec": [""],
                         "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                        "packages": {}
                       }
-                    }
-                  ]
-                },
-                {
-                  "name": "Password not found",
-                  "item": [
-                    {
-                      "name": "Password is empty",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Password property in request is missing",
-                      "event": [
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        },
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [""],
-                            "type": "text/javascript",
-                            "packages": {}
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/users/:id",
-                          "host": ["{{baseUrl}}"],
-                          "path": ["users", ":id"],
-                          "variable": [
-                            {
-                              "key": "id",
-                              "value": "{{newUserID}}"
-                            }
-                          ]
-                        }
-                      },
-                      "response": []
                     }
                   ],
-                  "event": [
-                    {
-                      "listen": "prerequest",
-                      "script": {
-                        "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": {\n        \"user\": \"Doe\"\n    },\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
                       }
                     },
-                    {
-                      "listen": "test",
-                      "script": {
-                        "type": "text/javascript",
-                        "packages": {},
-                        "exec": [""]
-                      }
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
                     }
-                  ]
+                  },
+                  "response": []
                 }
               ],
               "event": [
@@ -9698,27 +8714,417 @@
                   "script": {
                     "type": "text/javascript",
                     "packages": {},
-                    "exec": [
-                      "const _ = require('lodash');\r",
-                      "\r",
-                      "pm.test(\"The error message is 'One of mandatory field is missing'\", function () {\r",
-                      "    const errorObj = pm.response.json().error;\r",
-                      "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");\r",
-                      "});\r",
-                      "\r",
-                      "pm.test(\"The details of the error are a array of mandatory properties\", function () {\r",
-                      "    const responseArray = pm.response.json().error.details;\r",
-                      "    const expectedArray = [\"firstname\", \"lastname\", \"email\", \"avatar\", \"password\"];\r",
-                      "    pm.expect(_.isEqual(responseArray.sort(), expectedArray.sort())).to.be.true;\r",
-                      "});\r",
-                      ""
-                    ]
+                    "exec": [""]
                   }
+                }
+              ]
+            },
+            {
+              "name": "Avatar is invalid",
+              "item": [
+                {
+                  "name": "Avatar is null",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": null,\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Avatar has non-text value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": false,\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Avatar contains an array",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": [\n        \"{{$randomAvatarImage}}\",\n        \"{{$randomAvatarImage}}\"\n    ],\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Avatar contains an object",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": {\n        \"userAvatar\": \"{{$randomAvatarImage}}\"\n    },\n    \"password\": \"{{$randomPassword}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [""]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "packages": {},
+                    "exec": [""]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Password is invalid",
+              "item": [
+                {
+                  "name": "Null in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": null\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Non-text password value",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": true\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Array of strings  in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": [\n        \"{{$randomPassword\",\n        \"{{$randomPassword\"\n    ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Object in password property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [""],
+                        "type": "text/javascript",
+                        "packages": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": {\n        \"isTestEnv\": true\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/users/:id",
+                      "host": ["{{baseUrl}}"],
+                      "path": ["users", ":id"],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "{{newUserID}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ]
             }
           ],
-          "description": "Scenario: Failure to update full user data with invalid property in request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and invalid data for one property in the JSON body of the request  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be a 4XX code  \nAnd: the response should contain an appropriate error message indicating the invalid property",
+          "description": "Scenario: Failure to update user data with invalid property in request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and invalid data for one property in the JSON body of the request  \nWhen: I send a PATCH request to the /users endpoint  \nThen: the response status should be a 4XX code  \nAnd: the response should contain an appropriate error message indicating the invalid property",
           "event": [
             {
               "listen": "prerequest",
@@ -9761,7 +9167,292 @@
           ]
         },
         {
-          "name": "Can't fully update user data with additional properties Copy",
+          "name": "Can't update user data with empty string in JSON",
+          "item": [
+            {
+              "name": "Avatar is empty",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{newUserID}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Password is empty",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{newUserID}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "First name is empty",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{newUserID}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Last name is empty",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{newUserID}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Email is empty",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["users", ":id"],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "{{newUserID}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "Scenario: Failure to update user data with empty sting in request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and invalid data for one property in the JSON body of the request  \nWhen: I send a PATCH request to the /users endpoint  \nThen: the response status should be a 422 code  \nAnd: the response should contain an appropriate error message indicating the invalid property",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [""]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "exec": [
+                  "const responseSchema = {\r",
+                  "    \"type\": \"object\",\r",
+                  "    \"properties\": {\r",
+                  "        \"error\": {\r",
+                  "            \"type\": \"object\",\r",
+                  "            \"properties\": {\r",
+                  "                \"message\": { \"type\": \"string\", nullable: false }\r",
+                  "            },\r",
+                  "            \"required\": [\"message\"]\r",
+                  "        }\r",
+                  "    },\r",
+                  "    \"required\": [\"error\"]\r",
+                  "};\r",
+                  "\r",
+                  "pm.test(\"Response status code is 422\", function () {\r",
+                  "    pm.expect(pm.response.code).to.equal(422);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has valid schema\", function () {\r",
+                  "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"The error message is correct\", function () {\r",
+                  "    pm.expect(pm.response.json().error.message).to.includes(\"One of field is invalid (empty, invalid or too long) or there are some additional fields\");\r",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Can't update user data with additional properties",
           "item": [
             {
               "name": "Additional \"nickname\" property",
@@ -9778,8 +9469,30 @@
                   "listen": "test",
                   "script": {
                     "exec": [
+                      "const responseSchema = {\r",
+                      "    \"type\": \"object\",\r",
+                      "    \"properties\": {\r",
+                      "        \"error\": {\r",
+                      "            \"type\": \"object\",\r",
+                      "            \"properties\": {\r",
+                      "                \"message\": { \"type\": \"string\" }\r",
+                      "            },\r",
+                      "            \"required\": [\"message\"]\r",
+                      "        }\r",
+                      "    },\r",
+                      "    \"required\": [\"error\"]\r",
+                      "};\r",
+                      "\r",
                       "pm.test(\"Status code is 422\", function () {\r",
                       "    pm.response.to.have.status(422);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response has valid schema\", function () {\r",
+                      "    pm.response.to.has.jsonSchema(responseSchema);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"The error message is correct\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.includes(\"One of field is invalid (empty, invalid or too long) or there are some additional fields\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
@@ -9815,7 +9528,7 @@
               "response": []
             }
           ],
-          "description": "Scenario: Failure to update full user data with additional properties in request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a request body with additional properties  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be 422  \nAnd: the response should contain an appropriate error message indicating the additional properties",
+          "description": "Scenario: Failure to update user data with additional properties in request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a request body with additional properties  \nWhen: I send a PATCH request to the /users endpoint  \nThen: the response status should be 422  \nAnd: the response should contain an appropriate error message indicating the additional properties",
           "event": [
             {
               "listen": "prerequest",
@@ -9836,7 +9549,7 @@
           ]
         },
         {
-          "name": "Can't full update user data with broken request Copy",
+          "name": "Can't update user data with broken request",
           "item": [
             {
               "name": "Malformed JSON",
@@ -9928,7 +9641,7 @@
               "response": []
             }
           ],
-          "description": "Scenario: Failure to update full user data with broken request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a broken request body  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be 400  \nAnd: the response should contain an appropriate error message indicating a malformed request body",
+          "description": "Scenario: Failure to update user data with broken request body  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a broken request body  \nWhen: I send a PATCH request to the /users endpoint  \nThen: the response status should be 400  \nAnd: the response should contain an appropriate error message indicating a malformed request body",
           "event": [
             {
               "listen": "prerequest",
@@ -9959,7 +9672,7 @@
           ]
         },
         {
-          "name": "Array in request body Copy",
+          "name": "Can't update user data with array in body [TODO Overview]",
           "item": [
             {
               "name": "Array instead of JSON object in body",
@@ -10034,10 +9747,11 @@
               },
               "response": []
             }
-          ]
+          ],
+          "description": "**Scenario: Failed user data update with an array in the request body**\n\n**Given:** an existing user ID in the path parameter, valid token is in the \"Authorization\" header and an array instead of a valid JSON object in the request body  \n**When:** I send a PATCH request to the `/users` endpoint  \n**Then:** the response status should be a 4XX code  \n**And:** the response should contain an appropriate error message indicating that the request body must be a JSON object, not an array\n\nEndFragment"
         },
         {
-          "name": "Can't full update user data with wrong body Copy",
+          "name": "Can't update user data with wrong body",
           "item": [
             {
               "name": "Empty JSON object in body",
@@ -10233,7 +9947,7 @@
               "response": []
             }
           ],
-          "description": "Scenario: Failure to update full user data with incorrect body format  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a request body in an incorrect format  \nWhen: I send a PUT request to the /users endpoint  \nThen: the response status should be 400  \nAnd: the response should contain an appropriate error message indicating incorrect body format",
+          "description": "Scenario: Failure to update user data with incorrect body format  \nGiven: an existing user ID in the path parameter, valid token is in the \"Authorization\" header and a request body in an incorrect format  \nWhen: I send a PATCH request to the /users endpoint  \nThen: the response status should be 422  \nAnd: the response should contain an appropriate error message",
           "event": [
             {
               "listen": "prerequest",
@@ -10329,8 +10043,8 @@
                   "    pm.response.to.has.jsonSchema(responseSchema);\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"The error message is 'One of mandatory field is missing'\", function () {\r",
-                  "    pm.expect(pm.response.json().error.message).to.equal(\"One of mandatory field is missing\");\r",
+                  "pm.test(\"The error message is 'No fields were provided! Field validation: no fields present in body'\", function () {\r",
+                  "    pm.expect(pm.response.json().error.message).to.equal(\"No fields were provided! Field validation: no fields present in body\");\r",
                   "});\r",
                   "\r",
                   "pm.test(\"The details of the error are a array of mandatory properties\", function () {\r",
@@ -10344,7 +10058,7 @@
           ]
         },
         {
-          "name": "Can't full update user data with wrong ID Copy",
+          "name": "Can't update user data with wrong ID",
           "item": [
             {
               "name": "Non-existing user ID",
@@ -10441,7 +10155,7 @@
               "response": []
             }
           ],
-          "description": "Scenario: Failure to update full user data with incorrect ID in path parameter  \nGiven: an incorrect user ID in the path parameter, valid token is in the \"Authorization\" header and a valid request body  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 404  \nAnd: the response should contain an appropriate error message indicating the invalid user ID",
+          "description": "Scenario: Failure to update full user data with incorrect ID in path parameter  \nGiven: an incorrect user ID in the path parameter, valid token is in the \"Authorization\" header and a valid request body  \nWhen: I send a PATCH request to the /users/{id} endpoint  \nThen: the response status should be 401  \nAnd: the response should contain an appropriate error message indicating the invalid user ID",
           "event": [
             {
               "listen": "prerequest",
@@ -10457,12 +10171,12 @@
                 "type": "text/javascript",
                 "packages": {},
                 "exec": [
-                  "pm.test(\"Status code is 404\", function () {\r",
-                  "    pm.response.to.have.status(404);\r",
+                  "pm.test(\"Status code is 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response does not contain any data\", function () {\r",
-                  "    pm.expect(pm.response.text().length).to.be.below(3);\r",
+                  "pm.test(\"The error message is 'Access token for given user is invalid!'\", function () {\r",
+                  "    pm.expect(pm.response.json().error.message).to.equal(\"Access token for given user is invalid!\");\r",
                   "});"
                 ]
               }
@@ -10470,7 +10184,7 @@
           ]
         },
         {
-          "name": "Can't full update user data with invalid user token Copy",
+          "name": "Can't update user data with invalid user token",
           "item": [
             {
               "name": "No token",
@@ -10580,7 +10294,7 @@
               "response": []
             }
           ],
-          "description": "Scenario: Failure to update full user data with invalid token  \nGiven: an invalid or expired token in the \"Authorization\" header, an existing user ID in the path parameter  \nWhen: I send a PUT request to the /users/{id} endpoint  \nThen: the response status should be 404  \nAnd: the response should contain an appropriate error message indicating the invalid token",
+          "description": "Scenario: Failure to update user data with invalid token  \nGiven: an invalid or expired token in the \"Authorization\" header, an existing user ID in the path parameter  \nWhen: I send a PATCH request to the /users/{id} endpoint  \nThen: the response status should be 401  \nAnd: the response should contain an appropriate error message indicating the invalid token",
           "event": [
             {
               "listen": "prerequest",
@@ -10596,12 +10310,12 @@
                 "type": "text/javascript",
                 "packages": {},
                 "exec": [
-                  "pm.test(\"Status code is 404\", function () {\r",
-                  "    pm.response.to.have.status(404);\r",
+                  "pm.test(\"Status code is 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
                   "});\r",
                   "\r",
-                  "pm.test(\"Response does not contain any data\", function () {\r",
-                  "    pm.expect(pm.response.text().length).to.be.below(3);\r",
+                  "pm.test(\"The error message is 'Access token not provided!'\", function () {\r",
+                  "    pm.expect(pm.response.json().error.message).to.equal(\"Access token not provided!\");\r",
                   "});"
                 ]
               }
@@ -10609,6 +10323,7 @@
           ]
         }
       ],
+      "description": "Scenario: Failed partial update of user data due to invalid property value  \nGiven: an existing user ID in the system and a valid authentication token,  \nWhen: I send a PATCH request to the /users/{id} endpoint with an update for one property using an invalid value,  \nThen: the response status should be a 4XX code,  \nAnd: the response should contain an error message indicating the invalid property value,  \nAnd: the user data should remain unchanged.\n\nNote:\n\nIf the user token is invalid or the test user's data has changed as a result of the test, a new test user is created",
       "auth": {
         "type": "bearer",
         "bearer": [
@@ -11645,7 +11360,7 @@
         "type": "text/javascript",
         "exec": [
           "//displaying the request name in the console for better tracking of test execution\r",
-          "console.log(\"Running request: \\\"\" + pm.info.requestName + \"\\\"\");"
+          "console.log(`Running request: \\\"${pm.info.requestName}\\\"`);"
         ]
       }
     },
@@ -11665,10 +11380,6 @@
     },
     {
       "key": "newUserTokenGenerationMoment",
-      "value": ""
-    },
-    {
-      "key": "testUserToken",
       "value": ""
     }
   ]

@@ -1,0 +1,42 @@
+{
+  "info": {
+    "_postman_id": "093ea491-24a7-4492-ab11-0907094d2f0e",
+    "name": "Restore GAD DB to default state",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21196236"
+  },
+  "item": [
+    {
+      "name": "Restore GAD DB",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Message is 'Database successfully restored'\", function () {\r",
+              "    pm.expect(pm.response.json().message).to.equal(\"Database successfully restored\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/restoreDB",
+          "host": ["{{baseUrl}}"],
+          "path": ["restoreDB"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
