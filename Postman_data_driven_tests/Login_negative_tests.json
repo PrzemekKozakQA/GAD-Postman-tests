@@ -79,7 +79,7 @@
       },
       "response": [
         {
-          "name": "Login failed with invalid credentials from file",
+          "name": "Login failed with invalid credentials",
           "originalRequest": {
             "method": "POST",
             "header": [],

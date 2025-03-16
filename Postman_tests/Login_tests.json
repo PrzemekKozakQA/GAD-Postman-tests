@@ -267,8 +267,8 @@
                   "            console.log(res.json().message);\r",
                   "        }\r",
                   "        else {\r",
-                  "            const jsonData = res.json();\r",
-                  "            pm.environment.set(\"token\", jsonData.access_token);\r",
+                  "            const responseJson = res.json();\r",
+                  "            pm.environment.set(\"token\", responseJson.access_token);\r",
                   "            pm.environment.set(\"tokenGenerationMoment\", moment());\r",
                   "            console.log(\"Token successfully generated and saved in environment variables.\");\r",
                   "        }\r",
@@ -395,7 +395,7 @@
           "response": []
         },
         {
-          "name": "Missing token returns 404 error",
+          "name": "Missing token returns 404",
           "event": [
             {
               "listen": "test",
@@ -487,7 +487,7 @@
       "name": "Failed login request with wrong method | Negative tests",
       "item": [
         {
-          "name": "PUT request returns 404 error",
+          "name": "PUT request returns 404",
           "event": [
             {
               "listen": "test",
@@ -514,7 +514,7 @@
           "response": []
         },
         {
-          "name": "PATCH request returns 404 error",
+          "name": "PATCH request returns 404",
           "event": [
             {
               "listen": "test",
@@ -541,7 +541,7 @@
           "response": []
         },
         {
-          "name": "DELETE request returns 404 error",
+          "name": "DELETE request returns 404",
           "event": [
             {
               "listen": "test",
@@ -568,7 +568,7 @@
           "response": []
         },
         {
-          "name": "HEAD request returns 404 error",
+          "name": "HEAD request returns 404",
           "event": [
             {
               "listen": "test",
@@ -767,7 +767,7 @@
           },
           "response": [
             {
-              "name": "No password property",
+              "name": "Missing password property in request",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -926,7 +926,7 @@
           },
           "response": [
             {
-              "name": "No login property",
+              "name": "Missing login property in request",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -1036,7 +1036,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Sun, 02 Mar 2025 19:07:01 GMT"
+                  "value": "Sun, 16 Mar 2025 17:35:13 GMT"
                 },
                 {
                   "key": "Connection",
@@ -1075,7 +1075,7 @@
           },
           "response": [
             {
-              "name": "No body in request",
+              "name": "Empty request body",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -1175,7 +1175,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Sun, 02 Mar 2025 19:06:51 GMT"
+                  "value": "Sun, 16 Mar 2025 17:35:28 GMT"
                 },
                 {
                   "key": "Connection",
@@ -1365,7 +1365,7 @@
           },
           "response": [
             {
-              "name": "Array in body",
+              "name": "Array instead of JSON object in body",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -1469,7 +1469,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Sun, 02 Mar 2025 19:06:06 GMT"
+                  "value": "Sun, 16 Mar 2025 17:35:52 GMT"
                 },
                 {
                   "key": "Connection",
@@ -1518,7 +1518,7 @@
           },
           "response": [
             {
-              "name": "Xml in body",
+              "name": "XML format instead of JSON in body",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -1628,7 +1628,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Sun, 02 Mar 2025 19:05:57 GMT"
+                  "value": "Sun, 16 Mar 2025 17:36:09 GMT"
                 },
                 {
                   "key": "Connection",
@@ -1681,7 +1681,7 @@
           },
           "response": [
             {
-              "name": "Request without 'Content-Type' header",
+              "name": "Missing 'Content-Type' header in request",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -1791,7 +1791,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Sun, 02 Mar 2025 19:05:45 GMT"
+                  "value": "Sun, 16 Mar 2025 17:36:18 GMT"
                 },
                 {
                   "key": "Connection",
