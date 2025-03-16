@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "728797d9-4c17-4915-82ae-b0751703aff5",
-    "name": "/login endpoint data driven tests - negative [GitHub Actions]",
+    "name": "/login endpoint data driven tests | Negative tests [GitHub Actions]",
     "description": "Collection of tests for endpoint /login of the GAD application.\n\nThe collection contains data-driven negative tests.\n\nThe data for testing is in the file Login_negative_data.json\n\nDocumentation of the GAD application available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "21196236"
@@ -79,7 +79,7 @@
       },
       "response": [
         {
-          "name": "Login failed with invalid credentials from file",
+          "name": "Login failed with invalid credentials",
           "originalRequest": {
             "method": "POST",
             "header": [],
@@ -181,7 +181,7 @@
         "type": "text/javascript",
         "exec": [
           "//displaying the request name in the console for better tracking of test execution\r",
-          "console.log(pm.info.requestName);"
+          "console.log(\"Running request: \\\"\" + pm.info.requestName + \"\\\"\");"
         ]
       }
     },
