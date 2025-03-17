@@ -3556,6 +3556,61 @@
           "response": []
         },
         {
+          "name": "The token from before the data change is invalid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"The error message is 'Access token for given user is invalid!'\", function () {\r",
+                  "    pm.expect(pm.response.json().error.message).to.equal(\"Access token for given user is invalid!\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {},
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{newUserToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["login"]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Can't get token with user data before change",
           "event": [
             {
@@ -11383,16 +11438,6 @@
         "packages": {},
         "exec": [""]
       }
-    }
-  ],
-  "variable": [
-    {
-      "key": "newUserID",
-      "value": ""
-    },
-    {
-      "key": "newUserTokenGenerationMoment",
-      "value": ""
     }
   ]
 }
