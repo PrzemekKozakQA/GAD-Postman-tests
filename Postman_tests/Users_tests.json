@@ -4998,7 +4998,7 @@
                         "header": [],
                         "body": {
                           "mode": "raw",
-                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": [\n        \"{{$randomPassword\",\n        \"{{$randomPassword\"\n    ]\n}",
+                          "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": [\n        \"{{$randomPassword}}\",\n        \"{{$randomPassword}}\"\n    ]\n}",
                           "options": {
                             "raw": {
                               "headerFamily": "json",
@@ -6066,7 +6066,7 @@
               "response": []
             }
           ],
-          "description": "**Scenario: Failed user data update with an array in the request body**\n\n**Given:** an existing user ID in the path parameter, valid token is in the \"Authorization\" header and an array instead of a valid JSON object in the request body  \n**When:** I send a PUT request to the `/users` endpoint  \n**Then:** the response status should be a 4XX code  \n**And:** the response should contain an appropriate error message indicating that the request body must be a JSON object, not an array\n\nEndFragment"
+          "description": "**Scenario: Failed user data update with an array in the request body**\n\n**Given:** an existing user ID in the path parameter, valid token is in the \"Authorization\" header and an array instead of a valid JSON object in the request body  \n**When:** I send a PUT request to the `/users` endpoint  \n**Then:** the response status should be a 4XX code  \n**And:** the response should contain an appropriate error message indicating that the request body must be a JSON object, not an array"
         },
         {
           "name": "Can't full update user data with wrong body",
@@ -6882,6 +6882,10 @@
                   "\r",
                   "pm.test(\"Status code is 200\", function () {\r",
                   "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response body in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
@@ -7712,7 +7716,7 @@
       ]
     },
     {
-      "name": "Partial update of user data by PATCH | Negative tests [TODO]",
+      "name": "Partial update of user data by PATCH | Negative tests",
       "item": [
         {
           "name": "Can't update user data with already registered email",
@@ -9052,7 +9056,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": [\n        \"{{$randomPassword\",\n        \"{{$randomPassword\"\n    ]\n}",
+                      "raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstname\": \"{{$randomFirstName}}\",\n    \"lastname\": \"{{$randomLastName}}\",\n    \"avatar\": \"{{$randomAvatarImage}}\",\n    \"password\": [\n        \"{{$randomPassword}}\",\n        \"{{$randomPassword}}\"\n    ]\n}",
                       "options": {
                         "raw": {
                           "headerFamily": "json",
@@ -9672,7 +9676,7 @@
           ]
         },
         {
-          "name": "Can't update user data with array in body [TODO Overview]",
+          "name": "Can't update user data with array in body",
           "item": [
             {
               "name": "Array instead of JSON object in body",
@@ -9748,7 +9752,7 @@
               "response": []
             }
           ],
-          "description": "**Scenario: Failed user data update with an array in the request body**\n\n**Given:** an existing user ID in the path parameter, valid token is in the \"Authorization\" header and an array instead of a valid JSON object in the request body  \n**When:** I send a PATCH request to the `/users` endpoint  \n**Then:** the response status should be a 4XX code  \n**And:** the response should contain an appropriate error message indicating that the request body must be a JSON object, not an array\n\nEndFragment"
+          "description": "**Scenario: Failed user data update with an array in the request body**\n\n**Given:** an existing user ID in the path parameter, valid token is in the \"Authorization\" header and an array instead of a valid JSON object in the request body  \n**When:** I send a PATCH request to the `/users` endpoint  \n**Then:** the response status should be a 4XX code  \n**And:** the response should contain an appropriate error message indicating that the request body must be a JSON object, not an array"
         },
         {
           "name": "Can't update user data with wrong body",
@@ -10046,12 +10050,7 @@
                   "pm.test(\"The error message is 'No fields were provided! Field validation: no fields present in body'\", function () {\r",
                   "    pm.expect(pm.response.json().error.message).to.equal(\"No fields were provided! Field validation: no fields present in body\");\r",
                   "});\r",
-                  "\r",
-                  "pm.test(\"The details of the error are a array of mandatory properties\", function () {\r",
-                  "    const responseArray = pm.response.json().error.details;\r",
-                  "    const expectedArray = [\"firstname\", \"lastname\", \"email\", \"avatar\", \"password\"];\r",
-                  "    pm.expect(_.isEqual(responseArray.sort(), expectedArray.sort())).to.be.true;\r",
-                  "});"
+                  ""
                 ]
               }
             }
@@ -10155,7 +10154,7 @@
               "response": []
             }
           ],
-          "description": "Scenario: Failure to update full user data with incorrect ID in path parameter  \nGiven: an incorrect user ID in the path parameter, valid token is in the \"Authorization\" header and a valid request body  \nWhen: I send a PATCH request to the /users/{id} endpoint  \nThen: the response status should be 401  \nAnd: the response should contain an appropriate error message indicating the invalid user ID",
+          "description": "Scenario: Failure to update user data with incorrect ID in path parameter  \nGiven: an incorrect user ID in the path parameter, valid token is in the \"Authorization\" header and a valid request body  \nWhen: I send a PATCH request to the /users/{id} endpoint  \nThen: the response status should be 401  \nAnd: the response should contain an appropriate error message indicating the invalid user ID",
           "event": [
             {
               "listen": "prerequest",
@@ -10502,6 +10501,10 @@
                   "\r",
                   "pm.test(\"Response status code is 200\", function () {\r",
                   "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response body in JSON format\", function () {\r",
+                  "    pm.response.to.be.json;\r",
                   "    responseJson = pm.response.json();\r",
                   "});\r",
                   "\r",
@@ -10821,6 +10824,10 @@
                     "exec": [
                       "pm.test(\"Status code is 401\", function () {\r",
                       "    pm.response.to.have.status(401);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"The error message is 'Access token for given user is invalid!'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Access token for given user is invalid!\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
@@ -10879,7 +10886,7 @@
                   "variable": [
                     {
                       "key": "id",
-                      "value": ""
+                      "value": "   "
                     }
                   ]
                 }
@@ -11020,6 +11027,10 @@
                     "exec": [
                       "pm.test(\"Status code is 401\", function () {\r",
                       "    pm.response.to.have.status(401);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"The error message is 'Access token not provided!'\", function () {\r",
+                      "    pm.expect(pm.response.json().error.message).to.equal(\"Access token not provided!\");\r",
                       "});"
                     ],
                     "type": "text/javascript",
@@ -11119,7 +11130,7 @@
                   "variable": [
                     {
                       "key": "id",
-                      "value": ""
+                      "value": "  "
                     }
                   ]
                 }

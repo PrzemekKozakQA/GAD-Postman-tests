@@ -2,6 +2,7 @@
   "info": {
     "_postman_id": "093ea491-24a7-4492-ab11-0907094d2f0e",
     "name": "Restore GAD DB to default state",
+    "description": "The collection contains a request that, when sent, restores the GAD application database to its default state.\n\nDocumentation of the GAD application available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "21196236"
   },
@@ -37,6 +38,27 @@
         }
       },
       "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          "//displaying the request name in the console for better tracking of test execution\r",
+          "console.log(`Running request: \\\"${pm.info.requestName}\\\"`);"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [""]
+      }
     }
   ]
 }
