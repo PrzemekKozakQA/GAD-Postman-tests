@@ -2135,8 +2135,6 @@
                 "type": "text/javascript",
                 "packages": {},
                 "exec": [
-                  "const _ = require('lodash');\r",
-                  "\r",
                   "const responseSchema = {\r",
                   "    \"type\": \"object\",\r",
                   "    \"properties\": {\r",
@@ -2721,8 +2719,6 @@
                 "type": "text/javascript",
                 "packages": {},
                 "exec": [
-                  "const _ = require('lodash');\r",
-                  "\r",
                   "const responseSchema = {\r",
                   "    \"type\": \"object\",\r",
                   "    \"properties\": {\r",
@@ -3144,8 +3140,6 @@
                     "type": "text/javascript",
                     "packages": {},
                     "exec": [
-                      "const _ = require('lodash');\r",
-                      "\r",
                       "const responseSchema = {\r",
                       "    \"type\": \"object\",\r",
                       "    \"properties\": {\r",
@@ -5141,8 +5135,6 @@
                     "type": "text/javascript",
                     "packages": {},
                     "exec": [
-                      "const _ = require('lodash');\r",
-                      "\r",
                       "pm.test(\"The error message is correct\", function () {\r",
                       "    const errorObj = pm.response.json().error;\r",
                       "    pm.expect(errorObj.message).to.equal(\"Field value is not a string: undefined\");\r",
@@ -5764,8 +5756,6 @@
                     "type": "text/javascript",
                     "packages": {},
                     "exec": [
-                      "const _ = require('lodash');\r",
-                      "\r",
                       "pm.test(\"The error message is 'One of mandatory field is missing'\", function () {\r",
                       "    const errorObj = pm.response.json().error;\r",
                       "    pm.expect(errorObj.message).to.equal(\"One of mandatory field is missing\");\r",
@@ -6387,8 +6377,6 @@
                 "type": "text/javascript",
                 "packages": {},
                 "exec": [
-                  "const _ = require('lodash');\r",
-                  "\r",
                   "const responseSchema = {\r",
                   "    \"type\": \"object\",\r",
                   "    \"properties\": {\r",
@@ -10073,8 +10061,6 @@
                 "type": "text/javascript",
                 "packages": {},
                 "exec": [
-                  "const _ = require('lodash');\r",
-                  "\r",
                   "const responseSchema = {\r",
                   "    \"type\": \"object\",\r",
                   "    \"properties\": {\r",
@@ -11438,6 +11424,20 @@
         "packages": {},
         "exec": [""]
       }
+    }
+  ],
+  "variable": [
+    {
+      "key": "testUserToken",
+      "value": ""
+    },
+    {
+      "key": "newUserID",
+      "value": ""
+    },
+    {
+      "key": "newUserTokenGenerationMoment",
+      "value": ""
     }
   ]
 }
