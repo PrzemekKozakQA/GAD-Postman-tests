@@ -30,13 +30,13 @@
               "    pm.response.to.have.status(401);\r",
               "});\r",
               "\r",
+              "pm.test(\"Response has valid schema\", function () {\r",
+              "    pm.response.to.has.jsonSchema(responseSchema);\r",
+              "});\r",
+              "\r",
               "pm.test(\"Response is in JSON format\", function () {\r",
               "    pm.response.to.be.json;\r",
               "    responseJson = pm.response.json();\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Response has valid schema\", function () {\r",
-              "    pm.response.to.has.jsonSchema(responseSchema);\r",
               "});\r",
               "\r",
               "pm.test(\"Response message is 'Incorrect email or password'\", function () {\r",
@@ -181,7 +181,7 @@
         "type": "text/javascript",
         "exec": [
           "//displaying the request name in the console for better tracking of test execution\r",
-          "console.log(\"Running request: \\\"\" + pm.info.requestName + \"\\\"\");"
+          "console.log(`Running request: \\\"${pm.info.requestName}\\\"`);"
         ]
       }
     },
