@@ -1,10 +1,11 @@
 {
   "info": {
-    "_postman_id": "a6b8820d-2069-44ba-a0a1-32b6d2205386",
+    "_postman_id": "b4d50eb7-994f-424a-8de4-0267915da6d3",
     "name": "/login endpoint tests [GitHub Actions]",
-    "description": "Collection of tests for endpoint /login of the GAD application.\n\nDescription of the test is available in the \"Overview\" tab of the individual test folders.\n\nDocumentation of the GAD application available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+    "description": "### Collection of tests for endpoint /login of the GAD application.\n\n**The collection is part of my portfolio presenting my skills in working with Postman. Details available at:** [https://github.com/PrzemekKozakQA/GAD-Postman-tests](https://github.com/PrzemekKozakQA/GAD-Postman-tests)\n\nDescription of the test is available in the \"Overview\" tab of the individual test folders.\n\nInstructions for installing and running the GAD application locally are available in the documentation: [https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "21196236"
+    "_exporter_id": "21196236",
+    "_collection_link": "https://www.postman.com/p-k-qa/workspace/gad-postman-tests/collection/21196236-b4d50eb7-994f-424a-8de4-0267915da6d3?action=share&source=collection_link&creator=21196236"
   },
   "item": [
     {
@@ -323,16 +324,6 @@
               "originalRequest": {
                 "method": "GET",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{baseUrl}}/login",
                   "host": ["{{baseUrl}}"],
