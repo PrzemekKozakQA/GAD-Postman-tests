@@ -1,10 +1,11 @@
 {
   "info": {
-    "_postman_id": "093ea491-24a7-4492-ab11-0907094d2f0e",
+    "_postman_id": "4d7a6e84-8a27-4729-a45b-770aaa8e04eb",
     "name": "Restore GAD DB to default state",
-    "description": "The collection contains a request that, when sent, restores the GAD application database to its default state.\n\nDocumentation of the GAD application available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+    "description": "The collection contains a request that, when sent, restores the GAD application database to its default state.\n\n**The collection is part of my portfolio presenting my skills in working with Postman. Details available at:** [https://github.com/PrzemekKozakQA/GAD-Postman-tests](https://github.com/PrzemekKozakQA/GAD-Postman-tests)\n\nInstructions for installing and running the GAD application locally are available in the documentation: [https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "21196236"
+    "_exporter_id": "21196236",
+    "_collection_link": "https://www.postman.com/p-k-qa/workspace/gad-postman-tests/collection/21196236-4d7a6e84-8a27-4729-a45b-770aaa8e04eb?action=share&source=collection_link&creator=21196236"
   },
   "item": [
     {

@@ -6,6 +6,8 @@ This repository contains API tests in Postman for the GAD training application, 
 Additionally, tests are run in Github Actions using Newman on a Docker container with the GAD test application.  
 After each run, reports are published on GitHub Pages.
 
+TODO: [Workspace info](https://www.postman.com/p-k-qa/workspace/gad-postman-tests)
+
 TODO - info about restore DB before each run.
 TODO - Does token after change credentials expired?
 

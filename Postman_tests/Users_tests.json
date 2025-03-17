@@ -1,10 +1,11 @@
 {
   "info": {
-    "_postman_id": "15492e8c-108d-4f50-a993-a205bfa0b8ee",
+    "_postman_id": "7e48a5a7-e7da-4e7c-8227-a07a732024f4",
     "name": "/users endpoint tests  [GitHub Actions]",
-    "description": "Collection of tests for endpoint /users of the GAD application.\n\nDescription of the test is available in the \"Overview\" tab of the individual test folders.\n\n  \nDocumentation of the GAD application available at:  \n[https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
+    "description": "### Collection of tests for endpoint /users of the GAD application.\n\n**The collection is part of my portfolio presenting my skills in working with Postman. Details available at:** [https://github.com/PrzemekKozakQA/GAD-Postman-tests](https://github.com/PrzemekKozakQA/GAD-Postman-tests)\n\nDescription of the test is available in the \"Overview\" tab of the individual test folders.\n\nInstructions for installing and running the GAD application locally are available in the documentation: [https://github.com/jaktestowac/gad-gui-api-demo](https://github.com/jaktestowac/gad-gui-api-demo)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "21196236"
+    "_exporter_id": "21196236",
+    "_collection_link": "https://www.postman.com/p-k-qa/workspace/gad-postman-tests/collection/21196236-7e48a5a7-e7da-4e7c-8227-a07a732024f4?action=share&source=collection_link&creator=21196236"
   },
   "item": [
     {
