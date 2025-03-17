@@ -16,12 +16,56 @@
     "password": "\"\""
   },
   {
+    "email": "null",
+    "password": "\"test1\""
+  },
+  {
+    "email": "\"Moses.Armstrong@Feest.ca\"",
+    "password": "null"
+  },
+  {
+    "email": 1,
+    "password": "\"test1\""
+  },
+  {
+    "email": "\"Moses.Armstrong@Feest.ca\"",
+    "password": 1
+  },
+  {
+    "email": 1.111111111111111111111,
+    "password": "\"test1\""
+  },
+  {
+    "email": "\"Moses.Armstrong@Feest.ca\"",
+    "password": 1.1111111111111111111
+  },
+  {
+    "email": 9999999999999999999999999999999999999999999999999999999999999999999999999999999,
+    "password": "\"test1\""
+  },
+  {
+    "email": "\"Moses.Armstrong@Feest.ca\"",
+    "password": 99999999999999999999999999999999999999999999999999999999999999999999999999999
+  },
+  {
     "email": "true",
     "password": "\"test1\""
   },
   {
     "email": "\"Moses.Armstrong@Feest.ca\"",
     "password": "true"
+  },
+  {
+    "email": "{\"user\": \"Moses.Armstrong@Feest.ca\"}",
+    "password": "\"test1\""
+  },
+  {
+    "email": "\"Moses.Armstrong@Feest.ca\"",
+    "password": "{\"isLogged\":true}"
+  },
+  {
+    "email": "[\"wrong@email.com\",\"Moses.Armstrong@Feest.ca\"]",
+    "password": "\"test1\""
   },
   {
     "email": "\"\"",
